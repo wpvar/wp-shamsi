@@ -47,8 +47,8 @@
 
 ## تصاویر
 
-1. ![ Image 1](https://ps.w.org/wp-shamsi/assets/screenshot-1.png)
-1. ![ Image 2](https://ps.w.org/wp-shamsi/assets/screenshot-2.png)
+1. ![ Image 1](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-1.png)
+1. ![ Image 2](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-2.png)
 
 
 ## تغییرات
