@@ -1,8 +1,21 @@
-## WP Shamsi - افزونه تاریخ شمسی وردپرس
+=== WP Shamsi - افزونه تاریخ شمسی وردپرس ===
+Contributors: wpvar, farajiali
+Tags: date, shamsi, jalali, iran, persian, farsi, parsi, hejri, شمسی, تاریخ, فارسی, پارسی, ایران
+Donate link: https://wpvar.com
+Requires at least: 4.0
+Tested up to: 5.5.1
+Requires PHP: 5.3
+Stable tag: trunk
+License: GNU Public License v3.0
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
+تبدیل تاریخ وردپرس به هجری شمسی براساس تقویم ایران و فارسی سازی رابط کاربری وردپرس
+== Description ==
 افزونه تاریخ شمسی وردپرس همه تاریخ های وردپرس را به هجری شمسی براساس تقویم ایران تبدیل می کند. علاوه بر شمسی سازی وردپرس با اصلاح فونت و فارسی کردن اعداد رابط کاربری وردپرس را بهبود می بخشد.
 تفاوت افزونه تاریخ شمسی وردپرس با سایر افزونه های مشابه در عملکرد و سرعت آن است. برخلاف سایر افزونه ها، این افزونه فقط شمسی سازی (با تمرکز به رابط کاربری) و اصلاح رابط کاربری را با کمترین تغییر در هسته وردپرس انجام می دهد و هیچ عملکرد و کد اضافی ندارد و در نتیجه موجب کاهش سرعت و عملکرد وردپرس نمی شود.
 
+
+WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calendar and improves local UI to farsi users.
 
 ## امکانات
 
@@ -35,7 +48,8 @@
 
 [WP Shamsi Github](https://github.com/alifaraji/wp-shamsi)
 
-## نصب
+== Installation ==
+
 نصب خودکار:
 برای نصب خودکار بدون دانلود کردن از داشبورد وردپرس به قسمت افزونه ها رفته و روی افزودن کلیک کنید. در باکس جستجو عبارت "افزونه تاریخ شمسی وردپرس" را وارد کنید و افزونه را نصب و فعال کنید
 
@@ -45,12 +59,10 @@
 بعد از فعال سازی افزونه همه تنظیمات به صورت خودکار اعمال خواهد شد.
 
 
-## تصاویر
+== Screenshots ==
+1. تصویر افزونه
+2. تصویر افزونه
 
-1. ![ Image 1](https://ps.w.org/wp-shamsi/assets/screenshot-1.png)
-1. ![ Image 2](https://ps.w.org/wp-shamsi/assets/screenshot-2.png)
-
-
-## تغییرات
+== Changelog ==
 1.0.0
 انتشار افزونه
