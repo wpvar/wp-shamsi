@@ -16,10 +16,10 @@
 
 defined('ABSPATH') or die();
 
-if (!class_exists('DateAbstract')) {
+if (!class_exists('WPSH_DateAbstract')) {
     require_once plugin_dir_path(__FILE__) . 'lib/Date/DateAbstract.php';
 }
-if (!class_exists('Jalali')) {
+if (!class_exists('WPSH_Jalali')) {
     require_once plugin_dir_path(__FILE__) . 'lib/Date/Jalali.php';
 }
 
