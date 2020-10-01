@@ -4,11 +4,11 @@
 * https://github.com/m-jch/Date/blob/master/LICENSE
 */
 
-namespace Date;
+namespace WpshDate;
 
 use DateTime;
 
-class Jalali extends DateAbstract
+class WPSH_Jalali extends WPSH_DateAbstract
 {
     /**
      * Names of the days of the week
@@ -173,24 +173,6 @@ class Jalali extends DateAbstract
     protected function refreshJalali()
     {
         list($this->jYear, $this->jMonth, $this->jDay) = $this->gregorianToJalali(parent::format('Y'), parent::format('m'), parent::format('d'));
-    }
-
-    /**
-     * @return \Date\Date
-     */
-    public function toGregorian()
-    {
-        return new Date(parent::format(parent::ATOM), parent::getTimezone());
-    }
-
-    /**
-     * An aliases for toGregorian method
-     *
-     * @return \Date\Date
-     */
-    public function tog()
-    {
-        return $this->toGregorian();
     }
 
     /**
@@ -529,15 +511,15 @@ class Jalali extends DateAbstract
     /**
      * Equivalent to new Jalali()
      *
-     * @return \Date\Jalali
+     * @return \WpshDate\WPSH_Jalali
      */
     public static function make($time)
     {
-        return new Jalali($time);
+        return new WPSH_Jalali($time);
     }
 
     /**
-     * Create a DateAbstract instance from a timestamp.
+     * Create a WPSH_DateAbstract instance from a timestamp.
      *
      * @param int $timestamp
      * @param \DateTimeZone|string|null $tz

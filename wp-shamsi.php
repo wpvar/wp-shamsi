@@ -23,12 +23,13 @@ if (!class_exists('Jalali')) {
     require_once plugin_dir_path(__FILE__) . 'lib/Date/Jalali.php';
 }
 
-use Date\Jalali;
+use WpshDate\WPSH_Jalali;
 
 class WPSH_Core
 {
     function __construct()
     {
+      global $gmt;
 
         register_activation_hook(__FILE__, array(
             $this,
@@ -68,20 +69,11 @@ class WPSH_Core
             'admin_script'
         ), 1);
 
-        $timezone = get_option('timezone_string');
-
-        if (isset($timezone) && !empty($timezone)) {
-            date_default_timezone_set($timezone);
-        } else {
-            date_default_timezone_set('Asia/Tehran');
-        }
-
     }
 
     public function init()
     {
 
-        update_option('timezone_string', 'Asia/Tehran');
         update_option('start_of_week', 6);
 
     }
@@ -96,13 +88,32 @@ class WPSH_Core
         wp_enqueue_style('wpsh-admin-css', plugin_dir_url(__FILE__) . 'assets/css/wpsh_admin.css');
     }
 
+    private function timezone()
+    {
+      $utc = (wp_timezone_override_offset()) ? wp_timezone_override_offset() : get_option('gmt_offset');
+
+      $format = explode('.', $utc);
+
+      if(isset($format[1]))
+      {
+        $result = (($format[0] > 0) ? '+' . $format[0] : $format[0]) . ':' . (($format[1] == 5) ? '30' : $format[1]);
+      } elseif(isset($format[0]) && ! isset($format[1]))
+      {
+        $result = ($format[0] > 0) ? '+' . $format[0] : $format[0];
+      } else
+      {
+        $result = 0;
+      }
+
+      return $result;
+    }
+
     public function wp_shamsi($date, $format, $timestamp)
     {
-
         $format = ($format == 'F j, Y') ? 'j F, Y' : $format; // Make date readable without changing default format.
 
         $format = str_replace(',', '', $format);
-        $date   = new Jalali($timestamp);
+        $date   = new WPSH_Jalali($timestamp, $this->timezone());
         $date   = $date->format($format);
         $date   = $this->persian_num($date);
 
@@ -186,7 +197,7 @@ class WPSH_Core
         $year  = substr((int) filter_var($text, FILTER_SANITIZE_NUMBER_INT), -4);
         $month = substr((int) filter_var($list, FILTER_SANITIZE_NUMBER_INT), -6, -4);
 
-        $date = new Jalali(strtotime($year . '/' . $month . '/1'));
+        $date = new WPSH_Jalali(strtotime($year . '/' . $month . '/1'));
         $date = $date->format('F Y');
 
         $text = str_replace($year, $date, $text);

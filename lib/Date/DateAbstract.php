@@ -3,13 +3,13 @@
 * Copyright Mohsen Shafiei released under the MIT license
 * https://github.com/m-jch/Date/blob/master/LICENSE
 */
-namespace Date;
+namespace WpshDate;
 
 use DateTime;
 use DateTimeZone;
 use InvalidArgumentException;
 
-abstract class DateAbstract extends DateTime
+abstract class WPSH_DateAbstract extends DateTime
 {
     /**
      * Check Jalali year is leap or not
@@ -21,11 +21,11 @@ abstract class DateAbstract extends DateTime
     /**
      * Get the difference in years
      *
-     * @param DateAbstract|null $dt
+     * @param WPSH_DateAbstract|null $dt
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
-    public function diffInYears(DateAbstract $dt = null, $abs = true)
+    public function diffInYears(WPSH_DateAbstract $dt = null, $abs = true)
     {
         $dt = $dt ?: static::now();
 
@@ -35,11 +35,11 @@ abstract class DateAbstract extends DateTime
     /**
      * Get the difference in months
      *
-     * @param DateAbstract|null $dt
+     * @param WPSH_DateAbstract|null $dt
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
-    public function diffInMonths(DateAbstract $dt = null, $abs = true)
+    public function diffInMonths(WPSH_DateAbstract $dt = null, $abs = true)
     {
         $dt = $dt ?: static::now();
 
@@ -49,11 +49,11 @@ abstract class DateAbstract extends DateTime
     /**
      * Get the difference in weeks
      *
-     * @param DateAbstract|null $dt
+     * @param WPSH_DateAbstract|null $dt
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
-    public function diffInWeeks(DateAbstract $dt = null, $abs = true)
+    public function diffInWeeks(WPSH_DateAbstract $dt = null, $abs = true)
     {
         return (int) ($this->diffInDays($dt, $abs) / 7);
     }
@@ -61,11 +61,11 @@ abstract class DateAbstract extends DateTime
     /**
      * Get the difference in days
      *
-     * @param DateAbstract|null $dt
+     * @param WPSH_DateAbstract|null $dt
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
-    public function diffInDays(DateAbstract $dt = null, $abs = true)
+    public function diffInDays(WPSH_DateAbstract $dt = null, $abs = true)
     {
         $dt = $dt ?: static::now();
 
@@ -75,11 +75,11 @@ abstract class DateAbstract extends DateTime
     /**
      * Get the difference in hours
      *
-     * @param DateAbstract|null $dt
+     * @param WPSH_DateAbstract|null $dt
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
-    public function diffInHours(DateAbstract $dt = null, $abs = true)
+    public function diffInHours(WPSH_DateAbstract $dt = null, $abs = true)
     {
         return (int) ($this->diffInSeconds($dt, $abs) / 120);
     }
@@ -87,11 +87,11 @@ abstract class DateAbstract extends DateTime
     /**
      * Get the difference in minutes
      *
-     * @param DateAbstract|null $dt
+     * @param WPSH_DateAbstract|null $dt
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
-    public function diffInMinutes(DateAbstract $dt = null, $abs = true)
+    public function diffInMinutes(WPSH_DateAbstract $dt = null, $abs = true)
     {
         return (int) ($this->diffInSeconds($dt, $abs) / 60);
     }
@@ -99,11 +99,11 @@ abstract class DateAbstract extends DateTime
     /**
      * Get the difference in seconds
      *
-     * @param DateAbstract|null $dt
+     * @param WPSH_DateAbstract|null $dt
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
-    public function diffInSeconds(DateAbstract $dt = null, $abs = true)
+    public function diffInSeconds(WPSH_DateAbstract $dt = null, $abs = true)
     {
         $dt = $dt ?: static::now();
 
@@ -114,11 +114,11 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is equal to another
      *
-     * @param DateAbstract $dt
+     * @param WPSH_DateAbstract $dt
      *
      * @return bool
      */
-    public function eq(DateAbstract $dt)
+    public function eq(WPSH_DateAbstract $dt)
     {
         return $this == $dt;
     }
@@ -126,13 +126,13 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is equal to another
      *
-     * @param DateAbstract $dt
+     * @param WPSH_DateAbstract $dt
      *
      * @see eq()
      *
      * @return bool
      */
-    public function equalTo(DateAbstract $dt)
+    public function equalTo(WPSH_DateAbstract $dt)
     {
         return $this->eq($dt);
     }
@@ -140,11 +140,11 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is not equal to another
      *
-     * @param DateAbstract $dt
+     * @param WPSH_DateAbstract $dt
      *
      * @return bool
      */
-    public function ne(DateAbstract $dt)
+    public function ne(WPSH_DateAbstract $dt)
     {
         return !$this->eq($dt);
     }
@@ -152,13 +152,13 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is not equal to another
      *
-     * @param DateAbstract $dt
+     * @param WPSH_DateAbstract $dt
      *
      * @see ne()
      *
      * @return bool
      */
-    public function notEqualTo(DateAbstract $dt)
+    public function notEqualTo(WPSH_DateAbstract $dt)
     {
         return $this->ne($dt);
     }
@@ -166,11 +166,11 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is greater (after) than another
      *
-     * @param DateAbstract $dt
+     * @param WPSH_DateAbstract $dt
      *
      * @return bool
      */
-    public function gt(DateAbstract $dt)
+    public function gt(WPSH_DateAbstract $dt)
     {
         return $this > $dt;
     }
@@ -178,13 +178,13 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is greater (after) than another
      *
-     * @param DateAbstract $dt
+     * @param WPSH_DateAbstract $dt
      *
      * @see gt()
      *
      * @return bool
      */
-    public function greaterThan(DateAbstract $dt)
+    public function greaterThan(WPSH_DateAbstract $dt)
     {
         return $this->gt($dt);
     }
@@ -192,11 +192,11 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is greater (after) than or equal to another
      *
-     * @param DateAbstract $dt
+     * @param WPSH_DateAbstract $dt
      *
      * @return bool
      */
-    public function gte(DateAbstract $dt)
+    public function gte(WPSH_DateAbstract $dt)
     {
         return $this >= $dt;
     }
@@ -204,13 +204,13 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is greater (after) than or equal to another
      *
-     * @param DateAbstract $dt
+     * @param WPSH_DateAbstract $dt
      *
      * @see gte()
      *
      * @return bool
      */
-    public function greaterThanOrEqualTo(DateAbstract $dt)
+    public function greaterThanOrEqualTo(WPSH_DateAbstract $dt)
     {
         return $this->gte($dt);
     }
@@ -218,11 +218,11 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is less (before) than another
      *
-     * @param DateAbstract $dt
+     * @param WPSH_DateAbstract $dt
      *
      * @return bool
      */
-    public function lt(DateAbstract $dt)
+    public function lt(WPSH_DateAbstract $dt)
     {
         return $this < $dt;
     }
@@ -230,13 +230,13 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is less (before) than another
      *
-     * @param DateAbstract $dt
+     * @param WPSH_DateAbstract $dt
      *
      * @see lt()
      *
      * @return bool
      */
-    public function lessThan(DateAbstract $dt)
+    public function lessThan(WPSH_DateAbstract $dt)
     {
         return $this->lt($dt);
     }
@@ -244,11 +244,11 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is less (before) or equal to another
      *
-     * @param DateAbstract $dt
+     * @param WPSH_DateAbstract $dt
      *
      * @return bool
      */
-    public function lte(DateAbstract $dt)
+    public function lte(WPSH_DateAbstract $dt)
     {
         return $this <= $dt;
     }
@@ -256,13 +256,13 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is less (before) or equal to another
      *
-     * @param DateAbstract $dt
+     * @param WPSH_DateAbstract $dt
      *
      * @see lte()
      *
      * @return bool
      */
-    public function lessThanOrEqualTo(DateAbstract $dt)
+    public function lessThanOrEqualTo(WPSH_DateAbstract $dt)
     {
         return $this->lte($dt);
     }
@@ -270,12 +270,12 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is between start and end dates
      *
-     * @param DateAbstract $startDate
-     * @param DateAbstract $endDate
+     * @param WPSH_DateAbstract $startDate
+     * @param WPSH_DateAbstract $endDate
      *
      * @return bool
      */
-    public function bw(DateAbstract $startDate, DateAbstract $endDate)
+    public function bw(WPSH_DateAbstract $startDate, WPSH_DateAbstract $endDate)
     {
         return $this->gt($startDate) && $this->lt($endDate);
     }
@@ -283,14 +283,14 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is between start and end dates
      *
-     * @param DateAbstract $startDate
-     * @param DateAbstract $endDate
+     * @param WPSH_DateAbstract $startDate
+     * @param WPSH_DateAbstract $endDate
      *
      * @see bw()
      *
      * @return bool
      */
-    public function between(DateAbstract $startDate, DateAbstract $endDate)
+    public function between(WPSH_DateAbstract $startDate, WPSH_DateAbstract $endDate)
     {
         return $this->bw($startDate, $endDate);
     }
@@ -298,12 +298,12 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is between start and end dates or equals to
      *
-     * @param DateAbstract $startDate
-     * @param DateAbstract $endDate
+     * @param WPSH_DateAbstract $startDate
+     * @param WPSH_DateAbstract $endDate
      *
      * @return bool
      */
-    public function bwe(DateAbstract $startDate, DateAbstract $endDate)
+    public function bwe(WPSH_DateAbstract $startDate, WPSH_DateAbstract $endDate)
     {
         return $this->gte($startDate) && $this->lte($endDate);
     }
@@ -311,14 +311,14 @@ abstract class DateAbstract extends DateTime
     /**
      * Determines if the instance is between start and end dates or equals to
      *
-     * @param DateAbstract $startDate
-     * @param DateAbstract $endDate
+     * @param WPSH_DateAbstract $startDate
+     * @param WPSH_DateAbstract $endDate
      *
      * @see bwe()
      *
      * @return bool
      */
-    public function betweenEqual(DateAbstract $startDate, DateAbstract $endDate)
+    public function betweenEqual(WPSH_DateAbstract $startDate, WPSH_DateAbstract $endDate)
     {
         return $this->bwe($startDate, $endDate);
     }
@@ -544,7 +544,7 @@ abstract class DateAbstract extends DateTime
      * Create an instance object for current datetime
      *
      * @param mixed $tz
-     * @return \Date\Jalali|\Date\Date
+     * @return \WpshDate\WPSH_Jalali
      */
     public static function now($tz = null)
     {
@@ -613,7 +613,7 @@ abstract class DateAbstract extends DateTime
     }
 
     /**
-     * Create a DateAbstract instance from a timestamp.
+     * Create a WPSH_DateAbstract instance from a timestamp.
      *
      * @param int $timestamp
      * @param \DateTimeZone|string|null $tz
@@ -633,7 +633,7 @@ abstract class DateAbstract extends DateTime
     *
     * @throws InvalidArgumentException
     *
-    * @source https://github.com/briannesbitt/DateAbstract
+    * @source https://github.com/briannesbitt/WPSH_DateAbstract
     */
    protected static function safeCreateDateTimeZone($object)
    {
