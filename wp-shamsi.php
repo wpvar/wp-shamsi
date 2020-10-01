@@ -29,7 +29,6 @@ class WPSH_Core
 {
     function __construct()
     {
-      global $gmt;
 
         register_activation_hook(__FILE__, array(
             $this,
