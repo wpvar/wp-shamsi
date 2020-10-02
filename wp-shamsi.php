@@ -74,6 +74,7 @@ class WPSH_Core
     {
 
         update_option('start_of_week', 6);
+        load_plugin_textdomain('wpsh');
 
     }
 
