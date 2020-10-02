@@ -221,7 +221,7 @@ class WPSH_Core
 
     public function add_dashboard()
     {
-        add_meta_box('rss_dashboard', 'آموزش وردپرس فارسی', array(
+        add_meta_box('rss_dashboard', 'وردپرس فارسی', array(
             $this,
             'dashboard'
         ), 'dashboard', 'normal', 'high');
