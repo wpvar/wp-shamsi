@@ -112,6 +112,8 @@ class WPSH_Core
         $format = ($format == 'F j, Y') ? 'j F, Y' : $format; // Make date readable without changing default format.
 
         $format = str_replace(',', '', $format);
+        $format = str_replace('،', '', $format);
+
         $date   = new WPSH_Jalali($timestamp, $this->timezone());
         $date   = $date->format($format);
         $date   = $this->persian_num($date);

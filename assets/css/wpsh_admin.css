@@ -1,7 +1,11 @@
 body.rtl {
-  font-family: sans-serif, tahoma;
+  font-family: sans-serif, tahoma, arial;
 }
 
 .rtl h1, .rtl h2, .rtl h3, .rtl h4, .rtl h5, .rtl h6 {
-  font-family: sans-serif, tahoma;
+  font-family: sans-serif, tahoma, arial;
+}
+
+.rtl select {
+  font-family: tahoma, sans-serif, arial;
 }
