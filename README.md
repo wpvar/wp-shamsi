@@ -49,6 +49,7 @@
 
 ![ Image 1](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-1.png)
 ![ Image 2](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-2.png)
+![ Image 3](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-3.png)
 
 
 ## تغییرات
