@@ -18,7 +18,7 @@ jQuery(document).ready(function() {
       var list = el.data.match(/[0-9]/g);
       if (list != null && list.length != 0) {
         for (var i = 0; i < list.length; i++ )
-          if(parent != 'STYLE' && parent != 'SCRIPT') {
+          if(parent != 'STYLE' && parent != 'SCRIPT' && parent != 'TEXTAREA' && parent != 'CODE') {
             el.data = el.data.replace(list[i], persian[list[i]]);
         }
       }

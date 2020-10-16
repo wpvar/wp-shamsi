@@ -1,0 +1,191 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: BUG-EMAIL-ADDR <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: yyyy-mm-dd hh:mm+0000\n"
+"PO-Revision-Date: 2020-10-14 19:50+0330\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
+"X-Generator: Poedit 2.2\n"
+"Last-Translator: \n"
+"Language: fa_IR\n"
+
+#: exopite-simple-options-framework-class.php:267
+#, php-format
+msgid "%s is missing in the configuration array"
+msgstr "%s در آرایه موجود نیست"
+
+#: exopite-simple-options-framework-class.php:350
+msgid "Irks! An un-known error has occurred."
+msgstr "خطای نامعلومی رخ داد!"
+
+#: exopite-simple-options-framework-class.php:690
+#: exopite-simple-options-framework-class.php:713
+msgid "Settings"
+msgstr "تنظیمات"
+
+#: exopite-simple-options-framework-class.php:776
+#: exopite-simple-options-framework-class.php:780
+msgid "Plugin Options"
+msgstr "وردپرس فارسی"
+
+#: exopite-simple-options-framework-class.php:1456
+msgid "ERROR:"
+msgstr "خطا:"
+
+#: exopite-simple-options-framework-class.php:1457
+msgid "This field class is not available!"
+msgstr "کلاس فیلد در دسترس نیست!"
+
+#: exopite-simple-options-framework-class.php:1529
+msgid "Saving..."
+msgstr "درحال ذخیره..."
+
+#: exopite-simple-options-framework-class.php:1529
+msgid "Saved Successfully."
+msgstr "با موفقیت ذخیره شد."
+
+#: exopite-simple-options-framework-class.php:1545
+#: exopite-simple-options-framework-class.php:1560
+msgid "Save Settings"
+msgstr "ذخیره تغییرات"
+
+#: fields/attached.php:45
+#, php-format
+msgid "There is no attachment with type %s for this %s."
+msgstr "پیوستی با نوع  %s برای %s نیست."
+
+#: fields/backup.php:41
+msgid "copy-paste your backup string here"
+msgstr "داده پشتیبان را اینجا وارد کنید"
+
+#: fields/backup.php:42
+msgid "Are you sure, you want to overwrite existing options?"
+msgstr "آیا از بازنویسی گزینه های  موجود مطمئن هستید؟"
+
+#: fields/backup.php:42
+msgid "Import a Backup"
+msgstr "بارگذاری پشتیبان"
+
+#: fields/backup.php:46
+msgid "Download Backup"
+msgstr "دانلود پشتیبان"
+
+#: fields/backup.php:49
+msgid "Please be sure for reset all of framework options."
+msgstr "بازنویسی گزینه ها ممکن است موجب از دست رفتن تنظیمات افزونه شود"
+
+#: fields/backup.php:50
+msgid "Are you sure, you want to reset all options?"
+msgstr "آیا از بازنویسی گزینه ها مطمئن هستید؟"
+
+#: fields/backup.php:50
+msgid "Reset All Options"
+msgstr "بازنویسی همه گزینه ها"
+
+#: fields/gallery.php:25
+msgid "Add to gallery"
+msgstr "اضافه کردن به گالری"
+
+#: fields/gallery.php:26
+msgid "Select images for gallery"
+msgstr "انتخاب تصاویر برای گالری"
+
+#: fields/gallery.php:27
+msgid "Add"
+msgstr "اضافه کردن"
+
+#: fields/group.php:351
+msgid "Max items:"
+msgstr "حداکثر آیتم:"
+
+#: fields/image.php:77
+msgid "Add Image"
+msgstr "اضافه کردن تصویر"
+
+#: fields/typography.php:81
+msgid "Web Safe Fonts"
+msgstr "فونت های سازگار با وب"
+
+#: fields/typography.php:87
+msgid "Google Fonts"
+msgstr "فونت های گوگل"
+
+#: fields/typography.php:177
+msgid "Error! Can not load json file."
+msgstr "خطا! فایل jsoan بارگذاری نشد."
+
+#: fields/upload.php:73
+msgid "Drop files here"
+msgstr "فایل ها را اینجا بکشید"
+
+#: fields/upload.php:83
+msgid "Select files"
+msgstr "انتخاب فایل ها"
+
+#: fields/upload.php:86
+msgid "Upload"
+msgstr "آپلود"
+
+#: fields/upload.php:90
+msgid "Processing dropped files..."
+msgstr "درحال اعمال تغییرات..."
+
+#: fields/upload.php:108 fields/upload.php:140
+msgid "Cancel"
+msgstr "لغو"
+
+#: fields/upload.php:110
+msgid "Retry"
+msgstr "دوباره"
+
+#: fields/upload.php:112
+msgid "Delete"
+msgstr "حذف"
+
+#: fields/upload.php:121
+msgid "Close"
+msgstr "بستن"
+
+#: fields/upload.php:129
+msgid "No"
+msgstr "نه"
+
+#: fields/upload.php:131
+msgid "Yes"
+msgstr "آره"
+
+#: fields/upload.php:142
+msgid "Ok"
+msgstr "باشه"
+
+#: fields/upload.php:181
+msgid "Max amount of files: "
+msgstr "حداکثر تعداد فایل:"
+
+#: fields/upload.php:182
+msgid "Max file upload size: "
+msgstr "حداکثر سایز فایل:"
+
+#: fields/upload.php:183
+msgid ""
+"To increase file upload limit in the standard built-in WordPress media "
+"uploader up as large as available disk space allows, you could use"
+msgstr ""
+"براساس حداکثر میزان سایز پیشفرض وردپرس می توانید فایل چندرسانه آپلود "
+"کنید."
+
+#: fields/upload.php:183
+msgid "Plugin"
+msgstr "افزونه"
+
+#: fields/video.php:74
+msgid "Add Video"
+msgstr "اضافه کردن ویدیو"
