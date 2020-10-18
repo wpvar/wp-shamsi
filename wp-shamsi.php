@@ -90,10 +90,13 @@ class WPSH_Core
             ) , 10, 7);
         }
 
-        add_action('wp_dashboard_setup', array(
-            $this,
-            'add_dashboard'
-        ));
+        if (is_admin())
+        {
+            add_action('wp_dashboard_setup', array(
+                $this,
+                'add_dashboard'
+            ));
+        }
 
         add_action('wp_enqueue_scripts', array(
             $this,
@@ -127,6 +130,19 @@ class WPSH_Core
             add_action('admin_notices', array(
                 $this,
                 'no_farsi'
+            ));
+        }
+
+        if (get_locale() == 'fa_IR' || get_locale() == 'fa_AF' || is_admin())
+        {
+            add_filter('dashboard_secondary_link', array(
+                $this,
+                'wpsh_dashboard_link'
+            ));
+
+            add_filter('dashboard_secondary_feed', array(
+                $this,
+                'wpsh_dashboard_feed'
             ));
         }
 
@@ -229,7 +245,9 @@ class WPSH_Core
     public function script()
     {
         if ($this->option('persian-num', true)):
-            wp_enqueue_script('wpsh-num', plugin_dir_url(__FILE__) . 'assets/js/wpsh_num.js', array('jquery'));
+            wp_enqueue_script('wpsh-num', plugin_dir_url(__FILE__) . 'assets/js/wpsh_num.js', array(
+                'jquery'
+            ));
         endif;
 
         if (get_locale() == 'fa_IR' || get_locale() == 'fa_AF'):
@@ -262,7 +280,9 @@ class WPSH_Core
         endif;
 
         if ($this->option('persian-admin-num', true)):
-            wp_enqueue_script('wpsh-num', plugin_dir_url(__FILE__) . 'assets/js/wpsh_num.js', array('jquery'));
+            wp_enqueue_script('wpsh-num', plugin_dir_url(__FILE__) . 'assets/js/wpsh_num.js', array(
+                'jquery'
+            ));
         endif;
     }
 
@@ -650,6 +670,42 @@ class WPSH_Core
             endforeach;
         }
         echo '</ul></div>';
+    }
+
+    /**
+     * Filter new dashboard
+     *
+     * Display recent wordpress news in farsi
+     *
+     * @since 1.2.1
+     *
+     * @param string $link link to filter.
+     * @return string Filtered link.
+     */
+    public function wpsh_dashboard_link($link)
+    {
+
+        $link = 'https://wpvar.com';
+
+        return $link;
+    }
+
+    /**
+     * Filter new dashboard feed
+     *
+     * Display recent wordpress news feed in farsi
+     *
+     * @since 1.2.1
+     *
+     * @param string $link link to filter.
+     * @return string Filtered feed results.
+     */
+    public function wpsh_dashboard_feed($link)
+    {
+
+        $link = 'https://wpvar.com/post-categories/planet/feed/';
+
+        return $link;
     }
 }
 
