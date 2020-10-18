@@ -211,15 +211,18 @@ class WPSH_Core
      * @param bool $bool Requested option is boolean or not.
      * @return mixed Result of get_option.
      */
-    public function option($option, $bool = false)
+    public function option($option, $bool = false, $default = true)
     {
         $options = get_option('wpsh');
 
-        if (!isset($options[$option]))
+        if (!isset($options[$option]) && $default === true)
         {
             return true;
         }
-
+        if (!isset($options[$option]) && $default === false)
+        {
+            return false;
+        }
         if ($bool === true)
         {
             if ($options[$option] == 'yes'):

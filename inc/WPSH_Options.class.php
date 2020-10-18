@@ -275,15 +275,14 @@ class WPSH_Options extends WPSH_Core
 
         foreach ($addons as $addon => $value)
         {
-            $addons_settings[] =
 
-            array(
+            $addons_settings[] = array(
                 'id' => $value['slug'],
                 'type' => 'switcher',
                 'title' => $value['name'],
                 'description' => $value['desc'] . '<br /><div class="plugin-version-author-uri">نسخه ' . $value['version'] . ' | نویسنده: ' . $value['author'] . ' | <a href="' . $value['website'] . '" target="_blank" style="text-decoration:none;">وبسایت</a>
                  | <a href="' . $value['addon_home'] . '" target="_blank" style="text-decoration:none;">جزئیات</a></div>',
-                'default' => 'yes',
+                'default' => ($value['is_active'] == true) ? 'yes' : 'no',
 
             );
         }
