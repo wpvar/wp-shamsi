@@ -270,7 +270,7 @@ class WPSH_Options extends WPSH_Core
         $addons_settings[] = array(
             'type' => 'notice',
             'class' => 'warning',
-            'content' => __('سیستم افزودنی ها جهت گسترده کردن امکانات افزونه طراحی شده است. از این صفحه می توانید افزودنی ها را فعال ویا غیرفعال کنید. فایل PHP افزودنی ها را در پوشه <strong>wp-shamsi/addons</strong> قرار دهید.', 'wpsh') ,
+            'content' => __('افزودنی ها امکاناتی را به فارسی ساز وردپرس اضافه می کنند که بین وبمستر های ایرانی و مدیران وردپرس فارسی محبوب هستند. از این صفحه می توانید افزودنی ها را <strong>فعال ویا غیرفعال</strong> کنید.', 'wpsh') ,
         );
 
         foreach ($addons as $addon => $value)
