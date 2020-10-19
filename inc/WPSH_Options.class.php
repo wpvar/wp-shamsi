@@ -164,7 +164,7 @@ class WPSH_Options extends WPSH_Core
                     'type' => 'group',
                     'id' => 'translate-group',
                     'title' => __('مترجم وردپرس', 'wpsh') ,
-                    'description' => __('برروی "ترجمه جدید" کلیک کرده و در قسمت "از" عبارتی را که می خواهید ترجمه شود وارد کنید اکثرا به انگلیسی و در قسمت "به" ترجمه خود از آن عبارت را وارد کنید', 'wpsh') ,
+                    'description' => __('برروی "ترجمه جدید" کلیک کرده و در قسمت "از" عبارتی را که می خواهید ترجمه شود وارد کنید (اکثرا به انگلیسی) و در قسمت "به" ترجمه خود از آن عبارت را وارد کنید.  نسبت به حروف بزرگ و کوچک و فاصله حساس می باشد.', 'wpsh') ,
                     'options' => array(
                         'repeater' => true,
                         'accordion' => true,
@@ -270,20 +270,19 @@ class WPSH_Options extends WPSH_Core
         $addons_settings[] = array(
             'type' => 'notice',
             'class' => 'warning',
-            'content' => __('سیستم افزودنی ها جهت گسترده کردن امکانات افزونه طراحی شده است. از این صفحه می توانید افزودنی ها را فعال ویا غیرفعال کنید. فایل PHP افزودنی ها را در پوشه <strong>wp-shamsi/addons</strong> قرار دهید.', 'wpsh') ,
+            'content' => __('افزودنی ها امکاناتی را به فارسی ساز وردپرس اضافه می کنند که بین وبمستر های ایرانی و مدیران وردپرس فارسی محبوب هستند. از این صفحه می توانید افزودنی ها را <strong>فعال ویا غیرفعال</strong> کنید.', 'wpsh') ,
         );
 
         foreach ($addons as $addon => $value)
         {
-            $addons_settings[] =
 
-            array(
+            $addons_settings[] = array(
                 'id' => $value['slug'],
                 'type' => 'switcher',
                 'title' => $value['name'],
                 'description' => $value['desc'] . '<br /><div class="plugin-version-author-uri">نسخه ' . $value['version'] . ' | نویسنده: ' . $value['author'] . ' | <a href="' . $value['website'] . '" target="_blank" style="text-decoration:none;">وبسایت</a>
                  | <a href="' . $value['addon_home'] . '" target="_blank" style="text-decoration:none;">جزئیات</a></div>',
-                'default' => 'yes',
+                'default' => ($value['is_active'] == true) ? 'yes' : 'no',
 
             );
         }

@@ -3,7 +3,7 @@
  * Plugin Name:       تاریخ شمسی و فارسی ساز وردپرس
  * Plugin URI:        https://wpvar.com/wp-shamsi
  * Description:       تبدیل تاریخ وردپرس به هجری شمسی براساس تقویم ایران و فارسی سازی رابط کاربری وردپرس
- * Version:           1.2.0
+ * Version:           1.2.1
  * Requires at least: 4
  * Requires PHP:      5.3
  * Author:            wpvar.com
@@ -20,7 +20,7 @@ defined('ABSPATH') or die();
 define('WPSH_URL', plugin_dir_url(__FILE__));
 define('WPSH_PATH', plugin_dir_path(__FILE__));
 
-define('WPSH_VERSION', '1.2.0'); //.VERSION !!
+define('WPSH_VERSION', '1.2.1'); //.VERSION !!
 if (!class_exists('WPSH_DateAbstract'))
 {
     require_once plugin_dir_path(__FILE__) . 'lib/Date/DateAbstract.php';
@@ -90,10 +90,13 @@ class WPSH_Core
             ) , 10, 7);
         }
 
-        add_action('wp_dashboard_setup', array(
-            $this,
-            'add_dashboard'
-        ));
+        if (is_admin())
+        {
+            add_action('wp_dashboard_setup', array(
+                $this,
+                'add_dashboard'
+            ));
+        }
 
         add_action('wp_enqueue_scripts', array(
             $this,
@@ -127,6 +130,19 @@ class WPSH_Core
             add_action('admin_notices', array(
                 $this,
                 'no_farsi'
+            ));
+        }
+
+        if (get_locale() == 'fa_IR' || get_locale() == 'fa_AF' || is_admin())
+        {
+            add_filter('dashboard_secondary_link', array(
+                $this,
+                'wpsh_dashboard_link'
+            ));
+
+            add_filter('dashboard_secondary_feed', array(
+                $this,
+                'wpsh_dashboard_feed'
             ));
         }
 
@@ -195,15 +211,18 @@ class WPSH_Core
      * @param bool $bool Requested option is boolean or not.
      * @return mixed Result of get_option.
      */
-    public function option($option, $bool = false)
+    public function option($option, $bool = false, $default = true)
     {
         $options = get_option('wpsh');
 
-        if (!isset($options[$option]))
+        if (!isset($options[$option]) && $default === true)
         {
             return true;
         }
-
+        if (!isset($options[$option]) && $default === false)
+        {
+            return false;
+        }
         if ($bool === true)
         {
             if ($options[$option] == 'yes'):
@@ -229,7 +248,9 @@ class WPSH_Core
     public function script()
     {
         if ($this->option('persian-num', true)):
-            wp_enqueue_script('wpsh-num', plugin_dir_url(__FILE__) . 'assets/js/wpsh_num.js', array('jquery'));
+            wp_enqueue_script('wpsh-num', plugin_dir_url(__FILE__) . 'assets/js/wpsh_num.js', array(
+                'jquery'
+            ));
         endif;
 
         if (get_locale() == 'fa_IR' || get_locale() == 'fa_AF'):
@@ -262,7 +283,9 @@ class WPSH_Core
         endif;
 
         if ($this->option('persian-admin-num', true)):
-            wp_enqueue_script('wpsh-num', plugin_dir_url(__FILE__) . 'assets/js/wpsh_num.js', array('jquery'));
+            wp_enqueue_script('wpsh-num', plugin_dir_url(__FILE__) . 'assets/js/wpsh_num.js', array(
+                'jquery'
+            ));
         endif;
     }
 
@@ -650,6 +673,42 @@ class WPSH_Core
             endforeach;
         }
         echo '</ul></div>';
+    }
+
+    /**
+     * Filter new dashboard
+     *
+     * Display recent wordpress news in farsi
+     *
+     * @since 1.2.1
+     *
+     * @param string $link link to filter.
+     * @return string Filtered link.
+     */
+    public function wpsh_dashboard_link($link)
+    {
+
+        $link = 'https://wpvar.com';
+
+        return $link;
+    }
+
+    /**
+     * Filter new dashboard feed
+     *
+     * Display recent wordpress news feed in farsi
+     *
+     * @since 1.2.1
+     *
+     * @param string $link link to filter.
+     * @return string Filtered feed results.
+     */
+    public function wpsh_dashboard_feed($link)
+    {
+
+        $link = 'https://wpvar.com/post-categories/planet/feed/';
+
+        return $link;
     }
 }
 
