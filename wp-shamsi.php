@@ -20,7 +20,7 @@ defined('ABSPATH') or die();
 define('WPSH_URL', plugin_dir_url(__FILE__));
 define('WPSH_PATH', plugin_dir_path(__FILE__));
 
-define('WPSH_VERSION', '1.2.1'); //.VERSION !!
+define('WPSH_VERSION', 'بتا - آزمایشی'); //.VERSION !!
 if (!class_exists('WPSH_DateAbstract'))
 {
     require_once plugin_dir_path(__FILE__) . 'lib/Date/DateAbstract.php';

@@ -92,16 +92,14 @@ class WPSH_Calendar extends WPSH_Core
     {
         global $wpdb, $m, $monthnum, $year, $wp_locale, $posts, $previous, $next, $ali;
 
-        echo $ali;
 
         if (function_exists('has_blocks') && has_blocks())
         {
+
             $echo = false;
+
         }
-        if (function_exists('has_blocks'))
-        {
-            $echo = 123;
-        }
+
         $key = md5($m . $monthnum . $year);
         $cache = wp_cache_get('get_jcalendar', 'calendar');
 
