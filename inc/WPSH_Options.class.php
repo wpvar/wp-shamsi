@@ -118,6 +118,13 @@ class WPSH_Options extends WPSH_Core
                     'default' => 'yes',
                 ) ,
                 array(
+                    'id' => 'activate-shamsi-calendar',
+                    'type' => 'switcher',
+                    'title' => __('شمسی سازی تقویم', 'wpsh') ,
+                    'description' => __('درصورت فعال بودن، ابزارک و بلوک تقویم، شمسی سازی خواهند شد', 'wpsh') ,
+                    'default' => 'yes',
+                ) ,
+                array(
                     'type' => 'content',
                     'wrap_class' => 'no-border-bottom',
                     'title' => __('زمان محلی و ساختار', 'wpsh') ,

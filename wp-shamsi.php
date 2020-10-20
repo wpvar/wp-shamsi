@@ -42,6 +42,12 @@ if (is_admin())
 }
 
 use WpshDate\WPSH_Jalali;
+
+if (!class_exists('WPSH_Calendar'))
+{
+    require_once plugin_dir_path(__FILE__) . 'inc/WPSH_Calendar.class.php';
+}
+
 /**
  * Core class
  *
@@ -459,7 +465,7 @@ class WPSH_Core
      * @param int $timestamp Date in timestamp.
      * @return mixed converted date.
      */
-    public function wp_shamsi($date, $format, $timestamp)
+    public function wp_shamsi($date = null, $format, $timestamp = null)
     {
         if (!$this->option('activate-shamsi', true))
         {
