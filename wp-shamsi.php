@@ -3,7 +3,7 @@
  * Plugin Name:       تاریخ شمسی و فارسی ساز وردپرس
  * Plugin URI:        https://wpvar.com/wp-shamsi
  * Description:       تبدیل تاریخ وردپرس به هجری شمسی براساس تقویم ایران و فارسی سازی رابط کاربری وردپرس
- * Version:           1.2.1
+ * Version:           1.4.0
  * Requires at least: 4
  * Requires PHP:      5.3
  * Author:            wpvar.com
@@ -20,7 +20,7 @@ defined('ABSPATH') or die();
 define('WPSH_URL', plugin_dir_url(__FILE__));
 define('WPSH_PATH', plugin_dir_path(__FILE__));
 
-define('WPSH_VERSION', 'بتا - آزمایشی'); //.VERSION !!
+define('WPSH_VERSION', '1.4.0'); //.VERSION !!
 if (!class_exists('WPSH_DateAbstract'))
 {
     require_once plugin_dir_path(__FILE__) . 'lib/Date/DateAbstract.php';
@@ -308,6 +308,7 @@ class WPSH_Core
     public function supported_themes()
     {
         $themes = array(
+            'twentytwentyone', // Since 1.4.0
             'twentytwenty', // Since 1.2.0
             'twentynineteen', // Since 1.2.0
             'astra', // Since 1.2.0

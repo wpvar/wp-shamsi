@@ -30,7 +30,7 @@ class WPSH_Calendar extends WPSH_Core
             add_filter('get_calendar', array(
                 $this,
                 'calendar'
-            ));
+            ), 10, 2);
         }
 
     }
@@ -90,14 +90,11 @@ class WPSH_Calendar extends WPSH_Core
      */
     function get_jcalendar($initial = true, $echo = true)
     {
-        global $wpdb, $m, $monthnum, $year, $wp_locale, $posts, $previous, $next, $ali;
+        global $wpdb, $m, $monthnum, $year, $wp_locale, $posts, $previous, $next;
 
-
-        if (function_exists('has_blocks') && has_blocks())
+        if(!in_the_loop())
         {
-
             $echo = false;
-
         }
 
         $key = md5($m . $monthnum . $year);
