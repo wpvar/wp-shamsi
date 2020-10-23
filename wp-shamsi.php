@@ -150,6 +150,11 @@ class WPSH_Core
                 $this,
                 'wpsh_dashboard_feed'
             ));
+
+            add_action( 'current_screen', array(
+                $this,
+                'farsi_support'
+            ));
         }
 
     }
@@ -716,6 +721,25 @@ class WPSH_Core
         $link = 'https://wpvar.com/post-categories/planet/feed/';
 
         return $link;
+    }
+
+    /**
+     * Add farsi support link
+     *
+     * Add link to free wordpress support forums if locale is farsi.
+     *
+     * @since 1.4.0
+     *
+     */
+    public function farsi_support() {
+      $screen = get_current_screen();
+
+      $screen->add_help_tab( array(
+          'id'    => 'farsi-support',
+          'title' => 'پشتیبانی فارسی',
+          'content'   => '<p>همیشه می توانید از طریق <strong><a href="https://wpvar.com/forums/" target="_blank">این لینک</a></strong> سوالات خود را در <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن فارسی</a></strong> وردپرس بپرسید. همچنین می توانید <strong><a href="https://wpvar.com/edu/" target="_blank">بخش آموزش وردپرس</a></strong> را که دارای آموزش های تصویری است، مطالعه کنید.</p>',
+          'priority'  => 11,
+      ) );
     }
 }
 
