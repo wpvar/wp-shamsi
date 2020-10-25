@@ -9,3 +9,12 @@ body.rtl {
 .rtl select {
   font-family: Vazir, tahoma, sans-serif, arial;
 }
+
+.rtl #wpadminbar * {
+  font-family: Vazir, tahoma, sans-serif, arial;
+}
+
+#wpadminbar #wp-admin-bar-wpsh .ab-icon:before {
+    content: '\f508';
+    top: 2px;
+}

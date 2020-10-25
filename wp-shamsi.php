@@ -795,7 +795,8 @@ class WPSH_Core
             $screen->add_help_tab(array(
                 'id' => 'farsi-support',
                 'title' => 'پشتیبانی فارسی',
-                'content' => '<p>همیشه می توانید از طریق <strong><a href="https://wpvar.com/forums/" target="_blank">این لینک</a></strong> سوالات خود را در <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن فارسی</a></strong> وردپرس بپرسید. همچنین می توانید <strong><a href="https://wpvar.com/edu/" target="_blank">بخش آموزش وردپرس</a></strong> را که دارای آموزش های تصویری است، مطالعه کنید.</p>',
+                'content' => '<p>همیشه می توانید از طریق <strong><a href="https://wpvar.com/forums/" target="_blank">این لینک</a></strong> سوالات خود را در <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن فارسی</a></strong> وردپرس بپرسید. همچنین می توانید <strong><a href="https://wpvar.com/edu/" target="_blank">بخش آموزش وردپرس</a></strong> را که دارای آموزش های تصویری است، مطالعه کنید.</p>
+                              <p><a href="https://wpvar.com" class="button button-primary">وردپرس فارسی</a> <a href="https://wpvar.com/forums/" class="button">انجمن پشتیبانی</a> <a href="https://wpvar.com/edu/" class="button">آموزش وردپرس</a></p>',
                 'priority' => 11,
             ));
         }

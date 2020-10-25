@@ -12,12 +12,13 @@ defined('ABSPATH') or die();
  *
  * @since 1.4.0
  */
-class WPSH_Datepicker extends WPSH_Core
+class WPSH_Woo extends WPSH_Core
 
 {
 
     function __construct()
     {
+
         if (!parent::option('activate-woocommerce', true, true))
         {
             return;
@@ -51,9 +52,9 @@ class WPSH_Datepicker extends WPSH_Core
         {
             $_POST["_sale_price_dates_to"] = esc_attr(parent::gregorian($_POST["_sale_price_dates_to"], 'Y-m-d'));
         }
-        if (isset($_POST["expiry_date"]) && $post['post_type'] == 'shop_coupon')
+        if (isset($_POST["order_date"]) && $post['post_type'] == 'shop_order')
         {
-            $_POST["expiry_date"] = esc_attr(parent::gregorian($_POST["expiry_date"], 'Y-m-d'));
+            $_POST["order_date"] = esc_attr(parent::gregorian($_POST["order_date"], 'Y-m-d'));
         }
 
         return $post;
@@ -63,11 +64,11 @@ class WPSH_Datepicker extends WPSH_Core
     public function woocommerce_action()
     {
 
-        if (isset($_GET["start_date"]))
+        if (isset($_GET["start_date"]) && esc_attr($_GET["page"]) == 'wc-reports')
         {
             $_GET["start_date"] = esc_attr(parent::gregorian($_GET["start_date"], 'Y-m-d'));
         }
-        if (isset($_GET["end_date"]))
+        if (isset($_GET["end_date"]) && esc_attr($_GET["page"]) == 'wc-reports')
         {
             $_GET["end_date"] = esc_attr(parent::gregorian($_GET["end_date"], 'Y-m-d'));
         }
@@ -76,14 +77,21 @@ class WPSH_Datepicker extends WPSH_Core
 
     public function datepicker_script()
     {
-        if (wp_script_is('jquery-ui-datepicker', 'enqueued'))
+        if (wp_script_is('jquery-ui-datepicker', 'enqueued') && ($this->screen() == 'product' || $this->screen() == 'shop_order' || esc_attr($_GET["page"]) == 'wc-reports'))
         {
             wp_deregister_script('jquery-ui-datepicker');
             wp_enqueue_script('jquery-ui-datepicker', WPSH_URL . 'assets/js/wpsh_datepicker.js', array() , false, true);
         }
     }
 
+    public function screen()
+    {
+        $screen = get_current_screen();
+
+        return (string)$screen->post_type;
+    }
+
 }
 
-new WPSH_Datepicker();
+new WPSH_Woo();
 
