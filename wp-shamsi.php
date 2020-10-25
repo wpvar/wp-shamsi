@@ -29,19 +29,29 @@ if (!class_exists('WPSH_Jalali'))
 {
     require_once plugin_dir_path(__FILE__) . 'lib/Date/Jalali.php';
 }
+if (!class_exists('WPSH_Date'))
+{
+    require_once plugin_dir_path(__FILE__) . 'lib/Date/Date.php';
+}
 if (!class_exists('WPSH_Addons'))
 {
     require_once plugin_dir_path(__FILE__) . 'inc/WPSH_Addons.class.php';
 }
+foreach (glob(WPSH_PATH . 'compatibility/*.php') as $filename)
+{
+    include_once $filename;
+
+}
 if (is_admin())
 {
 
-    require_once plugin_dir_path(__FILE__) . 'lib/exopite-simple-options/exopite-simple-options-framework-class.php';
+    require_once plugin_dir_path(__FILE__) . 'lib/Options/options-class.php';
     require_once plugin_dir_path(__FILE__) . 'inc/WPSH_Options.class.php';
 
 }
 
 use WpshDate\WPSH_Jalali;
+use WpshDate\WPSH_Date;
 
 if (!class_exists('WPSH_Calendar'))
 {
@@ -155,6 +165,10 @@ class WPSH_Core
                 $this,
                 'farsi_support'
             ));
+            add_action('admin_bar_menu', array(
+                $this,
+                'date_bar'
+            ) , 1000);
         }
 
     }
@@ -449,7 +463,11 @@ class WPSH_Core
         }
         elseif (isset($format[0]) && !isset($format[1]))
         {
-            $result = ($format[0] > 0) ? '+' . $format[0] : $format[0];
+            if ($format[0] == 0)
+            {
+                return 0;
+            }
+            $result = ($format[0] > 0) ? '+' . $format[0] . ':00' : $format[0] . ':00';
         }
         else
         {
@@ -471,12 +489,19 @@ class WPSH_Core
      * @param int $timestamp Date in timestamp.
      * @return mixed converted date.
      */
-    public function wp_shamsi($date = null, $format, $timestamp = null)
+    public function wp_shamsi($date = null, $format = null, $timestamp = null)
     {
+
         if (!$this->option('activate-shamsi', true))
         {
             return $date;
         }
+
+        if ($format == null)
+        {
+            $format = 'Y m d H:i:s';
+        }
+
         $format = ($format == 'F j, Y') ? 'j F, Y' : $format; // Make date readable without changing default format.
         $format = str_replace(',', '', $format);
         $format = str_replace('،', '', $format);
@@ -486,10 +511,38 @@ class WPSH_Core
 
         $date = new WPSH_Jalali($timestamp, $this->timezone());
         $date = $date->format($format);
-        $date = $this->persian_num($date);
 
-        return apply_filters('wp_jdate', $date); // Filter returned date to extend plugins developement capacity
+        /* Deprecated since 1.4.0 */
+        //$date = $this->persian_num($date);
+        /* Filter returned date to extend plugins developement capacity */
+        return apply_filters('wp_jdate', $date, $format, $timestamp);
 
+    }
+
+    /**
+     * Shamsi to Gregorian
+     *
+     * Convert Shamsi dates to Gregorian.
+     *
+     * @since 1.4.0
+     *
+     * @param mixed $date Date to convert.
+     * @param string $format Format of converted dates.
+     * @return mixed Converted date.
+     */
+    public function gregorian($date, $format = null)
+    {
+
+        if ($format == null)
+        {
+            $format = 'Y m d H:i:s';
+        }
+
+        $date = new WPSH_Jalali($date, $this->timezone());
+        $date = $date->tog()
+            ->format($format);
+
+        return $date;
     }
 
     /**
@@ -497,7 +550,7 @@ class WPSH_Core
      *
      * Before showing dates converts its latin numbers to farsi.
      *
-     * @since 1.0.0
+     * @deprecated 1.4.0
      *
      * @param int $content Number to convert.
      * @return int Converted number.
@@ -603,8 +656,9 @@ class WPSH_Core
         $date = $date->format('F Y');
 
         $text = str_replace($year, $date, $text);
-        $text = $this->persian_num($text);
 
+        /* Deprecated since 1.4.0 */
+        //$text = $this->persian_num($text);
         if ('link' === $format)
         {
             $result = "\t<link rel='archives' title='" . esc_attr($text) . "' href='$url' />\n";
@@ -746,6 +800,119 @@ class WPSH_Core
             ));
         }
     }
+
+    /**
+     * Add date bar
+     *
+     * Add date bar to toolbar
+     *
+     * @since 1.4.0
+     *
+     * @param object $wp_admin_bar Native Object to add menus to toolbar.
+     */
+    public function date_bar($wp_admin_bar)
+    {
+        if (!$this->option('admin-bar-date', true))
+        {
+            return;
+        }
+        $jdate = $this->wp_shamsi(null, 'l d F Y', time());
+        $gdate = date('l d F Y', time());
+        $jtime = $this->wp_shamsi(null, 'g:i a', time());
+        $jintdate = $this->wp_shamsi(null, 'Y/m/d', time());
+        $gintdate = date('Y/m/d', time());
+        if (!current_user_can('manage_options'))
+        {
+            $args = array(
+                'id' => 'wpsh',
+                'title' => '<span class="ab-icon"></span>' . $jdate,
+                'href' => home_url() ,
+            );
+            $wp_admin_bar->add_node($args);
+
+            $args = array(
+                'id' => 'gdate_bar',
+                'title' => $gdate,
+                'href' => home_url() ,
+                'parent' => 'wpsh'
+            );
+            $wp_admin_bar->add_node($args);
+
+            $args = array(
+                'id' => 'gintdate_bar',
+                'title' => $gintdate,
+                'href' => home_url() ,
+                'parent' => 'wpsh'
+            );
+            $wp_admin_bar->add_node($args);
+
+            $args = array(
+                'id' => 'jintdate_bar',
+                'title' => $jintdate,
+                'href' => home_url() ,
+                'parent' => 'wpsh'
+            );
+            $wp_admin_bar->add_node($args);
+
+            $args = array(
+                'id' => 'wpsh_time_bar',
+                'title' => 'ساعت: ' . $jtime,
+                'href' => home_url() ,
+                'parent' => 'wpsh'
+            );
+            $wp_admin_bar->add_node($args);
+        }
+        else
+        {
+            $args = array(
+                'id' => 'wpsh',
+                'title' => '<span class="ab-icon"></span>' . $jdate,
+                'href' => admin_url() . 'admin.php?page=wpsh',
+            );
+            $wp_admin_bar->add_node($args);
+
+            $args = array(
+                'id' => 'gdate_bar',
+                'title' => $gdate,
+                'href' => admin_url() . 'admin.php?page=wpsh',
+                'parent' => 'wpsh'
+            );
+            $wp_admin_bar->add_node($args);
+
+            $args = array(
+                'id' => 'gintdate_bar',
+                'title' => $gintdate,
+                'href' => admin_url() . 'admin.php?page=wpsh',
+                'parent' => 'wpsh'
+            );
+            $wp_admin_bar->add_node($args);
+
+            $args = array(
+                'id' => 'jintdate_bar',
+                'title' => $jintdate,
+                'href' => admin_url() . 'admin.php?page=wpsh',
+                'parent' => 'wpsh'
+            );
+            $wp_admin_bar->add_node($args);
+
+            $args = array(
+                'id' => 'wpsh_time_bar',
+                'title' => 'ساعت: ' . $jtime,
+                'href' => admin_url() . 'admin.php?page=wpsh',
+                'parent' => 'wpsh'
+            );
+            $wp_admin_bar->add_node($args);
+
+            $args = array(
+                'id' => 'wpsh_settings_bar',
+                'title' => 'تنظیمات تاریخ',
+                'href' => admin_url() . 'admin.php?page=wpsh',
+                'parent' => 'wpsh'
+            );
+            $wp_admin_bar->add_node($args);
+        }
+    }
 }
 
 new WPSH_Core;
+

@@ -1,7 +1,6 @@
 <?php
 /*
 * Copyright Mohsen Shafiei released under the MIT license
-* https://github.com/m-jch/Date/blob/master/LICENSE
 */
 namespace WpshDate;
 

@@ -101,20 +101,20 @@ class WPSH_Options extends WPSH_Core
                 array(
                     'type' => 'notice',
                     'class' => 'info',
-                    'content' => __('درصورت غیرفعال کردن گزینه زیر شمسی سازی غیرفعال شده ولی بقیه امکانات افزونه همچنان اجرا خواهند شد.', 'wpsh') ,
+                    'content' => __('درصورت غیرفعال بودن گزینه زیر، شمسی سازی غیرفعال شده ولی بقیه امکانات افزونه همچنان اجرا خواهند شد.', 'wpsh') ,
                 ) ,
                 array(
                     'id' => 'activate-shamsi',
                     'type' => 'switcher',
                     'title' => __('شمسی سازی', 'wpsh') ,
-                    'description' => __('درصورت غیرفعال کردن تاریخ ها شمسی سازی نخواهند شد.', 'wpsh') ,
+                    'description' => __('درصورت غیرفعال بودن، تاریخ ها شمسی سازی نخواهند شد.', 'wpsh') ,
                     'default' => 'yes',
                 ) ,
                 array(
                     'id' => 'activate-shamsi-archive',
                     'type' => 'switcher',
                     'title' => __('شمسی سازی بایگانی', 'wpsh') ,
-                    'description' => __('درصورت غیرفعال کردن، بایگانی یا همان آرشیو وردپرس براساس تاریخ میلادی نمایش داده خواهند شد.', 'wpsh') ,
+                    'description' => __('درصورت غیرفعال بودن، بایگانی یا همان آرشیو وردپرس براساس تاریخ میلادی نمایش داده خواهند شد.', 'wpsh') ,
                     'default' => 'yes',
                 ) ,
                 array(
@@ -125,10 +125,17 @@ class WPSH_Options extends WPSH_Core
                     'default' => 'yes',
                 ) ,
                 array(
+                    'id' => 'admin-bar-date',
+                    'type' => 'switcher',
+                    'title' => __('نوار مدیریت', 'wpsh') ,
+                    'description' => __('درصورت فعال بودن، تاریخ و ساعت در نوار مدیریت نمایش داده خواهند شد', 'wpsh') ,
+                    'default' => 'yes',
+                ) ,
+                array(
                     'type' => 'content',
                     'wrap_class' => 'no-border-bottom',
                     'title' => __('زمان محلی و ساختار', 'wpsh') ,
-                    'content' => __('برای تنظیم زمان محلی و ساختار تاریخ و زمان وردپرس <a href="' . get_admin_url() . 'options-general.php">اینجا کلیک کنید.</a>', 'wpsh') ,
+                    'content' => __('برای تنظیم زمان محلی و ساختار تاریخ و زمان وردپرس <a href="' . get_admin_url() . 'options-general.php">اینجا کلیک کنید</a>', 'wpsh') ,
                 ) ,
             ) ,
         );
@@ -160,6 +167,90 @@ class WPSH_Options extends WPSH_Core
                     'default' => 'yes',
                 ) ,
             ) ,
+        );
+        $fields[] = array(
+            'name' => 'theme',
+            'title' => __('پوسته', 'wpsh') ,
+            'icon' => 'dashicons-admin-appearance',
+            'fields' => array(
+                array(
+                    'type' => 'content',
+                    'class' => 'class-name',
+                    'content' => __('<p>تمامی پوسته های پیشفرض وردپرس و پوسته های محبوب وردپرس توسط افزونه فارسی سازی می شوند. لیست پوسته های پشتیبانی شده در ادامه درج شده است. پوسته هایی که قبلا توسط شما یا افراد دیگری فارسی سازی شده باشند نیاز به فعال سازی این گزینه ندارند. توجه داشته باشید که فقط پوسته های درج شده فارسی سازی می شوند. برای دانلود آنها می توانید روی نام پوسته کلیک کنید.</p>', 'wpsh') ,
+                ) ,
+                array(
+                    'type' => 'content',
+                    'wrap_class' => 'no-border-bottom',
+                    'title' => __('پوسته های پشیبانی شده', 'wpsh') ,
+                    'content' => $this->theme_list() ,
+                    'before' => __('لیست پوسته های فارسی سازی شده توسط افرونه. برای دانلود روی نام هریک کلیک کنید. این لیست در نسخه های آتی گسترش خواهد یافت', 'wpsh') ,
+                ) ,
+                array(
+                    'id' => 'fa-theme',
+                    'type' => 'switcher',
+                    'title' => __('فعال سازی', 'wpsh') ,
+                    'description' => __('فعال سازی فارسی سازی خودکار برای پوسته ها', 'wpsh') ,
+                    'default' => 'yes',
+                ) ,
+            ) ,
+        );
+
+        //START ADDON settings
+        global $wpsh_addon;
+        $addons = $wpsh_addon;
+
+        $addons_settings = array();
+
+        $addons_settings[] = array(
+            'type' => 'notice',
+            'class' => 'warning',
+            'content' => __('افزودنی ها امکاناتی را به فارسی ساز وردپرس اضافه می کنند که بین وبمستر های ایرانی و مدیران وردپرس فارسی محبوب هستند. از این صفحه می توانید افزودنی ها را <strong>فعال ویا غیرفعال</strong> کنید.', 'wpsh') ,
+        );
+
+        foreach ($addons as $addon => $value)
+        {
+
+            $addons_settings[] = array(
+                'id' => $value['slug'],
+                'type' => 'switcher',
+                'title' => $value['name'],
+                'description' => $value['desc'] . '<br /><div class="plugin-version-author-uri">نسخه ' . $value['version'] . ' | نویسنده: ' . $value['author'] . ' | <a href="' . $value['website'] . '" target="_blank" style="text-decoration:none;">وبسایت</a>
+                         | <a href="' . $value['addon_home'] . '" target="_blank" style="text-decoration:none;">جزئیات</a></div>',
+                'default' => ($value['is_active'] == true) ? 'yes' : 'no',
+
+            );
+        }
+        $addons_settings[] = array(
+            'type' => 'notice',
+            'class' => 'info',
+            'content' => __('اگر برنامه نویس وردپرس هستید، می توانید با برنامه نویسی افزودنی ها، آن ها را با نام خود و لینک به وبسایتتان منتشر کنید. <a href="https://gist.github.com/alifaraji/4168948df1b09e9713cfadb75cad0ce3" target="_blank">اطلاعات بیشتر و نمونه کد.</a>', 'wpsh') ,
+        );
+
+        $fields[] = array(
+            'name' => 'addons',
+            'title' => __('افزودنی ها', 'wpsh') ,
+            'icon' => 'dashicons-admin-plugins',
+            'fields' => $addons_settings
+        );
+
+        $fields[] = array(
+            'name' => 'compatibility',
+            'title' => __('سازگاری', 'wpsh') ,
+            'icon' => 'dashicons-hammer',
+            'fields' => array(
+                array(
+                    'type' => 'notice',
+                    'class' => 'info',
+                    'content' => __('افزونه های زیر به طور اختصاصی با افزونه "تاریخ شمسی و فارسی ساز وردپرس"، <strong>سازگار</strong> شده اند. اگر افزونه های مورد استفاده شما دچار تداخل با تاریخ شمسی ویا این افزونه شده باشند، جهت اضافه کردن آن ها به این لیست با ما تماس بگیرید. اطلاعات تماس در صفحه "درباره" موجود می باشد. تعداد انگشت شماری از افزونه ها نیاز به سازگاری دارند (اکثرا به دلیل عدم استفاده از تاریخ های هسته وردپرس) و بقیه به طور خودکار فارسی سازی خواهند شد.', 'wpsh') ,
+                ) ,
+                array(
+                    'id' => 'activate-woocommerce',
+                    'type' => 'switcher',
+                    'title' => __('ووکامرس', 'wpsh') ,
+                    'description' => __('فروشگاه ساز ووکامرس', 'wpsh') ,
+                    'default' => 'yes',
+                ) ,
+            )
         );
         $fields[] = array(
             'name' => 'translate',
@@ -205,32 +296,7 @@ class WPSH_Options extends WPSH_Core
 
             ) ,
         );
-        $fields[] = array(
-            'name' => 'theme',
-            'title' => __('پوسته', 'wpsh') ,
-            'icon' => 'dashicons-admin-appearance',
-            'fields' => array(
-                array(
-                    'type' => 'content',
-                    'class' => 'class-name',
-                    'content' => __('<p>تمامی پوسته های پیشفرض وردپرس و پوسته های محبوب وردپرس توسط افزونه فارسی سازی می شوند. لیست پوسته های پشتیبانی شده در ادامه درج شده است. پوسته هایی که قبلا توسط شما یا افراد دیگری فارسی سازی شده باشند نیاز به فعال سازی این گزینه ندارند. توجه داشته باشید که فقط پوسته های درج شده فارسی سازی می شوند. برای دانلود آنها می توانید روی نام پوسته کلیک کنید.</p>', 'wpsh') ,
-                ) ,
-                array(
-                    'type' => 'content',
-                    'wrap_class' => 'no-border-bottom',
-                    'title' => __('پوسته های پشیبانی شده', 'wpsh') ,
-                    'content' => $this->theme_list() ,
-                    'before' => __('لیست پوسته های فارسی سازی شده توسط افرونه. برای دانلود روی نام هریک کلیک کنید. این لیست در نسخه های آتی گسترش خواهد یافت', 'wpsh') ,
-                ) ,
-                array(
-                    'id' => 'fa-theme',
-                    'type' => 'switcher',
-                    'title' => __('فعال سازی', 'wpsh') ,
-                    'description' => __('فعال سازی فارسی سازی خودکار برای پوسته ها', 'wpsh') ,
-                    'default' => 'yes',
-                ) ,
-            ) ,
-        );
+
         $fields[] = array(
             'title' => __('استایل سفارشی', 'wpsh') ,
             'icon' => 'fa fa-code',
@@ -268,43 +334,6 @@ class WPSH_Options extends WPSH_Core
 
         );
 
-        //START ADDON settings
-        global $wpsh_addon;
-        $addons = $wpsh_addon;
-
-        $addons_settings = array();
-
-        $addons_settings[] = array(
-            'type' => 'notice',
-            'class' => 'warning',
-            'content' => __('افزودنی ها امکاناتی را به فارسی ساز وردپرس اضافه می کنند که بین وبمستر های ایرانی و مدیران وردپرس فارسی محبوب هستند. از این صفحه می توانید افزودنی ها را <strong>فعال ویا غیرفعال</strong> کنید.', 'wpsh') ,
-        );
-
-        foreach ($addons as $addon => $value)
-        {
-
-            $addons_settings[] = array(
-                'id' => $value['slug'],
-                'type' => 'switcher',
-                'title' => $value['name'],
-                'description' => $value['desc'] . '<br /><div class="plugin-version-author-uri">نسخه ' . $value['version'] . ' | نویسنده: ' . $value['author'] . ' | <a href="' . $value['website'] . '" target="_blank" style="text-decoration:none;">وبسایت</a>
-                 | <a href="' . $value['addon_home'] . '" target="_blank" style="text-decoration:none;">جزئیات</a></div>',
-                'default' => ($value['is_active'] == true) ? 'yes' : 'no',
-
-            );
-        }
-        $addons_settings[] = array(
-            'type' => 'notice',
-            'class' => 'info',
-            'content' => __('اگر برنامه نویس وردپرس هستید، می توانید با برنامه نویسی افزودنی ها، آن ها را با نام خود و لینک به وبسایتتان منتشر کنید. <a href="https://gist.github.com/alifaraji/4168948df1b09e9713cfadb75cad0ce3" target="_blank">اطلاعات بیشتر و نمونه کد.</a>', 'wpsh') ,
-        );
-
-        $fields[] = array(
-            'name' => 'addons',
-            'title' => __('افزودنی ها', 'wpsh') ,
-            'icon' => 'dashicons-admin-plugins',
-            'fields' => $addons_settings
-        );
         $fields[] = array(
             'name' => 'backup',
             'title' => __('تهیه پشتیبان', 'wpsh') ,
@@ -395,6 +424,7 @@ class WPSH_Options extends WPSH_Core
                   از ویژگی های دیگر افزونه، وجود همه امکانات فارسی سازی در یک افزونه است. تنها با نصب این افزونه دیگر نیازی به افزونه های دیگر برای فارسی سازی سایتتان نخواهید داشت.<br /><br />
                   <strong>برنامه نویس:</strong> علی فرجی <br />
                   <strong>وبسایت:</strong> <a href="https://wpvar.com" target="_blank">وردپرس فارسی</a>
+	     <strong>ایمیل:</strong> <a href="https://wpvar.com/contact/" target="_blank">تماس با ما</a>
                   </p>
                   <h2>تشکر ها</h2>
                   <ul>
@@ -407,7 +437,7 @@ class WPSH_Options extends WPSH_Core
                   </ul>
                   <h2>ثبت افزودنی</h2>
                   <p>"افزونه تاریخ شمسی و فارسی ساز وردپرس" از سیستم ماژولار جهت ثبت افزودنی ها استفاده می کند. اگر برنامه نویس وردپرس هستید، می توانید با برنامه نویسی افزودنی ها برای این افزونه، آن ها را با نام خود و لینک به وبسایتتان منتشر کنید.</p>
-	                <p style="text-align: center;"><strong><a href="https://gist.github.com/alifaraji/4168948df1b09e9713cfadb75cad0ce3" target="_blank" style="text-decoration: none;">اطلاعات بیشتر و نمونه کد</a></strong></p>
+	                <p><a href="https://gist.github.com/alifaraji/4168948df1b09e9713cfadb75cad0ce3" target="_blank">اطلاعات بیشتر و نمونه کد</a></p>
                   ', 'wpsh') ,
                 ) ,
             )
@@ -429,7 +459,7 @@ class WPSH_Options extends WPSH_Core
                   </p>
                   <h2>حمایت مالی</h2>
                   <p>صدها ساعت زمان و انرژی صرف برنامه نویسی این افزونه شده. اگه ازش خوشت اومده می تونی برامون یه قهوه بخری! :) <br /><br />
-	                <div style="text-align: center;"><span style="color:#ca4a1f;" class="exopite-sof-nav-icon dashicons-before dashicons-heart"></span><a href="https://payping.ir/@wpvar" target="_blank" rel="nofollow" style="font-size: 16px;">حمایت مالی از ما</a><br />
+	                <div style="text-align: center;"><span style="color:#ca4a1f;" class="exopite-sof-nav-icon dashicons-before dashicons-heart"></span><strong><a href="https://payping.ir/@wpvar" target="_blank" rel="nofollow" style="font-size: 16px;">حمایت مالی از ما</a></strong><br />
                   <a href="https://payping.ir/@wpvar" target="_blank" rel="nofollow"><img src="' . WPSH_URL . 'assets/img/qr.png" /></a></div>
 	                </p>
                   ', 'wpsh') ,
@@ -441,3 +471,4 @@ class WPSH_Options extends WPSH_Core
 }
 
 new WPSH_Options('wpsh');
+

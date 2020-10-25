@@ -30,7 +30,7 @@ class WPSH_Calendar extends WPSH_Core
             add_filter('get_calendar', array(
                 $this,
                 'calendar'
-            ), 10, 2);
+            ) , 10, 2);
         }
 
     }
@@ -92,7 +92,7 @@ class WPSH_Calendar extends WPSH_Core
     {
         global $wpdb, $m, $monthnum, $year, $wp_locale, $posts, $previous, $next;
 
-        if(!in_the_loop())
+        if (!in_the_loop())
         {
             $echo = false;
         }

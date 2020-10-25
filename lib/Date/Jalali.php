@@ -1,7 +1,6 @@
 <?php
 /*
 * Copyright Mohsen Shafiei released under the MIT license
-* https://github.com/m-jch/Date/blob/master/LICENSE
 */
 
 namespace WpshDate;
@@ -103,6 +102,24 @@ class WPSH_Jalali extends WPSH_DateAbstract
         return $this;
     }
 
+    /**
+     * @return \WpshDate\WPSH_Date
+     */
+    public function toGregorian()
+    {
+        return new WPSH_Date(parent::format(parent::ATOM), parent::getTimezone());
+    }
+
+    /**
+     * An aliases for toGregorian method
+     *
+     * @return \WpshDate\WPSH_Date
+     */
+    public function tog()
+    {
+        return $this->toGregorian();
+    }
+    
     /**
     * Decode a datetime string
     * Supported formats:
