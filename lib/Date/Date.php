@@ -1,4 +1,8 @@
 <?php
+/*
+* Copyright Mohsen Shafiei released under the MIT license
+* See license.txt
+*/
 
 namespace WpshDate;
 

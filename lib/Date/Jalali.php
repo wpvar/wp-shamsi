@@ -1,6 +1,7 @@
 <?php
 /*
 * Copyright Mohsen Shafiei released under the MIT license
+* See license.txt
 */
 
 namespace WpshDate;
@@ -119,7 +120,7 @@ class WPSH_Jalali extends WPSH_DateAbstract
     {
         return $this->toGregorian();
     }
-    
+
     /**
     * Decode a datetime string
     * Supported formats:
