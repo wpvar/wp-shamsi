@@ -250,6 +250,18 @@ class WPSH_Options extends WPSH_Core
                     'description' => __('فروشگاه ساز ووکامرس', 'wpsh') ,
                     'default' => 'yes',
                 ) ,
+                array(
+                    'type' => 'notice',
+                    'class' => 'danger',
+                    'content' => __('با فعال کردن گزینه زیر، شمسی سازی بخش مدیریت غیرفعال خواهد شد ولی محیط کاربری وردپرس همچنان شمسی سازی خواهد شد. این گزینه را هنگامی فعال کنید که شمسی ساز با افزونه های دیگر دچار تداخل باشد.', 'wpsh') ,
+                ) ,
+                array(
+                    'id' => 'activate-admin-shamsi',
+                    'type' => 'switcher',
+                    'title' => __('غیرفعال کردن شمسی سازی مدیریت', 'wpsh') ,
+                    'description' => __('قبل از فعال کردن این گزینه توضیحات بالا را مطالعه کنید', 'wpsh') ,
+                    'default' => 'no',
+                ) ,
             )
         );
         $fields[] = array(

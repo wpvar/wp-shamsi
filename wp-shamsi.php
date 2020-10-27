@@ -497,6 +497,11 @@ class WPSH_Core
             return $date;
         }
 
+        if($this->option('activate-admin-shamsi', true, false) && is_admin())
+        {
+            return $date;
+        }
+
         if ($format == null)
         {
             $format = 'Y m d H:i:s';
@@ -706,6 +711,14 @@ class WPSH_Core
      */
     public function dashboard()
     {
+        $transient = get_transient( 'wpsh_dashboard_site_feed' );
+
+        if(!WP_DEBUG && $transient)
+        {
+          echo $transient;
+          return;
+        }
+
         include_once (ABSPATH . WPINC . '/feed.php');
 
         $rss = fetch_feed('https://wpvar.com/feed');
@@ -716,29 +729,30 @@ class WPSH_Core
             $rss_title = '<a href="' . $rss->get_permalink() . '" target="_blank">' . strtoupper($rss->get_title()) . '</a>';
         endif;
 
-        echo '<div class="rss-widget">';
-        echo '<ul>';
+        $html = '<div class="rss-widget">';
+        $html .= '<ul>';
 
         if ($maxitems == 0)
         {
-            echo '<li>یافت نشد</li>';
+            $html .= '<li>یافت نشد</li>';
         }
         else
         {
             foreach ($rss_items as $item):
                 $item_date = human_time_diff($item->get_date('U') , current_time('timestamp')) . ' پیش';
-                echo '<li>';
-                echo '<a href="' . esc_url($item->get_permalink()) . '" title="' . $item_date . '">';
-                echo '<strong>' . esc_html($item->get_title()) . '</strong>';
-                echo '</a>';
-                echo ' <span class="rss-date">' . $item_date . '</span><br />';
+                $html .= '<li>';
+                $html .= '<a href="' . esc_url($item->get_permalink()) . '" title="' . $item_date . '">';
+                $html .= '<strong>' . esc_html($item->get_title()) . '</strong>';
+                $html .= '</a>';
+                $html .= ' <span class="rss-date">' . $item_date . '</span><br />';
                 $content = $item->get_content();
                 $content = wp_html_excerpt($content, 120) . ' ...';
-                echo $content;
-                echo '</li>';
+                $html .= $content;
+                $html .= '</li>';
             endforeach;
         }
-        echo '</ul></div>';
+        $html .= '</ul></div>';
+        set_transient( 'wpsh_dashboard_site_feed', $html, 12 * HOUR_IN_SECONDS );
     }
 
     /**
@@ -817,6 +831,7 @@ class WPSH_Core
         {
             return;
         }
+
         $jdate = $this->wp_shamsi(null, 'l d F Y', time());
         $gdate = date('l d F Y', time());
         $jtime = $this->wp_shamsi(null, 'g:i a', time());
