@@ -94,8 +94,8 @@ class WPSH_Options extends WPSH_Core
                 array(
                     'type' => 'content',
                     'wrap_class' => 'no-border-bottom',
-                    'title' => __('پشتیبانی', 'wpsh') ,
-                    'content' => __('برای دریافت پشتیبانی می توانید به <a href="https://wpvar.com">wpvar.com</a> مراجعه کنید', 'wpsh') ,
+                    'title' => __('وردپرس', 'wpsh') ,
+                    'content' => __('این افزونه توسط <a href="https://wpvar.com" target="_blank">wpvar.com</a> برنامه نویسی شده است <br />اگر مشکلی در راه اندازی ویا استفاده از وردپرس دارید، برای دریافت پشتیبانی می توانید به <a href="https://wpvar.com/forums/" target="_blank">انجمن پشتیبانی وردپرس فارسی</a> مراجعه کنید', 'wpsh') ,
                     'before' => '<img style="margin: 0 0 -7px 3px;" src=' . WPSH_URL . 'assets/img/logo.png /><strong>وردپرس فارسی</strong>',
                 ) ,
                 array(
