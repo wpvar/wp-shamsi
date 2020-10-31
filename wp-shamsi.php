@@ -124,6 +124,11 @@ class WPSH_Core
             'admin_script'
         ) , 1);
 
+        add_action('login_enqueue_scripts', array(
+            $this,
+            'login_themes'
+        ));
+
         if (!empty($this->option('translate-group') [0]['translate-target']))
         {
             add_filter('gettext', array(
@@ -134,6 +139,14 @@ class WPSH_Core
                 $this,
                 'translate'
             ) , 20, 1);
+        }
+
+        if (get_locale() == 'fa_IR' || get_locale() == 'fa_AF')
+        {
+            add_filter('wp_mail', array(
+                $this,
+                'email'
+            ));
         }
 
         add_filter('plugin_action_links_' . plugin_basename(__FILE__) , array(
@@ -220,7 +233,10 @@ class WPSH_Core
     {
 
         $settings_link = '<a href="' . get_admin_url() . 'admin.php?page=wpsh">' . __('تنظیمات', 'wpsh') . '</a>';
-        array_push($links, $settings_link);
+        $wpvar = '<a href="https://wpvar.com/edu/" target="_blank">' . __('آموزش وردپرس', 'wpsh') . '</a>';
+        $forum_link = '<a href="https://wpvar.com/forums/" target="_blank">' . __('انجمن پشتیبانی', 'wpsh') . '</a>';
+
+        array_push($links, $settings_link, $forum_link, $wpvar);
         return $links;
 
     }
@@ -417,6 +433,22 @@ class WPSH_Core
     }
 
     /**
+     * Change login page style
+     *
+     * Make login pages style farsi friendly.
+     *
+     * @since 1.4.0
+     *
+     */
+    public function login_themes() {
+
+      wp_enqueue_style('wpsh-admin-css', plugin_dir_url(__FILE__) . 'assets/css/wpsh_admin.css');
+
+      $this->themes('wp-admin');
+      
+    }
+
+    /**
      * Translate strings
      *
      * Function to translate strings to farsi.
@@ -440,6 +472,25 @@ class WPSH_Core
             $string = str_ireplace($txt['translate-source'], $txt['translate-target'], $string);
         }
         return $string;
+    }
+
+    /**
+     * Filter outgoing mails
+     *
+     * Filters mails to change and update support site
+     *
+     * @since 1.4.0
+     *
+     * @param array $args Email function arguments.
+     * @return array Returns filtered arguments.
+     */
+    public function email($args)
+    {
+
+        $args['message'] = str_ireplace('http://wp-persian.com/', 'https://wpvar.com/', $args['message']);
+        $args['message'] = str_ireplace('WP-Persian.com', 'wpvar.com', $args['message']);
+
+        return $args;
     }
 
     /**
@@ -497,7 +548,7 @@ class WPSH_Core
             return $date;
         }
 
-        if($this->option('activate-admin-shamsi', true, false) && is_admin())
+        if ($this->option('activate-admin-shamsi', true, false) && is_admin())
         {
             return $date;
         }
@@ -711,12 +762,12 @@ class WPSH_Core
      */
     public function dashboard()
     {
-        $transient = get_transient( 'wpsh_dashboard_site_feed' );
+        $transient = get_transient('wpsh_dashboard_site_feed');
 
-        if(!WP_DEBUG && $transient)
+        if (!WP_DEBUG && $transient)
         {
-          echo $transient;
-          return;
+            echo $transient;
+            return;
         }
 
         include_once (ABSPATH . WPINC . '/feed.php');
@@ -752,7 +803,7 @@ class WPSH_Core
             endforeach;
         }
         $html .= '</ul></div>';
-        set_transient( 'wpsh_dashboard_site_feed', $html, 12 * HOUR_IN_SECONDS );
+        set_transient('wpsh_dashboard_site_feed', $html, 12 * HOUR_IN_SECONDS);
     }
 
     /**

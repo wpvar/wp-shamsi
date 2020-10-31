@@ -95,7 +95,7 @@ class WPSH_Options extends WPSH_Core
                     'type' => 'content',
                     'wrap_class' => 'no-border-bottom',
                     'title' => __('وردپرس', 'wpsh') ,
-                    'content' => __('این افزونه توسط <a href="https://wpvar.com" target="_blank">wpvar.com</a> برنامه نویسی شده است <br />اگر مشکلی در راه اندازی ویا استفاده از وردپرس دارید، برای دریافت پشتیبانی می توانید به <a href="https://wpvar.com/forums/" target="_blank">انجمن پشتیبانی وردپرس فارسی</a> مراجعه کنید', 'wpsh') ,
+                    'content' => __('این افزونه توسط <a href="https://wpvar.com" target="_blank">wpvar.com</a> برنامه نویسی شده است <br />اگر مشکلی در راه اندازی و استفاده از وردپرس ویا این افزونه دارید، برای دریافت پشتیبانی رایگان می توانید به <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن پشتیبانی وردپرس فارسی</a></strong> مراجعه کنید', 'wpsh') ,
                     'before' => '<img style="margin: 0 0 -7px 3px;" src=' . WPSH_URL . 'assets/img/logo.png /><strong>وردپرس فارسی</strong>',
                 ) ,
                 array(
@@ -435,8 +435,8 @@ class WPSH_Options extends WPSH_Core
                   برخلاف نمونه های مشابه، این افزونه کمترین تغییر را در هسته وردپرس انجام می دهد و در نتیجه موجب افت سرعت و عملکرد وردپرس نمی شود و عاری از هرگونه خطا می باشد. کدهای افزونه چندمرتبه جهت افزایش عملکرد و استاندارد سازی بررسی شده اند.<br />
                   از ویژگی های دیگر افزونه، وجود همه امکانات فارسی سازی در یک افزونه است. تنها با نصب این افزونه دیگر نیازی به افزونه های دیگر برای فارسی سازی سایتتان نخواهید داشت.<br /><br />
                   <strong>برنامه نویس:</strong> علی فرجی <br />
-                  <strong>وبسایت:</strong> <a href="https://wpvar.com" target="_blank">وردپرس فارسی</a>
-	     <strong>ایمیل:</strong> <a href="https://wpvar.com/contact/" target="_blank">تماس با ما</a>
+                  <strong>وبسایت:</strong> <a href="https://wpvar.com" target="_blank">وردپرس فارسی</a><br />
+	                <strong>ایمیل:</strong> <a href="https://wpvar.com/contact/" target="_blank">تماس با ما</a><br />
                   </p>
                   <h2>تشکر ها</h2>
                   <ul>
