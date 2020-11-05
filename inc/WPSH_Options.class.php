@@ -50,7 +50,7 @@ class WPSH_Options extends WPSH_Core
         $result = '<br /><ul>';
         foreach ($themes as $key => $value)
         {
-            $result .= '<li><a href="https://wordpress.org/themes/' . $value . '" target="_blank" rel="bofollow">' . ucfirst($value) . '</a></li>';
+            $result .= '<li><a href="https://wpvar.com/downloads/' . $value . '/" target="_blank">' . ucfirst($value) . '</a></li>';
         }
         $result .= '</ul>';
 
