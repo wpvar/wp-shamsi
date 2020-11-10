@@ -68,17 +68,18 @@ class WPSH_Disable_Admin_Addon extends WPSH_Addons
 
     public function admin($bar)
     {
-      $user = wp_get_current_user();
-      $disallowed_roles = array(
-          'subscriber'
-      );
-      if (is_admin() && array_intersect($disallowed_roles, $user->roles) && !defined( 'DOING_AJAX' ))
-      {
-          wp_redirect(home_url());
-          exit;
-      }
+        $user = wp_get_current_user();
+        $disallowed_roles = array(
+            'subscriber'
+        );
+        if (is_admin() && array_intersect($disallowed_roles, $user->roles) && !defined('DOING_AJAX'))
+        {
+            wp_redirect(home_url());
+            exit;
+        }
     }
 
 }
 
 new WPSH_Disable_Admin_Addon();
+

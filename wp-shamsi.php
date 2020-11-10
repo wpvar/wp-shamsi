@@ -20,7 +20,7 @@ defined('ABSPATH') or die();
 define('WPSH_URL', plugin_dir_url(__FILE__));
 define('WPSH_PATH', plugin_dir_path(__FILE__));
 
-define('WPSH_VERSION', '1.4.0 بتا'); //.VERSION !!
+define('WPSH_VERSION', '1.4.0'); //.VERSION !!
 if (!class_exists('WPSH_DateAbstract'))
 {
     require_once plugin_dir_path(__FILE__) . 'lib/Date/DateAbstract.php';
@@ -445,7 +445,7 @@ class WPSH_Core
       wp_enqueue_style('wpsh-admin-css', plugin_dir_url(__FILE__) . 'assets/css/wpsh_admin.css');
 
       $this->themes('wp-admin');
-      
+
     }
 
     /**
@@ -878,7 +878,7 @@ class WPSH_Core
      */
     public function date_bar($wp_admin_bar)
     {
-        if (!$this->option('admin-bar-date', true))
+        if (!$this->option('admin-bar-date', true) || $this->option('activate-admin-shamsi', true))
         {
             return;
         }
