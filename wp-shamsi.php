@@ -3,7 +3,7 @@
  * Plugin Name:       تاریخ شمسی و فارسی ساز وردپرس
  * Plugin URI:        https://wpvar.com/wp-shamsi
  * Description:       تبدیل تاریخ وردپرس به هجری شمسی براساس تقویم ایران و فارسی سازی رابط کاربری وردپرس
- * Version:           1.4.0
+ * Version:           2.0.0
  * Requires at least: 4
  * Requires PHP:      5.3
  * Author:            wpvar.com
@@ -20,7 +20,7 @@ defined('ABSPATH') or die();
 define('WPSH_URL', plugin_dir_url(__FILE__));
 define('WPSH_PATH', plugin_dir_path(__FILE__));
 
-define('WPSH_VERSION', '1.4.0'); //.VERSION !!
+define('WPSH_VERSION', '2.0.0'); //.VERSION !!
 if (!class_exists('WPSH_DateAbstract'))
 {
     require_once plugin_dir_path(__FILE__) . 'lib/Date/DateAbstract.php';
@@ -77,7 +77,6 @@ class WPSH_Core
      */
     function __construct()
     {
-
         register_activation_hook(__FILE__, array(
             $this,
             'init'
@@ -88,14 +87,14 @@ class WPSH_Core
             add_filter('wp_date', array(
                 $this,
                 'wp_shamsi'
-            ) , 10, 3);
+            ) , 10, 4);
         }
         else
         {
             add_filter('date_i18n', array(
                 $this,
                 'wp_shamsi'
-            ) , 10, 3);
+            ) , 10, 4);
         }
 
         if ($this->option('activate-shamsi-archive', true))
@@ -162,7 +161,17 @@ class WPSH_Core
             ));
         }
 
-        if (get_locale() == 'fa_IR' || get_locale() == 'fa_AF' || is_admin())
+        $zone = wp_timezone_string();
+
+        if ((get_locale() == 'fa_IR' || get_locale() == 'fa_AF') && $zone != 'Asia/Tehran' && $zone != 'Asia/Kabul' && $zone != '+03:30' && $zone != '+04:30')
+        {
+            add_action('admin_notices', array(
+                $this,
+                'no_valid_zone'
+            ));
+        }
+
+        if ((get_locale() == 'fa_IR' || get_locale() == 'fa_AF') && is_admin())
         {
             add_filter('dashboard_secondary_link', array(
                 $this,
@@ -178,11 +187,31 @@ class WPSH_Core
                 $this,
                 'farsi_support'
             ));
-            add_action('admin_bar_menu', array(
+            add_filter('the_post', array(
                 $this,
-                'date_bar'
-            ) , 1000);
+                'display_post_date'
+            ) , 99, 1);
+
+            if (isset($_GET['post']) && isset($_GET['action']) && esc_attr($_GET['action']) == 'edit')
+            {
+                add_filter('gettext', array(
+                    $this,
+                    'display_post_month'
+                ) , 10, 1);
+            }
         }
+        add_filter('wp_insert_post_data', array( //wp_update_post_data
+            $this,
+            'save_post_date'
+        ) , 99, 1);
+        add_filter('wp_update_comment_data', array(
+            $this,
+            'save_comment_date'
+        ) , 99, 1);
+        add_action('admin_bar_menu', array(
+            $this,
+            'date_bar'
+        ) , 1000);
 
     }
 
@@ -210,11 +239,38 @@ class WPSH_Core
      * @since 1.2.0
      *
      */
-    function no_farsi()
+    public function no_farsi()
     {
 ?>
         <div class="notice notice-warning is-dismissible">
-          <p><?php _e('<strong>هشدار:</strong> بسته زبانی فارسی وردپرس فعال نیست. برای فعال سازی آن <a href="' . get_admin_url() . 'options-general.php">از این صفحه</a> زبان سایت را به <strong>فارسی</strong> تغییر دهید', 'wpsh'); ?></p>
+          <p><?php _e('<strong>هشدار:</strong> بسته زبانی فارسی وردپرس فعال نیست. برای فعال سازی آن <a href="' . get_admin_url() . 'options-general.php#default_role">از این صفحه</a> زبان سایت را به <strong>فارسی</strong> تغییر دهید', 'wpsh'); ?></p>
+        </div>
+        <?php
+    }
+
+    /**
+     * Timezone is not set to farsi countries
+     *
+     * Triggers warning When timezone is not set to Tehran or Kabul
+     *
+     * @since 2.0.0
+     *
+     */
+    public function no_valid_zone()
+    {
+        if (get_locale() == 'fa_IR')
+        {
+            $city = 'تهران';
+        }
+
+        if (get_locale() == 'fa_AF')
+        { // Future support if fa_AF becomes available
+            $city = 'کابل';
+        }
+
+?>
+        <div class="notice notice-warning is-dismissible">
+          <p><?php _e('<strong>توجه:</strong> برای عملکرد دقیق تر شمسی ساز، زمان محلی را <a href="' . get_admin_url() . 'options-general.php#WPLANG">از این صفحه</a> به <strong>' . $city . '</strong> تغییر دهید', 'wpsh'); ?></p>
         </div>
         <?php
     }
@@ -289,7 +345,7 @@ class WPSH_Core
     public function script()
     {
         if ($this->option('persian-num', true)):
-            wp_enqueue_script('wpsh-num', plugin_dir_url(__FILE__) . 'assets/js/wpsh_num.js', array(
+            wp_enqueue_script('wpsh', plugin_dir_url(__FILE__) . 'assets/js/wpsh.js', array(
                 'jquery'
             ));
         endif;
@@ -317,6 +373,14 @@ class WPSH_Core
      */
     public function admin_script()
     {
+
+        if (!$this->option('activate-admin-shamsi', true))
+        {
+            wp_enqueue_script('wpsh-admin', WPSH_URL . 'assets/js/wpsh_admin.js', array(
+                'jquery'
+            ) , false, true);
+        }
+
         if ($this->option('dashboard-font', true)):
 
             $this->themes('wp-admin'); // Since 1.2.0
@@ -324,10 +388,60 @@ class WPSH_Core
         endif;
 
         if ($this->option('persian-admin-num', true)):
-            wp_enqueue_script('wpsh-num', plugin_dir_url(__FILE__) . 'assets/js/wpsh_num.js', array(
+            wp_enqueue_script('wpsh', plugin_dir_url(__FILE__) . 'assets/js/wpsh.js', array(
                 'jquery'
             ));
         endif;
+
+        if ($this->option('activate-shamsi', true) && !$this->option('activate-admin-shamsi', true)):
+            $js = (string)'';
+            if (wp_script_is('wp-i18n'))
+            {
+                $js .= '
+            wp.i18n.setLocaleData({
+              "October": [
+                "دی"
+              ],
+              "November": [
+                "بهمن"
+              ],
+              "December": [
+                "اسفند"
+              ],
+              "January": [
+                "فروردین"
+              ],
+              "February": [
+                "اردیبهشت"
+              ],
+              "March": [
+                "خرداد"
+              ],
+              "April": [
+                "تیر"
+              ],
+              "May": [
+                "مرداد"
+              ],
+              "June": [
+                "شهریور"
+              ],
+              "July": [
+                "مهر"
+              ],
+              "August": [
+                "آبان"
+              ],
+              "September": [
+                "آذر"
+              ]
+            });
+            ';
+            }
+            wp_add_inline_script('wpsh-admin', $js);
+
+        endif;
+
     }
 
     /**
@@ -343,7 +457,7 @@ class WPSH_Core
     public function supported_themes()
     {
         $themes = array(
-            'twentytwentyone', // Since 1.4.0
+            'twentytwentyone', // Since 2.0.0
             'twentytwenty', // Since 1.2.0
             'twentynineteen', // Since 1.2.0
             'astra', // Since 1.2.0
@@ -413,6 +527,7 @@ class WPSH_Core
             font-style: normal;
         }
         ';
+
         if ($theme != 'wp-admin')
         {
             include plugin_dir_path(__FILE__) . 'themes/' . $theme . '.theme.php';
@@ -437,14 +552,15 @@ class WPSH_Core
      *
      * Make login pages style farsi friendly.
      *
-     * @since 1.4.0
+     * @since 2.0.0
      *
      */
-    public function login_themes() {
+    public function login_themes()
+    {
 
-      wp_enqueue_style('wpsh-admin-css', plugin_dir_url(__FILE__) . 'assets/css/wpsh_admin.css');
+        wp_enqueue_style('wpsh-admin-css', plugin_dir_url(__FILE__) . 'assets/css/wpsh_admin.css');
 
-      $this->themes('wp-admin');
+        $this->themes('wp-admin');
 
     }
 
@@ -479,7 +595,7 @@ class WPSH_Core
      *
      * Filters mails to change and update support site
      *
-     * @since 1.4.0
+     * @since 2.0.0
      *
      * @param array $args Email function arguments.
      * @return array Returns filtered arguments.
@@ -540,8 +656,19 @@ class WPSH_Core
      * @param int $timestamp Date in timestamp.
      * @return mixed converted date.
      */
-    public function wp_shamsi($date = null, $format = null, $timestamp = null)
+    public function wp_shamsi($date = null, $format = null, $timestamp = null, $timezone = null)
     {
+
+        $date = $this->normalize_date($date);
+
+        if ($date != null)
+        {
+            $check_point = date('Y', strtotime($date));
+            if ($check_point < 1970)
+            {
+                return $date;
+            }
+        }
 
         if (!$this->option('activate-shamsi', true))
         {
@@ -565,14 +692,204 @@ class WPSH_Core
         $format = str_replace('S', '', $format);
         $format = str_replace('js', 'j s', $format);
 
-        $date = new WPSH_Jalali($timestamp, $this->timezone());
+        if ($timezone == null)
+        {
+            $timezone = $this->timezone();
+        }
+
+        $date = new WPSH_Jalali($timestamp, $timezone);
         $date = $date->format($format);
 
-        /* Deprecated since 1.4.0 */
+        /* Deprecated since 2.0.0 */
         //$date = $this->persian_num($date);
         /* Filter returned date to extend plugins developement capacity */
-        return apply_filters('wp_jdate', $date, $format, $timestamp);
+        return apply_filters('wp_jdate', $date, $format, $timestamp, $timezone);
 
+    }
+
+    /**
+     * Check if block editor is active
+     *
+     * Returns true if block editor is currently has been loaded.
+     *
+     * @since 2.0.0
+     *
+     * @return bool true or false.
+     */
+    public function block_editor()
+    {
+        if (function_exists('get_current_screen'))
+        {
+            $screen = get_current_screen();
+            if (method_exists($screen, 'is_block_editor'))
+            {
+                return ($screen->is_block_editor() == 1) ? true : false;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Gutenberg post shamsi schedule
+     *
+     * Converts Gutenberg Gregorian schedule to shamsi one.
+     *
+     * @since 2.0.0
+     *
+     * @param object $post post Object.
+     * @return object post Object.
+     */
+    public function display_post_date($post)
+    {
+
+        if (!$this->block_editor())
+        {
+            return $post;
+        }
+
+        $gregorian_stamp = strtotime($post->post_date, time());
+        $gregorian_stamp_gmt = strtotime($post->post_date, time());
+
+        $post->post_date = $this->wp_shamsi(null, 'Y-m-d H:i:s', $gregorian_stamp, 'UTC');
+        //$post->post_date_gmt = $this->wp_shamsi(null, 'Y-m-d H:i:s', $gregorian_stamp_gmt, 0);
+        return $post;
+    }
+
+    /**
+     * Gutenberg post farsi month
+     *
+     * Filter to translate english month to farsi in gutenberg editor
+     *
+     * @since 2.0.0
+     *
+     * @param string $string Translation strings.
+     * @return string Translated strings.
+     */
+    public function display_post_month($string)
+    {
+
+        $fa = array(
+            'ژانویه',
+            'فوریه',
+            'مارس',
+            'آوریل',
+            'می',
+            'ژوئن',
+            'جولای',
+            'آگوست',
+            'سپتامبر',
+            'اکتبر',
+            'نوامبر',
+            'دسامبر'
+        );
+        $true_fa = array(
+            'فروردین',
+            'اردیبهشت',
+            'خرداد',
+            'تیر',
+            'مرداد',
+            'شهریور',
+            'مهر',
+            'آبان',
+            'آذر',
+            'دی',
+            'بهمن',
+            'اسفند'
+        );
+
+        $string = str_replace($fa, $true_fa, $string);
+
+        return $string;
+    }
+
+    /**
+     * Post date to gregorian
+     *
+     * Converts any shamsi dates that wants to be stored in posts database to gregorian.
+     *
+     * @since 2.0.0
+     *
+     * @param array $data post data in array.
+     * @return array new validated post in array.
+     */
+    public function save_post_date($data)
+    {
+        $check_point = date('Y', strtotime($data['post_date']));
+        if ($check_point >= 1970)
+        {
+            return $data;
+        }
+        $data['post_date'] = $this->gregorian($data['post_date'], 'Y-m-d H:i:s');
+        $data['post_date_gmt'] = $this->gregorian($data['post_date_gmt'], 'Y-m-d H:i:s');
+
+        return $data;
+    }
+
+    /**
+     * Comment date to gregorian
+     *
+     * Converts any shamsi dates that wants to be stored in comments database to gregorian.
+     *
+     * @since 2.0.0
+     *
+     * @param array $data comment data in array.
+     * @return array new validated comment data in array.
+     */
+    public function save_comment_date($data)
+    {
+        $check_point = date('Y', strtotime($data['comment_date']));
+        if ($check_point >= 1970)
+        {
+            return $data;
+        }
+        $data['comment_date'] = $this->gregorian($data['comment_date'], 'Y-m-d H:i:s');
+        $data['comment_date_gmt'] = $this->gregorian($data['comment_date_gmt'], 'Y-m-d H:i:s');
+
+        return $data;
+    }
+
+    /**
+     * Farsi numbers to English
+     *
+     * Farsi numbers should not be processed within PHP or Database
+     *
+     * @since 2.0.0
+     *
+     * @param string $data Date wich we want to validate.
+     * @return string new validated date.
+     */
+    private function normalize_date($data)
+    {
+
+        $fa = array(
+            '۰',
+            '۱',
+            '۲',
+            '۳',
+            '۴',
+            '۵',
+            '۶',
+            '۷',
+            '۸',
+            '۹'
+        );
+
+        $en = array(
+            '0',
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9'
+        );
+
+        $data = str_replace($fa, $en, $data);
+
+        return $data;
     }
 
     /**
@@ -580,7 +897,7 @@ class WPSH_Core
      *
      * Convert Shamsi dates to Gregorian.
      *
-     * @since 1.4.0
+     * @since 2.0.0
      *
      * @param mixed $date Date to convert.
      * @param string $format Format of converted dates.
@@ -588,6 +905,8 @@ class WPSH_Core
      */
     public function gregorian($date, $format = null)
     {
+
+        $date = $this->normalize_date($date);
 
         if ($format == null)
         {
@@ -606,7 +925,7 @@ class WPSH_Core
      *
      * Before showing dates converts its latin numbers to farsi.
      *
-     * @deprecated 1.4.0
+     * @deprecated 2.0.0
      *
      * @param int $content Number to convert.
      * @return int Converted number.
@@ -614,6 +933,7 @@ class WPSH_Core
     private function persian_num($content) // Display dates in persian numbers evein if jQuery is not available or dates displayed in admin area
 
     {
+
         if (!$this->option('persian-num', true))
         {
             return $content;
@@ -668,52 +988,52 @@ class WPSH_Core
     public function archive($list, $url, $text, $format, $before, $after, $selected)
     {
 
-        $patterns_en = array(
-            '/January/',
-            '/February/',
-            '/March/',
-            '/April/',
-            '/May/',
-            '/June/',
-            '/July/',
-            '/August/',
-            '/September/',
-            '/October/',
-            '/November/',
-            '/December/'
-        );
-
-        $patterns = array(
-            '/ژانویه/',
-            '/فوریه/',
-            '/مارس/',
-            '/آوریل/',
-            '/می/',
-            '/ژوئن/',
-            '/جولای/',
-            '/آگوست/',
-            '/سپتامبر/',
-            '/اکتبر/',
-            '/نوامبر/',
-            '/دسامبر/'
-        );
-
         $text = strip_tags($text);
         $url = esc_url($url);
         $aria_current = $selected ? ' aria-current="page"' : '';
 
-        $text = preg_replace($patterns_en, '', $text);
-        $text = preg_replace($patterns, '', $text);
+        $year = (int)filter_var($text, FILTER_SANITIZE_NUMBER_INT);
+        $patterns = array(
+            'ژانویه',
+            'فوریه',
+            'مارس',
+            'آوریل',
+            'می',
+            'ژوئن',
+            'جولای',
+            'آگوست',
+            'سپتامبر',
+            'اکتبر',
+            'نوامبر',
+            'دسامبر'
+        );
+        $month = array(
+            'دی و بهمن',
+            'بهمن و اسفند',
+            'اسفند و فروردین',
+            'فروردین و اردیبهشت',
+            'اردیبهشت و خرداد',
+            'خرداد و تیر',
+            'تیر و مرداد',
+            'مرداد و شهریور',
+            'شهریور و مهر',
+            'مهر و آبان',
+            'آبان و آذر',
+            'آذر و دی'
+        );
+        $farsi_month = '';
+        foreach ($patterns as $key => $value)
+        {
+            if (strpos($text, $value) !== false)
+            {
+                $farsi_month .= $key;
+            }
+        }
+        $stamp = strtotime($year . '/' . ($farsi_month + 1) . '/1', time());
+        $shamsi_year = $this->wp_shamsi(null, 'Y', $stamp);
+        $text = $month[$farsi_month] . ' ' . $shamsi_year;
 
-        $year = substr((int)filter_var($text, FILTER_SANITIZE_NUMBER_INT) , -4);
-        $month = substr((int)filter_var($list, FILTER_SANITIZE_NUMBER_INT) , -6, -4);
-
-        $date = new WPSH_Jalali(strtotime($year . '/' . $month . '/1'));
-        $date = $date->format('F Y');
-
-        $text = str_replace($year, $date, $text);
-
-        /* Deprecated since 1.4.0 */
+        /* Deprecated since 2.0.0 */
         //$text = $this->persian_num($text);
         if ('link' === $format)
         {
@@ -847,7 +1167,7 @@ class WPSH_Core
      *
      * Add link to free wordpress support forums if locale is farsi.
      *
-     * @since 1.4.0
+     * @since 2.0.0
      *
      */
     public function farsi_support()
@@ -872,7 +1192,7 @@ class WPSH_Core
      *
      * Add date bar to toolbar
      *
-     * @since 1.4.0
+     * @since 2.0.0
      *
      * @param object $wp_admin_bar Native Object to add menus to toolbar.
      */

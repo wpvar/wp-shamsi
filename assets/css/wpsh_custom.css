@@ -2,3 +2,6 @@
     content: '\f508';
     top: 2px;
 }
+.rtl #wpadminbar * {
+  font-family: Vazir, tahoma, sans-serif, arial;
+}

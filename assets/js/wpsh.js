@@ -1,3 +1,23 @@
+/**
+
+ __          _______     _____ _    _          __  __  _____ _____
+ \ \        / /  __ \   / ____| |  | |   /\   |  \/  |/ ____|_   _|
+  \ \  /\  / /| |__) | | (___ | |__| |  /  \  | \  / | (___   | |
+   \ \/  \/ / |  ___/   \___ \|  __  | / /\ \ | |\/| |\___ \  | |
+    \  /\  /  | |       ____) | |  | |/ ____ \| |  | |____) |_| |_
+     \/  \/   |_|      |_____/|_|  |_/_/    \_\_|  |_|_____/|_____|
+
+                                                                   
+ * @author Ali Faraji
+ * @website https://wpvar.com
+ * @copyright Copyright Ali Faraji (mail.wpvar@gmail.com) | https://wpvar.com
+ *
+ * @version WP Shamsi aka افزونه شمسی ساز و فارسی ساز وردپرس  V2.0.0
+ *
+ * @info https://wordpress.org/plugins/wp-shamsi/
+ *
+ */
+
 jQuery(document).ready(function() {
   persian = {
     0: '۰',
@@ -15,6 +35,7 @@ jQuery(document).ready(function() {
     "CODE",
     "HEAD",
     "INPUT",
+    "OPTION",
     "PRE",
     "SCRIPT",
     "STYLE",
@@ -38,4 +59,5 @@ jQuery(document).ready(function() {
     }
   }
   wpsh_num(document.body);
+
 });

@@ -10,7 +10,7 @@ defined('ABSPATH') or die();
  *
  * Runs Shamsi Calendar widghet and block. Converts calendars to shamsi.
  *
- * @since 1.4
+ * @since 2.0.0
  */
 class WPSH_Calendar extends WPSH_Core
 {
@@ -20,7 +20,7 @@ class WPSH_Calendar extends WPSH_Core
      *
      * Construct Calendar class.
      *
-     * @since 1.4
+     * @since 2.0.0
      *
      */
     function __construct()
@@ -40,7 +40,7 @@ class WPSH_Calendar extends WPSH_Core
      *
      * Filters georgian calendar and create shamsi one based on that.
      *
-     * @since 1.4.0
+     * @since 2.0.0
      *
      * @param mixed $calendar_output HTML input.
      * @return mixed HTML output.
@@ -56,7 +56,7 @@ class WPSH_Calendar extends WPSH_Core
      *
      * Function to make accessing parent class easy.
      *
-     * @since 1.4.0
+     * @since 2.0.0
      *
      * @param mixed $date Georgian dates.
      * @param string $format Format of date.
@@ -82,7 +82,7 @@ class WPSH_Calendar extends WPSH_Core
      *
      * Created Shamsi calendar based on georgian one.
      *
-     * @since 1.4
+     * @since 2.0.0
      *
      * @param bool $initial Whether to use initial calendar names. Default true.
      * @param bool $echo    Whether to display the calendar output. Default true.
@@ -264,6 +264,7 @@ class WPSH_Calendar extends WPSH_Core
             if (in_array($day, $daywithpost, true))
             {
                 $date_format = gmdate(_x('F j, Y', 'daily archives date format') , strtotime("{$thisyear}-{$thismonth}-{$day}"));
+
                 $label = sprintf(__('Posts published on %s') , $this->shamsi($date_format, _x('F j, Y', 'daily archives date format')));
                 $calendar_output .= sprintf('<a href="%s" aria-label="%s">%s</a>', get_day_link($thisyear, $thismonth, $day) , esc_attr($label) , $faday);
             }
@@ -322,7 +323,7 @@ class WPSH_Calendar extends WPSH_Core
             /**
              * Filters the HTML Shamsi calendar output.
              *
-             * @since 1.4
+             * @since 2.0.0
              *
              * @param string $calendar_output HTML output of the calendar.
              */

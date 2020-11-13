@@ -9,7 +9,7 @@ defined('ABSPATH') or die();
  *
  * Class to Disable Access to wp-admin
  *
- * @since 1.4.0
+ * @since 2.0.0
  */
 class WPSH_Disable_Admin_Addon extends WPSH_Addons
 // You can use WPSH_Core class as well

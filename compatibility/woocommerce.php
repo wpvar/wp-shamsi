@@ -10,7 +10,7 @@ defined('ABSPATH') or die();
  *
  * Woocommerce Compability Class
  *
- * @since 1.4.0
+ * @since 2.0.0
  */
 class WPSH_Woo extends WPSH_Core
 
