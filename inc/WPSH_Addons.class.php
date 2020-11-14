@@ -52,5 +52,4 @@ class WPSH_Addons extends WPSH_Core
         return $validate;
     }
 }
-new WPSH_Addons();
 

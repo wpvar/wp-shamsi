@@ -334,5 +334,4 @@ class WPSH_Calendar extends WPSH_Core
     }
 
 }
-new WPSH_Calendar();
 

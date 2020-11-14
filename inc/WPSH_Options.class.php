@@ -482,5 +482,3 @@ class WPSH_Options extends WPSH_Core
     }
 }
 
-new WPSH_Options('wpsh');
-

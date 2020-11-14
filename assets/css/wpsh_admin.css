@@ -18,3 +18,43 @@ body.rtl {
     content: '\f508';
     top: 2px;
 }
+
+.rtl .DayPicker_weekHeader {
+  display: none;
+}
+
+.rtl .components-datetime__date .DayPickerNavigation_leftButton__horizontalDefault {
+  right: auto !important;
+}
+
+#farsi-shotcuts ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  margin-top: 20px;
+  min-height: 50px;
+  margin-right: -15px;
+}
+
+#farsi-shotcuts li {
+  float: right;
+  min-width: 20%;
+  text-align: center;
+  color: #486581;
+}
+
+#farsi-shotcuts li a {
+  color: #486581;
+}
+
+#farsi-shotcuts li a:hover {
+  color: #0073aa;
+}
+
+#farsi-shotcuts span {
+  font-family: dashicons;
+  font-size: 3em;
+  display: inline;
+  text-align: center;
+}
