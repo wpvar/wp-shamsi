@@ -53,3 +53,4 @@ class WPSH_Addons extends WPSH_Core
     }
 }
 new WPSH_Addons();
+
