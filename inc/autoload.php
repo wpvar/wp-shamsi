@@ -17,12 +17,11 @@ function wpsh_autoload($className)
 }
 
 new WPSH_Libs();
-new WPSH_Options('wpsh');
-
 new WPSH_Core();
 
 if (is_admin())
 {
+    new WPSH_Options('wpsh');
     new WPSH_Admin();
 }
 
