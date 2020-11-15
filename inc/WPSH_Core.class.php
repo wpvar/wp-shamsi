@@ -101,6 +101,9 @@ class WPSH_Core
 
         update_option('start_of_week', 6);
         load_plugin_textdomain('wpsh');
+        delete_transient('dash_v2_' . md5('dashboard_primary_fa_IR'));
+        delete_transient('feed_' . md5('dashboard_primary_fa_IR'));
+        wp_cache_flush();
 
     }
 

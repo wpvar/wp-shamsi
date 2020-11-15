@@ -64,17 +64,21 @@ class WPSH_Admin extends WPSH_Core
             ));
         }
 
-        $zone = wp_timezone_string();
-
-        if ((get_locale() == 'fa_IR' || get_locale() == 'fa_AF') && $zone != 'Asia/Tehran' && $zone != 'Asia/Kabul' && $zone != '+03:30' && $zone != '+04:30')
+        if (function_exists('wp_timezone_string'))
         {
-            add_action('admin_notices', array(
-                $this,
-                'no_valid_zone'
-            ));
+
+            $zone = wp_timezone_string();
+
+            if ((get_locale() == 'fa_IR' || get_locale() == 'fa_AF') && $zone != 'Asia/Tehran' && $zone != 'Asia/Kabul' && $zone != '+03:30' && $zone != '+04:30')
+            {
+                add_action('admin_notices', array(
+                    $this,
+                    'no_valid_zone'
+                ));
+            }
         }
 
-        add_filter('plugin_action_links_' . WPSH_BASE , array(
+        add_filter('plugin_action_links_' . WPSH_BASE, array(
             $this,
             'add_settings_link'
         ));
@@ -153,8 +157,7 @@ class WPSH_Admin extends WPSH_Core
             endforeach;
         }
         $html .= '</ul></div>';
-        $html .=
-        '<div id="farsi-shortcuts" class="farsi-shortcuts">
+        $html .= '<div id="farsi-shortcuts" class="farsi-shortcuts">
           <ul>
             <li><a href="https://wpvar.com" target="_blank" title="وردپرس فارسی"><span class="dashicons dashicons-wordpress"></span></a></li>
             <li><a href="https://wpvar.com/downloads/themes/" target="_blank" title="قالب های وردپرس"><span class="dashicons dashicons-admin-appearance"></a></span></li>
