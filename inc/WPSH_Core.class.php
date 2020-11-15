@@ -151,7 +151,7 @@ class WPSH_Core
      */
     public function script()
     {
-        if ($this->option('persian-num', true)):
+        if ($this->option('persian-num', true, true)):
             wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array(
                 'jquery'
             ));
@@ -210,7 +210,7 @@ class WPSH_Core
      */
     public function themes($theme)
     {
-        if (!$this->option('fa-theme', true))
+        if (!$this->option('fa-theme', true, true))
         {
             return false;
         }
@@ -396,7 +396,7 @@ class WPSH_Core
             }
         }
 
-        if (!$this->option('activate-shamsi', true))
+        if (!$this->option('activate-shamsi', true, true))
         {
             return $date;
         }
@@ -431,28 +431,6 @@ class WPSH_Core
         /* Filter returned date to extend plugins developement capacity */
         return apply_filters('wp_jdate', $date, $format, $timestamp, $timezone);
 
-    }
-
-    /**
-     * Check if block editor is active
-     *
-     * Returns true if block editor is currently has been loaded.
-     *
-     * @since 2.0.0
-     *
-     * @return bool true or false.
-     */
-    public function block_editor()
-    {
-        if (function_exists('get_current_screen'))
-        {
-            $screen = get_current_screen();
-            if (method_exists($screen, 'is_block_editor'))
-            {
-                return ($screen->is_block_editor() == 1) ? true : false;
-            }
-        }
-        return false;
     }
 
     /**
@@ -587,7 +565,7 @@ class WPSH_Core
 
     {
 
-        if (!$this->option('persian-num', true))
+        if (!$this->option('persian-num', true, true))
         {
             return $content;
         }

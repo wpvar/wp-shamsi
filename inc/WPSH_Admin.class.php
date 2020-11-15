@@ -240,7 +240,6 @@ class WPSH_Admin extends WPSH_Core
      */
     public function display_post_date($post)
     {
-
         if (!$this->block_editor())
         {
             return $post;
@@ -252,6 +251,28 @@ class WPSH_Admin extends WPSH_Core
         $post->post_date = parent::wp_shamsi(null, 'Y-m-d H:i:s', $gregorian_stamp, 'UTC');
         //$post->post_date_gmt = $this->wp_shamsi(null, 'Y-m-d H:i:s', $gregorian_stamp_gmt, 0);
         return $post;
+    }
+
+    /**
+     * Check if block editor is active
+     *
+     * Returns true if block editor is currently has been loaded.
+     *
+     * @since 2.0.0
+     *
+     * @return bool true or false.
+     */
+    public function block_editor()
+    {
+        if (function_exists('get_current_screen'))
+        {
+            $screen = get_current_screen();
+            if (method_exists($screen, 'is_block_editor'))
+            {
+                return ($screen->is_block_editor() == 1) ? true : false;
+            }
+        }
+        return false;
     }
 
     /**
@@ -378,26 +399,26 @@ class WPSH_Admin extends WPSH_Core
     public function admin_script()
     {
 
-        if (!parent::option('activate-admin-shamsi', true))
+        if (!parent::option('activate-admin-shamsi', true, false))
         {
             wp_enqueue_script('wpsh-admin', WPSH_URL . 'assets/js/wpsh_admin.js', array(
                 'jquery'
             ) , false, true);
         }
 
-        if (parent::option('dashboard-font', true)):
+        if (parent::option('dashboard-font', true, true)):
 
-            $this->themes('wp-admin'); // Since 1.2.0
+            parent::themes('wp-admin'); // Since 1.2.0
             wp_enqueue_style('wpsh-admin-css', WPSH_URL . 'assets/css/wpsh_admin.css');
         endif;
 
-        if (parent::option('persian-admin-num', true)):
+        if (parent::option('persian-admin-num', true, true)):
             wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array(
                 'jquery'
             ));
         endif;
 
-        if (parent::option('activate-shamsi', true) && !parent::option('activate-admin-shamsi', true)):
+        if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false)):
             $js = (string)'';
             if (wp_script_is('wp-i18n'))
             {

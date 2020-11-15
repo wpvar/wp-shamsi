@@ -24,7 +24,7 @@ class WPSH_Archive extends WPSH_Core
      */
     function __construct()
     {
-        if (parent::option('activate-shamsi-archive', true))
+        if (parent::option('activate-shamsi-archive', true, true))
         {
             add_filter('get_archives_link', array(
                 $this,

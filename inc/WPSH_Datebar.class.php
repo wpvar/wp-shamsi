@@ -43,7 +43,7 @@ class WPSH_Datebar extends WPSH_Core
      */
     public function date_bar($wp_admin_bar)
     {
-        if (!parent::option('admin-bar-date', true) || parent::option('activate-admin-shamsi', true))
+        if (!parent::option('admin-bar-date', true, true) || parent::option('activate-admin-shamsi', true, false))
         {
             return;
         }
