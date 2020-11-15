@@ -26,6 +26,7 @@ class WPSH_Options extends WPSH_Core
      */
     function __construct($plugin_name)
     {
+
         add_action('init', array(
             $this,
             'register'
