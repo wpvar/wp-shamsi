@@ -910,9 +910,9 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 				wp_enqueue_script( 'jquery-form' );
 
 				// Add the date picker script
-				wp_enqueue_script( 'jquery-ui-datepicker' );
+				//wp_enqueue_script( 'jquery-ui-datepicker' );
 
-				// wp_enqueue_script( 'jquery-ui-sortable' );
+			// wp_enqueue_script( 'jquery-ui-sortable' );
 
 				$scripts_styles = array(
 					array(
@@ -920,7 +920,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 						'fn'   => 'jquery.interdependencies.min.js',
 						'dep'  => array(
 							'jquery',
-							'jquery-ui-datepicker',
+							//'jquery-ui-datepicker',
 							'wp-color-picker'
 						),
 					),
@@ -936,7 +936,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 						'fn'   => 'scripts.min.js',
 						'dep'  => array(
 							'jquery',
-							'jquery-ui-datepicker',
+							//'jquery-ui-datepicker',
 							'wp-color-picker',
 							'jquery-interdependencies'
 						),

@@ -154,7 +154,7 @@ class WPSH_Admin extends WPSH_Core
         }
         $html .= '</ul></div>';
         $html .=
-        '<div id="farsi-shotcuts" class="farsi-shotcuts">
+        '<div id="farsi-shortcuts" class="farsi-shortcuts">
           <ul>
             <li><a href="https://wpvar.com" target="_blank" title="وردپرس فارسی"><span class="dashicons dashicons-wordpress"></span></a></li>
             <li><a href="https://wpvar.com/downloads/themes/" target="_blank" title="قالب های وردپرس"><span class="dashicons dashicons-admin-appearance"></a></span></li>

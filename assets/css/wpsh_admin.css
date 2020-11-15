@@ -15,8 +15,8 @@ body.rtl {
 }
 
 #wpadminbar #wp-admin-bar-wpsh .ab-icon:before {
-    content: '\f508';
-    top: 2px;
+  content: '\f508';
+  top: 2px;
 }
 
 .rtl .DayPicker_weekHeader {
@@ -27,7 +27,7 @@ body.rtl {
   right: auto !important;
 }
 
-#farsi-shotcuts ul {
+#farsi-shortcuts ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -37,22 +37,22 @@ body.rtl {
   margin-right: -15px;
 }
 
-#farsi-shotcuts li {
+#farsi-shortcuts li {
   float: right;
   min-width: 20%;
   text-align: center;
   color: #486581;
 }
 
-#farsi-shotcuts li a {
+#farsi-shortcuts li a {
   color: #486581;
 }
 
-#farsi-shotcuts li a:hover {
+#farsi-shortcuts li a:hover {
   color: #0073aa;
 }
 
-#farsi-shotcuts span {
+#farsi-shortcuts span {
   font-family: dashicons;
   font-size: 3em;
   display: inline;
