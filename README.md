@@ -78,16 +78,16 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 
 ## تصاویر
 
-![ Image 1](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-1.png)
-![ Image 2](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-3.png)
-![ Image 3](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-2.png)
-![ Image 4](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-4.png)
-![ Image 5](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-5.png)
-![ Image 6](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-6.png)
-![ Image 7](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-7.png)
-![ Image 8](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-8.png)
-![ Image 9](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-9.png)
-![ Image 10](https://raw.githubusercontent.com/alifaraji/wp-shamsi/master/screenshot-10.png)
+![ Image 1](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-1.png)
+![ Image 2](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-3.png)
+![ Image 3](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-2.png)
+![ Image 4](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-4.png)
+![ Image 5](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-5.png)
+![ Image 6](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-6.png)
+![ Image 7](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-7.png)
+![ Image 8](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-8.png)
+![ Image 9](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-9.png)
+![ Image 10](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-10.png)
 
 
 ## تغییرات
