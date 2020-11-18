@@ -37,7 +37,7 @@ class WPSH_Libs
         {
             require_once WPSH_PATH . 'lib/Date/Date.php';
         }
-        if (!class_exists('Exopite_Simple_Options_Framework'))
+        if (!class_exists('Exopite_Simple_Options_Framework') && is_admin())
         {
             require_once WPSH_PATH . 'lib/Options/options-class.php';
         }

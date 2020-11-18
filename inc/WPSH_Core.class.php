@@ -352,6 +352,7 @@ class WPSH_Core
         $utc = (wp_timezone_override_offset()) ? wp_timezone_override_offset() : get_option('gmt_offset');
 
         $format = explode('.', $utc);
+        $format = str_replace('+', '', $format);
 
         if (isset($format[1]))
         {
