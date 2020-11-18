@@ -1,65 +1,9 @@
 <?php if ( ! defined( 'ABSPATH' ) ) {
 	die;
-} // Cannot access pages directly.
+}
 /**
  * Copyright https://joe.szalai.org released under GPL V3
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
- * Last edit: 2020-05-21
- *
- * INFOS AND TODOS:
- *
- * IDEAS
- * - import options from file
- * - chunk upload
- */
-/**
- * ToDos:
- * - possibility to override indluded files from path
- */
-/**
- * Available fields:
- * - ACE field
- * - attached
- * - backup
- * - button
- * - botton_bar
- * - card
- * - checkbox
- * - color
- * - content
- * - date
- * - editor
- * - gallery
- * - group/accordion item
- * - hidden
- * - image
- * - image_select
- * - meta
- * - notice
- * - number
- * - password
- * - radio
- * - range
- * - select
- * - switcher
- * - tab
- * - tap_list
- * - text
- * - textarea
- * - typography
- * - upload
- * - video mp4/oembed
- */
-/**
- * Standard args for all field:
- * - type
- * - id
- * - title
- *   - description
- * - class
- * - attributes
- * - before
- * - after
  */
 if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 
@@ -966,9 +910,9 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 				wp_enqueue_script( 'jquery-form' );
 
 				// Add the date picker script
-				wp_enqueue_script( 'jquery-ui-datepicker' );
+				//wp_enqueue_script( 'jquery-ui-datepicker' );
 
-				// wp_enqueue_script( 'jquery-ui-sortable' );
+			// wp_enqueue_script( 'jquery-ui-sortable' );
 
 				$scripts_styles = array(
 					array(
@@ -976,7 +920,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 						'fn'   => 'jquery.interdependencies.min.js',
 						'dep'  => array(
 							'jquery',
-							'jquery-ui-datepicker',
+							//'jquery-ui-datepicker',
 							'wp-color-picker'
 						),
 					),
@@ -992,7 +936,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 						'fn'   => 'scripts.min.js',
 						'dep'  => array(
 							'jquery',
-							'jquery-ui-datepicker',
+							//'jquery-ui-datepicker',
 							'wp-color-picker',
 							'jquery-interdependencies'
 						),
