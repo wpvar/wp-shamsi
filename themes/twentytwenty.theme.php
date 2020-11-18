@@ -11,6 +11,10 @@ $css .= '
   select {
       font-family: Vazir, tahoma, sans-serif, arial;
   }
+  .entry-content, .entry-content h1, .entry-content h2, .entry-content h3, .entry-content h4, .entry-content h5, .entry-content h6, .entry-content cite, .entry-content figcaption, .entry-content table, .entry-content address, .entry-content .wp-caption-text, .entry-content .wp-block-file {
+      font-family: Vazir, tahoma, sans-serif, arial;
+  }
+
   ';
 
 $css .= '

@@ -9,3 +9,52 @@ body.rtl {
 .rtl select {
   font-family: Vazir, tahoma, sans-serif, arial;
 }
+
+.rtl #wpadminbar * {
+  font-family: Vazir, tahoma, sans-serif, arial;
+}
+
+#wpadminbar #wp-admin-bar-wpsh .ab-icon:before {
+  content: '\f508';
+  top: 2px;
+}
+
+.rtl .DayPicker_weekHeader {
+  display: none;
+}
+
+.rtl .components-datetime__date .DayPickerNavigation_leftButton__horizontalDefault {
+  right: auto !important;
+}
+
+#farsi-shortcuts ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  margin-top: 20px;
+  min-height: 50px;
+  margin-right: -15px;
+}
+
+#farsi-shortcuts li {
+  float: right;
+  min-width: 20%;
+  text-align: center;
+  color: #486581;
+}
+
+#farsi-shortcuts li a {
+  color: #486581;
+}
+
+#farsi-shortcuts li a:hover {
+  color: #0073aa;
+}
+
+#farsi-shortcuts span {
+  font-family: dashicons;
+  font-size: 3em;
+  display: inline;
+  text-align: center;
+}
