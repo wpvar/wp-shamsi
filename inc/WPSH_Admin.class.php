@@ -269,7 +269,7 @@ class WPSH_Admin extends WPSH_Core
     /**
      * Modify local time
      *
-     * In older versions of WordPress this function will corrects UTC time
+     * In older versions of WordPress this function will correct UTC time
      *
      * @since 2.0.1
      *
@@ -500,7 +500,11 @@ class WPSH_Admin extends WPSH_Core
             });
             ';
             }
-            wp_add_inline_script('wpsh-admin', $js);
+
+            if(function_exists('wp_add_inline_script'))
+            {
+              wp_add_inline_script('wpsh-admin', $js);
+            }
 
         endif;
 
