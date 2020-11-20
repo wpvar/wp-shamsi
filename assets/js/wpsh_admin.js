@@ -208,6 +208,20 @@ jQuery(document).ready(function() {
       str = str.replace('آگوست', 'آبان');
       str = str.replace('سپتامبر', 'آذر');
 
+      /* Old WordPress versions */
+      str = str.replace('Oct', 'دی');
+      str = str.replace('Nov', 'بهمن');
+      str = str.replace('Dec', 'اسفند');
+      str = str.replace('Jan', 'فروردین');
+      str = str.replace('Feb', 'اردیبهشت');
+      str = str.replace('Mar', 'خرداد');
+      str = str.replace('Apr', 'تیر');
+      str = str.replace('May', 'مرداد');
+      str = str.replace('Jun', 'شهریور');
+      str = str.replace('Jul', 'مهر');
+      str = str.replace('Aug', 'آبان');
+      str = str.replace('Sep', 'آذر');
+
       return str;
 
     }

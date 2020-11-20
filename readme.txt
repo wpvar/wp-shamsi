@@ -2,7 +2,7 @@
 Contributors: wpvar, farajiali
 Tags: date, shamsi, jalali, iran, persian, farsi, parsi, hijri, شمسی, تاریخ, فارسی, پارسی, ایران
 Donate link: https://payping.ir/@wpvar
-Requires at least: 4.5
+Requires at least: 4.0
 Tested up to: 5.6
 Requires PHP: 5.5
 Stable tag: 2.0.1
@@ -105,7 +105,7 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 * رفع باگ: رفع باگ زمان محلی برای نسخه های قدیمی وردپرس
 * رفع باگ: رفع باگ نمایش تاریخ در نوار مدیریت درصورت غیرفعال بودن شمسی ساز
 * رفع باگ: رفع باگ های جزئی افزونه
-* بهبود: سازگاری کامل افزونه با وردپرس نسخه 4.5 به بعد یعنی تمامی نسخه ها از سال 1395
+* بهبود: سازگاری کامل افزونه با وردپرس نسخه 4.0 به بعد یعنی تمامی نسخه ها از سال 1392
 * بهبود: نسخه دهی بهینه تر به فایل های سی اس اس و جاوا اسکریپت
 
 = 2.0.0 =
