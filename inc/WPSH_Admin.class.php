@@ -28,6 +28,7 @@ class WPSH_Admin extends WPSH_Core
             $this,
             'add_dashboard'
         ));
+
         add_filter('dashboard_secondary_link', array(
             $this,
             'wpsh_dashboard_link'
@@ -42,10 +43,19 @@ class WPSH_Admin extends WPSH_Core
             $this,
             'farsi_support'
         ));
+
         add_filter('the_post', array(
             $this,
             'display_post_date'
         ) , 99, 1);
+
+        if (!function_exists('wp_date'))
+        {
+            add_filter('get_the_time', array(
+                $this,
+                'post_time'
+            ) , 10, 3);
+        }
 
         $base = basename($_SERVER['PHP_SELF']);
         if (($base == 'post.php' && isset($_GET['post']) && isset($_GET['action']) && esc_attr($_GET['action']) == 'edit') || $base == 'post-new.php')
@@ -257,6 +267,28 @@ class WPSH_Admin extends WPSH_Core
     }
 
     /**
+     * Modify local time
+     *
+     * In older versions of WordPress this function will corrects UTC time
+     *
+     * @since 2.0.1
+     *
+     * @param string $the_time Input time string.
+     * @param string $format Format of date.
+     * @param mixed $post Post ID or Object.
+     * @return string Modified and correct date regarding to timezone.
+     */
+    public function post_time($the_time, $format, $post)
+    {
+        $post = get_post($post);
+
+        $gregorian_stamp = strtotime($post->post_date, time());
+        $date = parent::wp_shamsi(null, $format, $gregorian_stamp, 'UTC');
+
+        return $date;
+    }
+
+    /**
      * Check if block editor is active
      *
      * Returns true if block editor is currently has been loaded.
@@ -303,7 +335,8 @@ class WPSH_Admin extends WPSH_Core
             'سپتامبر',
             'اکتبر',
             'نوامبر',
-            'دسامبر'
+            'دسامبر',
+            'عمومرداد'
         );
         $true_fa = array(
             'فروردین',
@@ -317,7 +350,8 @@ class WPSH_Admin extends WPSH_Core
             'آذر',
             'دی',
             'بهمن',
-            'اسفند'
+            'اسفند',
+            'عمومی'
         );
 
         $string = str_replace($fa, $true_fa, $string);
@@ -406,19 +440,19 @@ class WPSH_Admin extends WPSH_Core
         {
             wp_enqueue_script('wpsh-admin', WPSH_URL . 'assets/js/wpsh_admin.js', array(
                 'jquery'
-            ) , false, true);
+            ) , WPSH_VERSION, false, true);
         }
 
         if (parent::option('dashboard-font', true, true)):
 
             parent::themes('wp-admin'); // Since 1.2.0
-            wp_enqueue_style('wpsh-admin-css', WPSH_URL . 'assets/css/wpsh_admin.css');
+            wp_enqueue_style('wpsh-admin-css', WPSH_URL . 'assets/css/wpsh_admin.css', array() , WPSH_VERSION);
         endif;
 
         if (parent::option('persian-admin-num', true, true)):
             wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array(
                 'jquery'
-            ));
+            ) , WPSH_VERSION);
         endif;
 
         if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false)):

@@ -68,7 +68,7 @@ class WPSH_Addon_Disable_Copy extends WPSH_Addons
     {
         wp_enqueue_script('wpsh-addons', WPSH_URL . 'assets/js/wpsh_addons.js', array(
             'jquery'
-        ));
+        ) , WPSH_VERSION);
         wp_add_inline_script('wpsh-addons', '
           jQuery(document).bind("copy", function(e) {
               e.preventDefault();

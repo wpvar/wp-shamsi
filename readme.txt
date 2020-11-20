@@ -5,7 +5,7 @@ Donate link: https://payping.ir/@wpvar
 Requires at least: 4.5
 Tested up to: 5.6
 Requires PHP: 5.5
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GNU Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -101,6 +101,13 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 10. تنظیمات افزونه تاریخ شمسی و فارسی ساز وردپرس
 
 == Changelog ==
+= 2.0.1 =
+* رفع باگ: رفع باگ زمان محلی برای نسخه های قدیمی وردپرس
+* رفع باگ: رفع باگ نمایش تاریخ در نوار مدیریت درصورت غیرفعال بودن شمسی ساز
+* رفع باگ: رفع باگ های جزئی افزونه
+* بهبود: سازگاری کامل افزونه با وردپرس نسخه 4.5 به بعد یعنی تمامی نسخه ها از سال 1395
+* بهبود: نسخه دهی بهینه تر به فایل های سی اس اس و جاوا اسکریپت
+
 = 2.0.0 =
 ** بروزرسانی ماژور - بزرگترین بروزرسانی منتشر شده برای افزونه **
 
