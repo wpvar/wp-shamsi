@@ -157,11 +157,11 @@ class WPSH_Core
         if ($this->option('persian-num', true, true)):
             wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array(
                 'jquery'
-            ));
+            ) , WPSH_VERSION);
         endif;
 
         if (get_locale() == 'fa_IR' || get_locale() == 'fa_AF'):
-            wp_enqueue_style('wpsh-style', WPSH_URL . 'assets/css/wpsh_custom.css');
+            wp_enqueue_style('wpsh-style', WPSH_URL . 'assets/css/wpsh_custom.css', array() , WPSH_VERSION);
             wp_add_inline_style('wpsh-style', (string)$this->option('fa-custom-css'));
         endif;
 
@@ -270,7 +270,7 @@ class WPSH_Core
           ';
         }
 
-        wp_enqueue_style('wpsh-theme', WPSH_URL . 'assets/css/wpsh_theme.css');
+        wp_enqueue_style('wpsh-theme', WPSH_URL . 'assets/css/wpsh_theme.css', array() , WPSH_VERSION);
 
         wp_add_inline_style('wpsh-theme', (string)$css);
 
@@ -287,7 +287,7 @@ class WPSH_Core
     public function login_themes()
     {
 
-        wp_enqueue_style('wpsh-admin-css', WPSH_URL . 'assets/css/wpsh_admin.css');
+        wp_enqueue_style('wpsh-admin-css', WPSH_URL . 'assets/css/wpsh_admin.css', array() , WPSH_VERSION);
 
         $this->themes('wp-admin');
 
@@ -422,12 +422,12 @@ class WPSH_Core
         $format = str_replace('S', '', $format);
         $format = str_replace('js', 'j s', $format);
 
-        if ($timezone == null)
+        if ($timezone == null || $timezone == '0')
         {
             $timezone = $this->timezone();
         }
 
-        $date = new WPSH_Jalali($timestamp, $timezone);
+        $date = ($timezone == '1') ? new WPSH_Jalali($timestamp, 'UTC') : new WPSH_Jalali($timestamp, $timezone);
         $date = $date->format($format);
 
         /* Deprecated since 2.0.0 */
