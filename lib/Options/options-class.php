@@ -110,7 +110,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 				return;
 			}
 
-			$this->version = '20191203';
+			$this->version = WPSH_VERSION;
 
 			// TODO: Do sanitize $config['id']
 			$this->unique = $config['id'];
