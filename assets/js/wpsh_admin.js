@@ -295,8 +295,13 @@ jQuery(document).ready(function() {
       jQuery('.timestamp-wrap').contents().filter(function() {
         return this.nodeType == 3
       }).each(function() {
-        this.textContent = this.textContent.replace('at', 'درساعت');
-        this.textContent = this.textContent.replace(',', ' سال');
+        if (jQuery('.submitbox').length > 0) {
+          this.textContent = this.textContent.replace('at', '@ ');
+          this.textContent = this.textContent.replace(',', '، ');
+        } else {
+          this.textContent = this.textContent.replace('at', 'درساعت');
+          this.textContent = this.textContent.replace(',', ' سال');
+        }
       });
     }
 

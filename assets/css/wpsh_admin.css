@@ -58,3 +58,18 @@ body.rtl {
   display: inline;
   text-align: center;
 }
+
+.rtl #section-holder .section {
+  text-align: right;
+  direction: rtl;
+}
+
+.rtl #section-holder .review-title-section {
+  float: right;
+  margin: 4px 0 0 6px;
+}
+
+.rtl #section-holder .avatar {
+  float: right;
+  margin: 4px 0 0 6px;
+}

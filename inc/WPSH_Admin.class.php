@@ -60,10 +60,14 @@ class WPSH_Admin extends WPSH_Core
         $base = basename($_SERVER['PHP_SELF']);
         if (($base == 'post.php' && isset($_GET['post']) && isset($_GET['action']) && esc_attr($_GET['action']) == 'edit') || $base == 'post-new.php')
         {
-            add_filter('gettext', array(
-                $this,
-                'display_post_month'
-            ) , 10, 1);
+            if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false))
+            {
+                add_filter('gettext', array(
+                    $this,
+                    'display_post_month'
+                ) , 10, 1);
+            }
+
         }
 
         if (get_locale() != 'fa_IR' && get_locale() != 'fa_AF')
@@ -436,11 +440,11 @@ class WPSH_Admin extends WPSH_Core
     public function admin_script()
     {
 
-        if (!parent::option('activate-admin-shamsi', true, false))
+        if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false))
         {
             wp_enqueue_script('wpsh-admin', WPSH_URL . 'assets/js/wpsh_admin.js', array(
                 'jquery'
-            ) , WPSH_VERSION, false, true);
+            ) , WPSH_VERSION, true);
         }
 
         if (parent::option('dashboard-font', true, true)):
@@ -501,9 +505,9 @@ class WPSH_Admin extends WPSH_Core
             ';
             }
 
-            if(function_exists('wp_add_inline_script'))
+            if (function_exists('wp_add_inline_script'))
             {
-              wp_add_inline_script('wpsh-admin', $js);
+                wp_add_inline_script('wpsh-admin', $js);
             }
 
         endif;
