@@ -312,7 +312,7 @@ class WPSH_Options extends WPSH_Core
 
         $fields[] = array(
             'title' => __('استایل سفارشی', 'wpsh') ,
-            'icon' => 'fa fa-code',
+            'icon' => 'dashicons-editor-code',
             'name' => 'custom-css',
             'fields' => array(
                 array(

@@ -73,3 +73,11 @@ body.rtl {
   float: right;
   margin: 4px 0 0 6px;
 }
+
+.rtl #ui-datepicker-div {
+  font-family: Vazir, tahoma, sans-serif, arial;
+}
+
+.rtl #ui-datepicker-div button {
+  font-family: Vazir, tahoma, sans-serif, arial;
+}
