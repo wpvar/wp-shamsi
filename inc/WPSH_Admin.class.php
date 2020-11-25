@@ -328,19 +328,18 @@ class WPSH_Admin extends WPSH_Core
     {
 
         $fa = array(
-            'ژانویه',
-            'فوریه',
-            'مارس',
-            'آوریل',
-            'می',
-            'ژوئن',
-            'جولای',
-            'آگوست',
-            'سپتامبر',
-            'اکتبر',
-            'نوامبر',
-            'دسامبر',
-            'عمومرداد'
+            '/\bژانویه\b/u',
+            '/\bفوریه\b/u',
+            '/\bمارس\b/u',
+            '/\bآوریل\b/u',
+            '/\bمی\b/u',
+            '/\bژوئن\b/u',
+            '/\bجولای\b/u',
+            '/\bآگوست\b/u',
+            '/\سپتامبر\b/u',
+            '/\bاکتبر\b/u',
+            '/\bنوامبر\b/u',
+            '/\bدسامبر\b/u'
         );
         $true_fa = array(
             'فروردین',
@@ -354,11 +353,10 @@ class WPSH_Admin extends WPSH_Core
             'آذر',
             'دی',
             'بهمن',
-            'اسفند',
-            'عمومی'
+            'اسفند'
         );
 
-        $string = str_replace($fa, $true_fa, $string);
+        $string = preg_replace($fa, $true_fa, $string);
 
         return $string;
     }

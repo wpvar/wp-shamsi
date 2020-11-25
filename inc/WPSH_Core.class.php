@@ -86,6 +86,7 @@ class WPSH_Core
             'save_comment_date'
         ) , 99, 1);
 
+        add_filter('wp_checkdate', '__return_true');
     }
 
     /**
@@ -314,7 +315,7 @@ class WPSH_Core
                 return $string;
             endif;
 
-            $string = str_ireplace($txt['translate-source'], $txt['translate-target'], $string);
+            $string = preg_replace('/\b' . $txt['translate-source'] . '\b/u', $txt['translate-target'], $string);
         }
         return $string;
     }
