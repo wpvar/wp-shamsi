@@ -263,7 +263,7 @@ class WPSH_Admin extends WPSH_Core
         }
 
         $gregorian_stamp = strtotime($post->post_date, time());
-        $gregorian_stamp_gmt = strtotime($post->post_date, time());
+        //$gregorian_stamp_gmt = strtotime($post->post_date, time());
 
         $post->post_date = parent::wp_shamsi(null, 'Y-m-d H:i:s', $gregorian_stamp, 'UTC');
         //$post->post_date_gmt = $this->wp_shamsi(null, 'Y-m-d H:i:s', $gregorian_stamp_gmt, 0);

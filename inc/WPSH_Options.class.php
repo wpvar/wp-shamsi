@@ -252,6 +252,13 @@ class WPSH_Options extends WPSH_Core
                     'default' => 'yes',
                 ) ,
                 array(
+                    'id' => 'activate-wpforo',
+                    'type' => 'switcher',
+                    'title' => __('wpForo', 'wpsh') ,
+                    'description' => __('افزونه ایجاد انجمن گفتگو برای وردپرس', 'wpsh') ,
+                    'default' => 'yes',
+                ) ,
+                array(
                     'type' => 'notice',
                     'class' => 'danger',
                     'content' => __('با فعال کردن گزینه زیر، شمسی سازی بخش مدیریت غیرفعال خواهد شد ولی محیط کاربری وردپرس همچنان شمسی سازی خواهد شد. این گزینه را هنگامی فعال کنید که شمسی ساز با افزونه های دیگر دچار تداخل باشد.', 'wpsh') ,
@@ -362,65 +369,7 @@ class WPSH_Options extends WPSH_Core
 
             )
         );
-        $fields[] = array(
-            'name' => 'more',
-            'title' => __('بیشتر', 'wpsh') ,
-            'icon' => 'dashicons-bell',
-            'fields' => array(
 
-                array(
-                    'type' => 'content',
-                    'class' => 'class-name',
-                    'content' => __('
-                  <div class="plugin-card plugin-card-my-aparat" style="width: 100%;">
-                  		<div class="plugin-card-top">
-                  				<div class="name column-name">
-                  					<h3>
-                  						<a href="https://wpvar.com/my-aparat/" style="text-decoration: none;" target="_blank" class="thickbox open-plugin-details-modal">
-                  						My Aparat – آپارات من
-                              <img src="https://ps.w.org/my-aparat/assets/icon-256x256.gif" class="plugin-icon" alt="">
-                  						</a>
-                  					</h3>
-                  				</div>
-                  				<div class="action-links">
-                  					<ul class="plugin-action-buttons"><li><a href="https://wpvar.com/my-aparat/" target="_blank" class="thickbox open-plugin-details-modal" style="text-decoration: none;">جزئیات بیشتر و دانلود</a></li></ul>				</div>
-                  				<div class="desc column-description">
-                  					<p>افزونه آپارات من به طور خودکار ویدیو های ارسال شده در کانال آپارات را در وردپرس منتشر می کند. با استفاده از افزونه بخش جدیدی با نام ویدیو ها در وردپرس ایجاد می شود که ویدیو های آپارات به ور خودکار نمایش داده می شوند. کاربران می توانند در ویدیو ها دیدگاه ارسال کرده و براساس دسته بندی ویدیو ها را جستجو کنند. و ده ها امکانات دیگر ...</p>
-                  					<p class="authors"> <cite>بدست <a href="https://wpvar.com/">wpvar.com</a></cite></p>
-                  				</div>
-                  			</div>
-
-                  		</div>
-                  ', 'wpsh') ,
-                ) ,
-                array(
-                    'type' => 'content',
-                    'class' => 'class-name',
-                    'content' => __('
-                  <div class="plugin-card plugin-card-wp-randomize" style="width: 100%;">
-                  		<div class="plugin-card-top">
-                  				<div class="name column-name">
-                  					<h3>
-                  						<a href="https://wordpress.org/plugins/wp-randomize/" style="text-decoration: none;" target="_blank" class="thickbox open-plugin-details-modal">
-                  						ابزارک نمایش تصادفی دسته ها
-                              <img src="https://ps.w.org/wp-randomize/assets/icon-256x256.png" class="plugin-icon" alt="">
-                  						</a>
-                  					</h3>
-                  				</div>
-                  				<div class="action-links">
-                  					<ul class="plugin-action-buttons"><li><a href="https://wordpress.org/plugins/wp-randomize/" target="_blank" class="thickbox open-plugin-details-modal" style="text-decoration: none;">جزئیات بیشتر و دانلود</a></li></ul>				</div>
-                  				<div class="desc column-description">
-                  					<p>ابزارک نمایش تصادفی دسته ها، دسته های انتخاب شده در سایدبار وبسایت همراه با نوشته های آن دسته به طور تصادفی به نمایش گذاشته می شوند. امکان تغییر قالب و رنگ بندی ابزارک با تنظیمات پیشرفته تعبیه شده وجود دارد...</p>
-                  					<p class="authors"> <cite>بدست <a href="https://wpvar.com/">wpvar.com</a></cite></p>
-                  				</div>
-                  			</div>
-
-                  		</div>
-                  ', 'wpsh') ,
-                ) ,
-
-            )
-        );
         $fields[] = array(
             'name' => 'about',
             'title' => __('درباره', 'wpsh') ,

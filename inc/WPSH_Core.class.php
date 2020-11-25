@@ -47,6 +47,11 @@ class WPSH_Core
             ) , 10, 4);
         }
 
+        add_filter('human_time_diff', array(
+            $this,
+            'wp_shamsi_diff'
+        ) , 10, 4);
+
         add_action('wp_enqueue_scripts', array(
             $this,
             'script'
@@ -395,10 +400,15 @@ class WPSH_Core
         if ($date != null)
         {
             $check_point = date('Y', strtotime($date));
-            if ($check_point < 1970)
+            if ($check_point < 1970 || strtotime($date) < 0)
             {
                 return $date;
             }
+        }
+
+        if ($timestamp < 0)
+        {
+            return $date;
         }
 
         if (!$this->option('activate-shamsi', true, true))
@@ -436,6 +446,36 @@ class WPSH_Core
         /* Filter returned date to extend plugins developement capacity */
         return apply_filters('wp_jdate', $date, $format, $timestamp, $timezone);
 
+    }
+
+    /**
+     * Correct diff
+     *
+     * Correct human readable dates
+     *
+     * @since 2.0.3
+     *
+     * @param string $since The difference in human readable text.
+     * @param int    $diff  The difference in seconds.
+     * @param int    $from  Unix timestamp from which the difference begins.
+     * @param int    $to    Unix timestamp to end the time difference.
+     * @return string Corrected human readable date.
+     */
+    public function wp_shamsi_diff($since, $diff, $from, $to)
+    {
+        if ($from < 0 && $to === time())
+        {
+            $from = date('Y-m-d H:i:s', $from);
+            $from = $this->gregorian($from, 'Y-m-d H:i:s');
+            $to = time();
+
+            return human_time_diff(strtotime($from) , $to);
+        }
+
+        else
+        {
+            return $since;
+        }
     }
 
     /**
