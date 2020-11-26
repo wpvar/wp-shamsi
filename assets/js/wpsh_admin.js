@@ -29,6 +29,24 @@ jQuery(document).ready(function() {
       return str;
     }
 
+    function toFa(number) {
+      if (number == undefined) return '';
+      var str = jQuery.trim(number.toString());
+      if (str == '') return '';
+      str = str.replace(/0/g, '۰');
+      str = str.replace(/1/g, '۱');
+      str = str.replace(/2/g, '۲');
+      str = str.replace(/3/g, '۳');
+      str = str.replace(/4/g, '۴');
+      str = str.replace(/5/g, '۵');
+      str = str.replace(/6/g, '۶');
+      str = str.replace(/7/g, '۷');
+      str = str.replace(/8/g, '۸');
+      str = str.replace(/9/g, '۹');
+
+      return str;
+    }
+
     /**
      * Convert gregorian to shamsi
      *
@@ -252,6 +270,29 @@ jQuery(document).ready(function() {
       }
 
     });
+
+    if (jQuery('.column-date').length > 0) {
+      jQuery('.column-date').each(function() {
+        var explode = jQuery(this).text();
+        explode = explode.replace('Date', '');
+        explode = explode.split(' ');
+        date = explode[0].split('/');
+        year = toEn(date[0]);
+        month = toEn(date[1]);
+        day = toEn(date[2]);
+
+        if (jQuery.isNumeric(year) && year >= 1970) {
+          if (explode[3] == 'am') {
+            extention = 'ق.ظ';
+          } else {
+            extention = 'ب.ظ';
+          }
+          var jalali = gregorian_to_jalali(parseInt(year), parseInt(month), parseInt(day));
+          jQuery(this).text(toFa(jalali[0]) + '/' + toFa(jalali[1]) + '/' + toFa(jalali[2]) + ' در ' + explode[2] + ' ' + extention);
+        }
+
+      });
+    }
 
     if (jQuery('#media-attachment-date-filters').length > 0) {
 

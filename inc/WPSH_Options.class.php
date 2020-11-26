@@ -252,6 +252,13 @@ class WPSH_Options extends WPSH_Core
                     'default' => 'yes',
                 ) ,
                 array(
+                    'id' => 'activate-contactform',
+                    'type' => 'switcher',
+                    'title' => __('فرم تماس 7 و فلامینگو', 'wpsh') ,
+                    'description' => __('افزونه Contact Form 7 و Flamingo', 'wpsh') ,
+                    'default' => 'yes',
+                ) ,
+                array(
                     'id' => 'activate-wpforo',
                     'type' => 'switcher',
                     'title' => __('wpForo', 'wpsh') ,
