@@ -62,6 +62,11 @@ class WPSH_Core
             'login_themes'
         ));
 
+        add_filter('tiny_mce_before_init', array(
+            $this,
+            'tinymce_style'
+        ) , 10, 1);
+
         if (!empty($this->option('translate-group') [0]['translate-target']))
         {
             add_filter('gettext', array(
@@ -270,7 +275,7 @@ class WPSH_Core
         else
         {
             $css .= '
-            .wp-block textarea {
+            .wp-block textarea, .wp-block {
               font-family: Vazir, tahoma, sans-serif, arial !important;
             }
           ';
@@ -297,6 +302,27 @@ class WPSH_Core
 
         $this->themes('wp-admin');
 
+    }
+
+    /**
+     * Chane font of Tinymce
+     *
+     * Chane font of Tinymce and make it farsi friendly.
+     *
+     * @since 2.0.3
+     *
+     * @return array array of tinymce configurations.
+     */
+    public function tinymce_style($tinymce)
+    {
+        if (!$this->option('fa-theme', true, true))
+        {
+            return $tinymce;
+        }
+
+        $tinymce['content_style'] = 'body#tinymce.wp-editor.content,body#tinymce.wp-editor.content p, body#tinymce.wp-editor.content ol, body#tinymce.wp-editor.content ul, body#tinymce.wp-editor.content dl, body#tinymce.wp-editor.content dt {font-family: Vazir, tahoma, sans-serif, arial !important;}';
+
+        return $tinymce;
     }
 
     /**

@@ -149,8 +149,9 @@ jQuery(document).ready(function() {
 
       });
 
-      jQuery('.iedit').hover(function() {
+      jQuery('.colspanchange').hover(function() {
         quickEditDateHandle();
+        console.log(1);
       });
     }
 
