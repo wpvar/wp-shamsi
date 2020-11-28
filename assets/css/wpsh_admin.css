@@ -81,3 +81,11 @@ body.rtl {
 .rtl #ui-datepicker-div button {
   font-family: Vazir, tahoma, sans-serif, arial;
 }
+
+.wpsh_newsletter {
+  padding: 10px 10px 30px 0;
+}
+
+.wpsh_newsletter p {
+  padding-bottom: 15px;
+}

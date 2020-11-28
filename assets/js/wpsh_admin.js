@@ -358,6 +358,10 @@ jQuery(document).ready(function() {
 
     }
 
+    jQuery('.wpsh_newsletter_dismiss').click(function(){
+        return confirm("آیا از عدم اشتراک در خبرنامه مطمئن هستید؟");
+    })
+
   });
 
 });
