@@ -23,10 +23,10 @@ if (is_admin())
 {
     new WPSH_Options('wpsh');
     new WPSH_Admin();
-    new WPSH_Api();
 
 }
 
+new WPSH_Api();
 new WPSH_Datebar();
 new WPSH_Archive();
 new WPSH_Addons();

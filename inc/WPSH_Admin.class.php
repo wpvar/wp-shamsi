@@ -264,7 +264,6 @@ class WPSH_Admin extends WPSH_Core
 
         $gregorian_stamp = strtotime($post->post_date, time());
         //$gregorian_stamp_gmt = strtotime($post->post_date, time());
-
         $post->post_date = parent::wp_shamsi(null, 'Y-m-d H:i:s', $gregorian_stamp, 'UTC');
         //$post->post_date_gmt = $this->wp_shamsi(null, 'Y-m-d H:i:s', $gregorian_stamp_gmt, 0);
         return $post;
@@ -371,9 +370,29 @@ class WPSH_Admin extends WPSH_Core
      */
     public function no_farsi()
     {
+        if (!current_user_can('manage_options'))
+        {
+            return;
+        }
+
+        $user_id = get_current_user_id();
+        $link = get_admin_url() . 'index.php?wpsh_lang_notice=dismiss';
+
+        if (isset($_GET['wpsh_lang_notice']) && $_GET['wpsh_lang_notice'] == 'dismiss')
+        {
+            update_user_meta($user_id, 'wpsh_lang_notice', 1);
+        }
+
+        if (get_user_meta($user_id, 'wpsh_lang_notice', true) == 1)
+        {
+            return;
+        }
 ?>
         <div class="notice notice-warning is-dismissible">
-          <p><?php _e('<strong>هشدار:</strong> بسته زبانی فارسی وردپرس فعال نیست. برای فعال سازی آن <a href="' . get_admin_url() . 'options-general.php#default_role">از این صفحه</a> زبان سایت را به <strong>فارسی</strong> تغییر دهید', 'wpsh'); ?></p>
+          <p>
+            <?php _e('<strong>هشدار:</strong> بسته زبانی فارسی وردپرس فعال نیست. برای فعال سازی آن <a href="' . get_admin_url() . 'options-general.php#default_role">از این صفحه</a> زبان سایت را به <strong>فارسی</strong> تغییر دهید', 'wpsh'); ?>
+          </p>
+          <a href="<?php echo $link ?>" class="button wpsh_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
         </div>
         <?php
     }
@@ -388,6 +407,25 @@ class WPSH_Admin extends WPSH_Core
      */
     public function no_valid_zone()
     {
+
+        if (!current_user_can('manage_options'))
+        {
+            return;
+        }
+
+        $user_id = get_current_user_id();
+        $link = get_admin_url() . 'index.php?wpsh_timezone_notice=dismiss';
+
+        if (isset($_GET['wpsh_timezone_notice']) && $_GET['wpsh_timezone_notice'] == 'dismiss')
+        {
+            update_user_meta($user_id, 'wpsh_timezone_notice', 1);
+        }
+
+        if (get_user_meta($user_id, 'wpsh_timezone_notice', true) == 1)
+        {
+            return;
+        }
+
         if (get_locale() == 'fa_IR')
         {
             $city = 'تهران';
@@ -400,7 +438,10 @@ class WPSH_Admin extends WPSH_Core
 
 ?>
         <div class="notice notice-warning is-dismissible">
-          <p><?php _e('<strong>توجه:</strong> برای عملکرد دقیق تر شمسی ساز، زمان محلی را <a href="' . get_admin_url() . 'options-general.php#WPLANG">از این صفحه</a> به <strong>' . $city . '</strong> تغییر دهید', 'wpsh'); ?></p>
+          <p>
+            <?php _e('<strong>توجه:</strong> برای عملکرد دقیق تر شمسی ساز، زمان محلی را <a href="' . get_admin_url() . 'options-general.php#WPLANG">از این صفحه</a> به <strong>' . $city . '</strong> تغییر دهید', 'wpsh'); ?>
+          </p>
+          <a href="<?php echo $link ?>" class="button wpsh_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
         </div>
         <?php
     }
@@ -438,9 +479,15 @@ class WPSH_Admin extends WPSH_Core
     public function admin_script()
     {
 
-        if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false))
+        wp_enqueue_script('wpsh-admin-core', WPSH_URL . 'assets/js/wpsh_admin.js', array(
+            'jquery'
+        ) , WPSH_VERSION, true);
+
+        wp_enqueue_style('wpsh-admin-css-core', WPSH_URL . 'assets/css/wpsh_admin.css', array() , WPSH_VERSION);
+
+        if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false) && !parent::no_lang_no_shamsi())
         {
-            wp_enqueue_script('wpsh-admin', WPSH_URL . 'assets/js/wpsh_admin.js', array(
+            wp_enqueue_script('wpsh-admin', WPSH_URL . 'assets/js/wpsh_admin_shamsi.js', array(
                 'jquery'
             ) , WPSH_VERSION, true);
         }
@@ -448,7 +495,7 @@ class WPSH_Admin extends WPSH_Core
         if (parent::option('dashboard-font', true, true)):
 
             parent::themes('wp-admin'); // Since 1.2.0
-            wp_enqueue_style('wpsh-admin-css', WPSH_URL . 'assets/css/wpsh_admin.css', array() , WPSH_VERSION);
+            wp_enqueue_style('wpsh-admin-css', WPSH_URL . 'assets/css/wpsh_admin_shamsi.css', array() , WPSH_VERSION);
         endif;
 
         if (parent::option('persian-admin-num', true, true)):

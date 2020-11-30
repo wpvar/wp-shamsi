@@ -1,19 +1,3 @@
-body.rtl {
-  font-family: Vazir, sans-serif, tahoma, arial;
-}
-
-.rtl h1, .rtl h2, .rtl h3, .rtl h4, .rtl h5, .rtl h6 {
-  font-family: Vazir, sans-serif, tahoma, arial;
-}
-
-.rtl select {
-  font-family: Vazir, tahoma, sans-serif, arial;
-}
-
-.rtl #wpadminbar * {
-  font-family: Vazir, tahoma, sans-serif, arial;
-}
-
 #wpadminbar #wp-admin-bar-wpsh .ab-icon:before {
   content: '\f508';
   top: 2px;
@@ -74,18 +58,39 @@ body.rtl {
   margin: 4px 0 0 6px;
 }
 
-.rtl #ui-datepicker-div {
-  font-family: Vazir, tahoma, sans-serif, arial;
-}
-
-.rtl #ui-datepicker-div button {
-  font-family: Vazir, tahoma, sans-serif, arial;
-}
-
-.wpsh_newsletter {
+.wpsh_newsletter, .wpsh_stats {
   padding: 10px 10px 30px 0;
 }
 
-.wpsh_newsletter p {
+.wpsh_newsletter p, .wpsh_stats p {
   padding-bottom: 15px;
+}
+
+.wpsh_newsletter_settings {
+  padding-top: 15px;
+}
+
+.wpsh_newsletter_settings #wpsh_form_settings {
+  background: #007cba;
+  border-radius: 2px;
+}
+
+.wpsh_newsletter_settings #wpsh_form_settings:hover {
+  background: #0071a1;
+}
+
+.wpsh_newsletter_settings strong {
+  color: #347528;
+}
+
+.wpsh_newsletter_settings p {
+  margin-bottom: 0;
+}
+
+.wpsh_newsletter_settings #wpsh_email_settings {
+  max-width: 200px;
+}
+
+.rtl .notice .button {
+  margin: 2px 0 10px 0;
 }

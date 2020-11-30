@@ -156,6 +156,27 @@ class WPSH_Core
     }
 
     /**
+     * Update Options
+     *
+     * Function to update plugin options
+     *
+     * @since 2.0.3
+     *
+     * @param string $key Key to find.
+     * @param bool $value Value to replace.
+     */
+    public function update($key, $value)
+    {
+
+      $option = get_option('wpsh');
+
+      $option[$key] = $value;
+
+      update_option('wpsh', $option);
+
+    }
+
+    /**
      * Load JS and CSS
      *
      * Loads JS and CSS in user interface.
@@ -407,6 +428,24 @@ class WPSH_Core
     }
 
     /**
+     * Disable shamsi regarding lang
+     *
+     * If language is not set to farsi admins can choose to disable shamsi dates.
+     *
+     * @since 2.0.3
+     *
+     * @return bool true or false.
+     */
+    protected function no_lang_no_shamsi()
+    {
+      if ($this->option('activate-no-lang-no-shamsi', true, false) && get_locale() != 'fa_IR' && get_locale() != 'fa_AF')
+      {
+        return true;
+      }
+      return false;
+    }
+
+    /**
      * Make dates Jalali aka Shamsi
      *
      * Convert wordpress dates to Shamsi aka Jalali dates.
@@ -437,7 +476,7 @@ class WPSH_Core
             return $date;
         }
 
-        if (!$this->option('activate-shamsi', true, true))
+        if (!$this->option('activate-shamsi', true, true) || $this->no_lang_no_shamsi())
         {
             return $date;
         }
