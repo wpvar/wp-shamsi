@@ -91,6 +91,7 @@ class WPSH_Core
             $this,
             'save_post_date'
         ) , 99, 1);
+
         add_filter('wp_update_comment_data', array(
             $this,
             'save_comment_date'
@@ -168,11 +169,11 @@ class WPSH_Core
     public function update($key, $value)
     {
 
-      $option = get_option('wpsh');
+        $option = get_option('wpsh');
 
-      $option[$key] = $value;
+        $option[$key] = $value;
 
-      update_option('wpsh', $option);
+        update_option('wpsh', $option);
 
     }
 
@@ -438,11 +439,11 @@ class WPSH_Core
      */
     protected function no_lang_no_shamsi()
     {
-      if ($this->option('activate-no-lang-no-shamsi', true, false) && get_locale() != 'fa_IR' && get_locale() != 'fa_AF')
-      {
-        return true;
-      }
-      return false;
+        if ($this->option('activate-no-lang-no-shamsi', true, false) && get_locale() != 'fa_IR' && get_locale() != 'fa_AF')
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -462,16 +463,30 @@ class WPSH_Core
 
         $date = $this->normalize_date($date);
 
-        if ($date != null)
-        {
-            $check_point = date('Y', strtotime($date));
-            if ($check_point < 1970 || strtotime($date) < 0)
-            {
-                return $date;
-            }
-        }
+        /* Hook to add modify formats*/
+        $format = apply_filters('wpsh_date_replace_formats', $format);
 
         if ($timestamp < 0)
+        {
+            return $date;
+        }
+
+        $skip_formats = array(
+            // DATE_W3C DATE_ATOM DATE_RFC3339
+            'Y-m-d\TH:i:sP',
+            // DATE_RSS DATE_RFC822 DATE_RFC1036 DATE_RFC1123 DATE_RFC2822
+            'D, d M Y H:i:s O',
+            // DATE_COOKIE DATE_RFC850
+            'l, d-M-Y H:i:s T',
+            // DATE_ISO8601
+            'Y-m-d\TH:i:sO'
+
+        );
+
+        /* Hook to add custom formats to be skipped */
+        $skip_formats = apply_filters('wpsh_date_skip_formats', $skip_formats);
+
+        if (is_array($skip_formats) && in_array($format, $skip_formats))
         {
             return $date;
         }
@@ -497,6 +512,9 @@ class WPSH_Core
         $format = str_replace('.', '', $format);
         $format = str_replace('S', '', $format);
         $format = str_replace('js', 'j s', $format);
+        $format = str_replace('M j', 'j M', $format);
+        $format = str_replace('F j', 'j F', $format);
+
 
         if ($timezone == null || $timezone == '0')
         {
@@ -509,7 +527,7 @@ class WPSH_Core
         /* Deprecated since 2.0.0 */
         //$date = $this->persian_num($date);
         /* Filter returned date to extend plugins developement capacity */
-        return apply_filters('wp_jdate', $date, $format, $timestamp, $timezone);
+        return apply_filters('wpsh_date', $date, $format, $timestamp, $timezone);
 
     }
 

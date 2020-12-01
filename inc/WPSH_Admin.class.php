@@ -502,6 +502,14 @@ class WPSH_Admin extends WPSH_Core
             wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array(
                 'jquery'
             ) , WPSH_VERSION);
+
+            $base = basename($_SERVER['PHP_SELF']);
+            $isShamsiInAdmin = array(
+                'in_admin' => (is_admin()) ? 1 : 0,
+                'base'  => $base
+            );
+
+            wp_localize_script( 'wpsh', 'isShamsiInAdmin', $isShamsiInAdmin );
         endif;
 
         if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false)):

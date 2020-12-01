@@ -83,16 +83,25 @@ class WPSH_Api extends WPSH_Core
     public function send_stats()
     {
         $interval = 604800; // Every Week
+        $failed_interval = 86400; // Every Day
         $is_permission = parent::option('activate-stats', true, false);
-        $last_contact = (get_option('wpsh_stats_last_contact') != null) ? (int)get_option('wpsh_stats_last_contact') : (time() - $interval);
-        if (!$is_permission || time() < ($last_contact + $interval))
+        $last_contact = (get_option('wpsh_stats_last_contact') != null) ? (int)get_option('wpsh_stats_last_contact') : time();
+        if (!$is_permission || time() < $last_contact)
 
         {
             return;
         }
 
-        $this->stats_core();
-        update_option('wpsh_stats_last_contact', time());
+        $action = $this->stats_core();
+
+        if($action === false)
+        {
+          update_option('wpsh_stats_last_contact', time() + $failed_interval);
+          return;
+        }
+
+        update_option('wpsh_stats_last_contact', time() + $interval);
+
     }
 
     public function permission($mode)
@@ -300,6 +309,11 @@ class WPSH_Api extends WPSH_Core
                 ) ,
                 'cookies' => array()
             ));
+
+            if ( is_wp_error( $response ) )
+            {
+              return false;
+            }
 
             return true;
         endif;

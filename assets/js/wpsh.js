@@ -7,12 +7,12 @@
     \  /\  /  | |       ____) | |  | |/ ____ \| |  | |____) |_| |_
      \/  \/   |_|      |_____/|_|  |_/_/    \_\_|  |_|_____/|_____|
 
-                                                                   
+
  * @author Ali Faraji
  * @website https://wpvar.com
  * @copyright Copyright Ali Faraji (mail.wpvar@gmail.com) | https://wpvar.com
  *
- * @version WP Shamsi aka افزونه شمسی ساز و فارسی ساز وردپرس  V2.0.0
+ * @version WP Shamsi aka افزونه شمسی ساز و فارسی ساز وردپرس  V2.0.3
  *
  * @info https://wordpress.org/plugins/wp-shamsi/
  *
@@ -31,6 +31,8 @@ jQuery(document).ready(function() {
     8: '۸',
     9: '۹'
   };
+
+
   elements = [ // Tags to skip
     "CODE",
     "HEAD",
@@ -42,6 +44,14 @@ jQuery(document).ready(function() {
     "TEXTAREA",
     "TITLE"
   ];
+
+  var in_admin = false;
+
+  if (isShamsiInAdmin.in_admin == 1) {
+    var in_admin = true;
+    var base = isShamsiInAdmin.base;
+  }
+
 
   function wpsh_num(el) {
     if (el.nodeType == 3) {
@@ -58,6 +68,21 @@ jQuery(document).ready(function() {
       wpsh_num(el.childNodes[i]);
     }
   }
-  wpsh_num(document.body);
+
+  if (in_admin) {
+    if (base == 'edit.php') {
+      wpsh_num(document.querySelector('#wpadminbar'));
+      wpsh_num(document.querySelector('#adminmenu'));
+      wpsh_num(document.querySelector('.date'));
+      wpsh_num(document.querySelector('.tablenav-pages'));
+      wpsh_num(document.querySelector('.subsubsub'));
+
+    } else {
+      wpsh_num(document.body);
+    }
+
+  } else {
+    wpsh_num(document.body);
+  }
 
 });
