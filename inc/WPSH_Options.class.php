@@ -86,7 +86,7 @@ class WPSH_Options extends WPSH_Core
         {
             $newsletter = ' با ایمیل <strong>' . $newsletter_email . '</strong> مشترک خبرنامه هستید. از عضویتتان متشکریم';
         }
-        elseif (isset($_GET['wpsh_newsletter']) && $_GET['wpsh_newsletter'] == 'dismiss')
+        elseif ((parent::get('wpsh_newsletter', 'bool') && parent::get('wpsh_newsletter') == 'send') || parent::post('wpsh_email'))
         {
             $newsletter = '<strong>اشتراک شما با موفقیت ثبت شد. با تشکر</strong>';
         }
@@ -98,6 +98,8 @@ class WPSH_Options extends WPSH_Core
           <a class="button button-primary" id="wpsh_form_settings">ثبت اشتراک</a>
           <p>
           برای باخبر شدن از آخرین اخبار، به‌روزرسانی ‎ها و آموزش ‎های وردپرس به زبان فارسی با وارد کردن ایمیل خود در فیلد زیر مشترک خبرنامه شوید.
+          </p>
+          <p id="wpsh_email_validation_settings">
           </p>
           ';
         }
@@ -133,7 +135,7 @@ class WPSH_Options extends WPSH_Core
                     'content' => '
                     <div class="wpsh_newsletter_settings">
                           ' . $newsletter . '
-                          <input type="hidden" id="wpsh_newsletter_settings" name="wpsh_newsletter_settings" value="' . get_admin_url() . 'admin.php?page=wpsh&wpsh_newsletter=dismiss">
+                          <input type="hidden" id="wpsh_newsletter_settings" name="wpsh_newsletter_settings" value="' . get_admin_url() . 'admin.php?page=wpsh&wpsh_newsletter=send">
                     </div>
                     ',
                     'before' => '<span class="dashicons dashicons-email"></span> <strong>خبرنامه وردپرس فارسی</strong>',
@@ -499,7 +501,7 @@ class WPSH_Options extends WPSH_Core
                   </p>
                   <h2>حمایت مالی</h2>
                   <p>صدها ساعت زمان و انرژی صرف برنامه‌نویسی این افزونه شده. اگه ازش خوشت اومده می‌تونی برامون یه قهوه بخری! :) <br /><br />
-	                <div style="text-align: center;"><span style="color:#ca4a1f;" class="exopite-sof-nav-icon dashicons-before dashicons-heart"></span><strong><a href="https://payping.ir/@wpvar" target="_blank" rel="nofollow" style="font-size: 16px;">حمایت مالی از ما</a></strong><br />
+	                <div style="text-align: center;"><span style="color:#ca4a1f;" class="exopite-sof-nav-icon dashicons-before dashicons-heart"></span><strong><a href="https://payping.ir/@wpvar" target="_blank" rel="nofollow" style="font-size: 18px; display: block; height: 40px;">حمایت مالی از ما</a></strong><br />
                   <a href="https://payping.ir/@wpvar" target="_blank" rel="nofollow"><img src="' . WPSH_URL . 'assets/img/qr.png" /></a></div>
 	                </p>
                   ', 'wpsh') ,

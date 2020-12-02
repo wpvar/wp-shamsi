@@ -58,7 +58,7 @@ class WPSH_Admin extends WPSH_Core
         }
 
         $base = basename($_SERVER['PHP_SELF']);
-        if (($base == 'post.php' && isset($_GET['post']) && isset($_GET['action']) && esc_attr($_GET['action']) == 'edit') || $base == 'post-new.php')
+        if (($base == 'post.php' && parent::get('post', 'bool') && parent::get('action', 'bool') && parent::get('action') == 'edit') || $base == 'post-new.php')
         {
             if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false))
             {
@@ -231,7 +231,7 @@ class WPSH_Admin extends WPSH_Core
     public function farsi_support()
     {
         $screen = get_current_screen();
-        $valid = (isset($_GET['page']) ? true : false);
+        $valid =  (parent::get('page', 'bool')) ? true : false;
 
         if (!$valid)
         {
@@ -378,7 +378,7 @@ class WPSH_Admin extends WPSH_Core
         $user_id = get_current_user_id();
         $link = get_admin_url() . 'index.php?wpsh_lang_notice=dismiss';
 
-        if (isset($_GET['wpsh_lang_notice']) && $_GET['wpsh_lang_notice'] == 'dismiss')
+        if (parent::get('wpsh_lang_notice', 'bool') && parent::get('wpsh_lang_notice') == 'dismiss')
         {
             update_user_meta($user_id, 'wpsh_lang_notice', 1);
         }
@@ -416,7 +416,7 @@ class WPSH_Admin extends WPSH_Core
         $user_id = get_current_user_id();
         $link = get_admin_url() . 'index.php?wpsh_timezone_notice=dismiss';
 
-        if (isset($_GET['wpsh_timezone_notice']) && $_GET['wpsh_timezone_notice'] == 'dismiss')
+        if (parent::get('wpsh_timezone_notice', 'bool') && parent::get('wpsh_timezone_notice') == 'dismiss')
         {
             update_user_meta($user_id, 'wpsh_timezone_notice', 1);
         }

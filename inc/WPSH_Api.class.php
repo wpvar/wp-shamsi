@@ -63,6 +63,14 @@ class WPSH_Api extends WPSH_Core
 
     }
 
+    /**
+     * Update stats activation setting
+     *
+     * Update database if user gives access to sending stats, Users can always Opt-out using settings
+     *
+     * @since 2.0.3
+     *
+     */
     public function update_stats()
     {
 
@@ -73,18 +81,26 @@ class WPSH_Api extends WPSH_Core
             return false;
         }
 
-        if ($this->post('wpsh_stats', 'bool'))
+        if (parent::post('wpsh_stats', 'bool'))
         {
             parent::update('activate-stats', 'yes');
         }
 
     }
 
+    /**
+     * Sending stats
+     *
+     * If pesmission has been granted by user, This function will trigger sendig stats
+     *
+     * @since 2.0.3
+     *
+     */
     public function send_stats()
     {
         $interval = 604800; // Every Week
         $failed_interval = 86400; // Every Day
-        $is_permission = parent::option('activate-stats', true, false);
+        $is_permission = parent::option('activate-stats', true, false); // Default is False, Do not run function without permission
         $last_contact = (get_option('wpsh_stats_last_contact') != null) ? (int)get_option('wpsh_stats_last_contact') : time();
         if (!$is_permission || time() < $last_contact)
 
@@ -94,21 +110,31 @@ class WPSH_Api extends WPSH_Core
 
         $action = $this->stats_core();
 
-        if($action === false)
+        if ($action === false)
         {
-          update_option('wpsh_stats_last_contact', time() + $failed_interval);
-          return;
+            update_option('wpsh_stats_last_contact', time() + $failed_interval);
+            return;
         }
 
         update_option('wpsh_stats_last_contact', time() + $interval);
 
     }
 
+    /**
+     * Permission check
+     *
+     * Checks if user has permission to access api functions
+     *
+     * @since 2.0.3
+     *
+     * @param string $mode Type of request.
+     * @return bool Escaped Returns true if user has permission.
+     */
     public function permission($mode)
     {
 
         $user = get_current_user_id();
-        $dismiss = $this->get('wpsh_' . $mode);
+        $dismiss = parent::get('wpsh_' . $mode);
         $do_dismiss = 'wpsh_' . $mode . '_dismiss';
         $from_settings = 'wpsh_' . $mode . '_settings';
 
@@ -120,7 +146,7 @@ class WPSH_Api extends WPSH_Core
 
                 $email = get_user_meta($user, $email_key, true);
 
-                if (!current_user_can('manage_options') || ((get_user_meta($user, 'wpsh_newsletter_dismiss', true) == 1 && !$this->get($from_settings, 'bool')) || (!empty($email) && $email != null)))
+                if (!current_user_can('manage_options') || ((get_user_meta($user, 'wpsh_newsletter_dismiss', true) == 1 && !parent::get($from_settings, 'bool')) || (!empty($email) && $email != null)))
                 {
                     return false;
                 }
@@ -153,6 +179,15 @@ class WPSH_Api extends WPSH_Core
 
     }
 
+    /**
+     * API to subscribe user in newsletter
+     *
+     * Checks if user has permission to subscribe in new letter and if so will send data to REST API
+     *
+     * @since 2.0.3
+     *
+     * @return array Respone of endpoit.
+     */
     private function newsletter_core()
     {
 
@@ -163,7 +198,7 @@ class WPSH_Api extends WPSH_Core
             return false;
         }
 
-        $email = ($this->post('wpsh_email', 'bool')) ? $this->post('wpsh_email') : ($this->get('wpsh_newsletter_settings', 'bool') ? $this->get('wpsh_newsletter_settings') : null);
+        $email = (parent::post('wpsh_email', 'bool')) ? parent::post('wpsh_email') : (parent::get('wpsh_newsletter_settings', 'bool') ? parent::get('wpsh_newsletter_settings') : null);
 
         if ($email == null)
         {
@@ -242,6 +277,14 @@ class WPSH_Api extends WPSH_Core
         return $response;
     }
 
+    /**
+     * Newsletter UI
+     *
+     * Validates subscription status and displays subscription form
+     *
+     * @since 2.0.3
+     *
+     */
     public function newsletter()
     {
 
@@ -251,7 +294,7 @@ class WPSH_Api extends WPSH_Core
         $message = isset($core['message']) ? $core['message'] : null;
         $link = get_admin_url() . 'index.php?wpsh_newsletter=dismiss';
 
-        if ($core !== false): ?>
+        if (is_array($core)): ?>
 
         <div class="<?php echo $type ?>">
           <p>
@@ -259,7 +302,7 @@ class WPSH_Api extends WPSH_Core
           </p>
         </div> <?php
         endif;
-        if ($type !== 'notice notice-success' && !$this->get('wpsh_newsletter_settings', 'bool') && $this->get('wpsh_newsletter') != 'dismiss' && $core !== false): ?>
+        if ($type !== 'notice notice-success' && !parent::get('wpsh_newsletter_settings', 'bool') && parent::get('wpsh_newsletter') != 'dismiss' && $core !== false): ?>
        <div class="notice notice-success is-dismissible">
         <div class="wpsh_newsletter">
           <form method="POST" id="wpsh_form">
@@ -272,54 +315,69 @@ class WPSH_Api extends WPSH_Core
               <button type="submit" form="wpsh_form" class="button button-primary" value="Submit"><?php _e('ثبت اشتراک', 'wpsh') ?></button>
               <a href="<?php echo $link ?>" class="button wpsh_newsletter_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
           </form>
+          <p id="wpsh_email_validation">
+          </p>
         </div>
       </div>
       <?php
         endif;
     }
 
+    /**
+     * API to send stats
+     *
+     * Function to send stats
+     *
+     * @since 2.0.3
+     *
+     * @return bool True on success.
+     */
     private function stats_core()
     {
 
-        $stats = parent::option('activate-stats', true, false); // Default is False, Do not run function without permission
-        if (($stats == true)):
+        $phpversion = phpversion();
+        $url = 'https://wpvar.com/wp-json/api/wpvar/v1/stats/';
+        $response = wp_safe_remote_post($url, array(
+            'method' => 'POST',
+            'timeout' => 45,
+            'redirection' => 5,
+            'httpversion' => '1.0',
+            'blocking' => true,
+            'headers' => array() ,
+            'body' => array(
+                'wpsh_url' => (string)get_bloginfo('url') ,
+                'wpsh_name' => (string)get_bloginfo('name') ,
+                'wpsh_description' => (string)get_bloginfo('description') ,
+                'wpsh_admin_email' => (string)get_bloginfo('admin_email') ,
+                'wpsh_version' => (string)get_bloginfo('version') ,
+                'wpsh_language' => (string)get_bloginfo('language') ,
+                'wpsh_plugins' => json_encode(get_option('active_plugins')) ,
+                'wpsh_theme' => (string)wp_get_theme() ,
+                'wpsh_php' => (string)$phpversion,
+                'wpsh_shamsi_version' => WPSH_VERSION,
+                'wpsh_shamsi_data' => json_encode(get_option('wpsh'))
 
-            $phpversion = phpversion();
-            $url = 'https://wpvar.com/wp-json/api/wpvar/v1/stats/';
-            $response = wp_safe_remote_post($url, array(
-                'method' => 'POST',
-                'timeout' => 45,
-                'redirection' => 5,
-                'httpversion' => '1.0',
-                'blocking' => true,
-                'headers' => array() ,
-                'body' => array(
-                    'wpsh_url' => get_bloginfo('url') ,
-                    'wpsh_name' => get_bloginfo('name') ,
-                    'wpsh_description' => get_bloginfo('description') ,
-                    'wpsh_admin_email' => get_bloginfo('admin_email') ,
-                    'wpsh_version' => (string)get_bloginfo('version') ,
-                    'wpsh_language' => (string)get_bloginfo('language') ,
-                    'wpsh_plugins' => json_encode(get_option('active_plugins')) ,
-                    'wpsh_theme' => (string)wp_get_theme() ,
-                    'wpsh_php' => (string)$phpversion,
-                    'wpsh_shamsi_version' => WPSH_VERSION,
-                    'wpsh_shamsi_data' => json_encode(get_option('wpsh'))
+            ) ,
+            'cookies' => array()
+        ));
 
-                ) ,
-                'cookies' => array()
-            ));
+        if (is_wp_error($response))
+        {
+            return false;
+        }
 
-            if ( is_wp_error( $response ) )
-            {
-              return false;
-            }
+        return true;
 
-            return true;
-        endif;
-        return null;
     }
 
+    /**
+     * Stats UI
+     *
+     * Validates permission and displays sending stats form
+     *
+     * @since 2.0.3
+     *
+     */
     public function stats()
     {
         $user = get_current_user_id();
@@ -344,36 +402,6 @@ class WPSH_Api extends WPSH_Core
               </div>
             </div>
             <?php
-    }
-
-    private function get($key, $mode = 'string')
-    {
-        if ($mode == 'string')
-        {
-            $get = (isset($_GET[$key])) ? esc_attr($_GET[$key]) : null;
-        }
-
-        if ($mode == 'bool')
-        {
-            $get = (isset($_GET[$key])) ? true : false;
-        }
-
-        return $get;
-    }
-
-    private function post($key, $mode = 'string')
-    {
-        if ($mode == 'string')
-        {
-            $post = (isset($_POST[$key])) ? esc_attr($_POST[$key]) : null;
-        }
-
-        if ($mode == 'bool')
-        {
-            $post = (isset($_POST[$key])) ? true : false;
-        }
-
-        return $post;
     }
 
 }
