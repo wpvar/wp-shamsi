@@ -28,6 +28,11 @@ class WPSH_Api extends WPSH_Core
         if (is_admin())
         {
 
+            add_action('admin_notices', array(
+                $this,
+                'notice_check'
+            ));
+
             if (has_action('admin_notices'))
             {
                 add_action('admin_notices', array(
@@ -61,6 +66,20 @@ class WPSH_Api extends WPSH_Core
             'send_stats'
         ));
 
+    }
+
+    /**
+     * Check admin_notices availability
+     *
+     * Triggers admin_notices. If action hook had been deleted plugin will switch to admin_init.
+     *
+     * @since 2.1.0
+     *
+     * @return bool True.
+     */
+    public function notice_check()
+    {
+        return true;
     }
 
     /**
