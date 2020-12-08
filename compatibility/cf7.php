@@ -10,7 +10,7 @@ defined('ABSPATH') or die();
  *
  * Contact Form 7 and Flamingo Compability Class
  *
- * @since 2.0.3
+ * @since 2.1.0
  */
 class WPSH_ContactForm extends WPSH_Core
 

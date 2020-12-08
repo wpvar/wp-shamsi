@@ -8,12 +8,7 @@
      \/  \/   |_|      |_____/|_|  |_/_/    \_\_|  |_|_____/|_____|
 
 
- * @author Ali Faraji
- * @website https://wpvar.com
- * @copyright Copyright Ali Faraji (mail.wpvar@gmail.com) | https://wpvar.com
- *
- * @version WP Shamsi aka افزونه شمسی ساز و فارسی ساز وردپرس  V2.0.3
- *
+ * @version WP Shamsi aka افزونه شمسی ساز و فارسی ساز وردپرس  V2.1.0
  * @info https://wordpress.org/plugins/wp-shamsi/
  *
  */
@@ -33,6 +28,7 @@ jQuery(document).ready(function() {
 	elements = [ // Tags to skip
 		"CODE", "HEAD", "INPUT", "OPTION", "PRE", "SCRIPT", "STYLE", "TEXTAREA", "TITLE"
 	];
+  var isShamsiInAdmin = [];
 	if(isShamsiInAdmin.in_admin == 1) {
 		var in_admin = true;
 		var base = isShamsiInAdmin.base;

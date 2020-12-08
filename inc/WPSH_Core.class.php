@@ -161,7 +161,7 @@ class WPSH_Core
      *
      * Function to update plugin options
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      * @param string $key Key to find.
      * @param bool $value Value to replace.
@@ -331,7 +331,7 @@ class WPSH_Core
      *
      * Chane font of Tinymce and make it farsi friendly.
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      * @return array array of tinymce configurations.
      */
@@ -433,7 +433,7 @@ class WPSH_Core
      *
      * If language is not set to farsi admins can choose to disable shamsi dates.
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      * @return bool true or false.
      */
@@ -535,7 +535,7 @@ class WPSH_Core
      *
      * Correct human readable dates
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      * @param string $since The difference in human readable text.
      * @param int    $diff  The difference in seconds.
@@ -732,7 +732,7 @@ class WPSH_Core
      *
      * Mask and escape $_GET
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      * @param string $key Key of $_GET.
      * @param string $mode String or boolean.
@@ -758,7 +758,7 @@ class WPSH_Core
      *
      * Mask and escape $_POST
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      * @param string $key Key of $_POST.
      * @param string $mode String or boolean.

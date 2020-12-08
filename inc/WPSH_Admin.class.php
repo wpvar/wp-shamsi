@@ -141,6 +141,7 @@ class WPSH_Admin extends WPSH_Core
         include_once (ABSPATH . WPINC . '/feed.php');
 
         $rss = fetch_feed('https://wpvar.com/feed');
+        $maxitems = (int) 0;
 
         if (!is_wp_error($rss)):
             $maxitems = $rss->get_item_quantity(3);

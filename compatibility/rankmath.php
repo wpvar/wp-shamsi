@@ -6,20 +6,20 @@
 defined('ABSPATH') or die();
 
 /**
- * wpForo Compability
+ * RankMath Compability
  *
- * wpForo Compability Class
+ * RankMath Compability Class
  *
  * @since 2.1.0
  */
-class WPSH_Wpforo extends WPSH_Core
+class WPSH_Rankmath extends WPSH_Core
 
 {
 
     function __construct()
     {
 
-        if (!parent::option('activate-wpforo', true, true))
+        if (!parent::option('activate-rankmath', true, true))
         {
             return;
         }
@@ -28,5 +28,5 @@ class WPSH_Wpforo extends WPSH_Core
 
 }
 
-new WPSH_Wpforo();
+new WPSH_Rankmath();
 

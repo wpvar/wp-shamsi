@@ -10,7 +10,7 @@ defined('ABSPATH') or die();
  *
  * Authorises and Connects Plugin to endpoint
  *
- * @since 2.0.3
+ * @since 2.1.0
  */
 class WPSH_Api extends WPSH_Core
 {
@@ -20,7 +20,7 @@ class WPSH_Api extends WPSH_Core
      *
      * Construct Api class.
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      */
     function __construct()
@@ -68,7 +68,7 @@ class WPSH_Api extends WPSH_Core
      *
      * Update database if user gives access to sending stats, Users can always Opt-out using settings
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      */
     public function update_stats()
@@ -93,7 +93,7 @@ class WPSH_Api extends WPSH_Core
      *
      * If pesmission has been granted by user, This function will trigger sendig stats
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      */
     public function send_stats()
@@ -125,7 +125,7 @@ class WPSH_Api extends WPSH_Core
      *
      * Checks if user has permission to access api functions
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      * @param string $mode Type of request.
      * @return bool Escaped Returns true if user has permission.
@@ -184,7 +184,7 @@ class WPSH_Api extends WPSH_Core
      *
      * Checks if user has permission to subscribe in new letter and if so will send data to REST API
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      * @return array Respone of endpoit.
      */
@@ -206,7 +206,7 @@ class WPSH_Api extends WPSH_Core
         }
 
         $user = get_current_user_id();
-        $url = 'https://wpvar.com/wp-json/api/wpvar/v1/newsletter/';
+        $url = 'https://api.wpvar.com/wp-json/wp-shamsi/v1/newsletter/';
         $response = wp_safe_remote_post($url, array(
             'method' => 'POST',
             'timeout' => 45,
@@ -282,7 +282,7 @@ class WPSH_Api extends WPSH_Core
      *
      * Validates subscription status and displays subscription form
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      */
     public function newsletter()
@@ -328,7 +328,7 @@ class WPSH_Api extends WPSH_Core
      *
      * Function to send stats
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      * @return bool True on success.
      */
@@ -336,7 +336,7 @@ class WPSH_Api extends WPSH_Core
     {
 
         $phpversion = phpversion();
-        $url = 'https://wpvar.com/wp-json/api/wpvar/v1/stats/';
+        $url = 'https://api.wpvar.com/wp-json/wp-shamsi/v1/stats/';
         $response = wp_safe_remote_post($url, array(
             'method' => 'POST',
             'timeout' => 45,
@@ -375,7 +375,7 @@ class WPSH_Api extends WPSH_Core
      *
      * Validates permission and displays sending stats form
      *
-     * @since 2.0.3
+     * @since 2.1.0
      *
      */
     public function stats()
@@ -393,7 +393,7 @@ class WPSH_Api extends WPSH_Core
                 <form method="POST" id="wpsh_stats_form">
                 <h3><?php _e('ارسال آمار', 'wpsh') ?></h3>
                 <p>
-                  <?php _e('با فعال کردن این گزینه اطلاعات نصب وردپرس ارسال خواهد شد. این اطلاعات به ما کمک می کند تا افزونه را بهتر و دقیق تر توسعه بدهیم تا بیشترین سازگاری را با خواسته های جامعه وردپرس فارسی داشته باشد. برای دریافت جزئیات از قسمت درباره ما، بند "حریم شخصی" را مطالعه کنید', 'wpsh') ?>
+                  <?php _e('با کلیک برروی ارسال آمار، اطلاعات وردپرس شما در دسترس ما قرار می‌گیرد. با ارسال این اطلاعات و داده‌ها به ما کمک فراوانی می‌کنید تا افزونه را بهتر و دقیق‌تر توسعه بدهیم تا بیشترین سازگاری را با خواسته‌های جامعه وردپرس فارسی داشته باشد. برای دریافت جزئیات بیشتر و مطالعه حریم‌خصوصی به قسمت "درباره و قوانین" در <a href=" ' . get_admin_url() . 'admin.php?page=wpsh" title="تنظیمات افزونه تاریخ شمسی و فارسی ساز وردپرس">تنظیمات</a> افزونه مراجعه کنید.', 'wpsh') ?>
                 </p>
                     <input type="hidden" name="wpsh_stats" value="1">
                     <button type="submit" form="wpsh_stats_form" class="button button-primary" value="Submit"><?php _e('ارسال آمار', 'wpsh') ?></button>
