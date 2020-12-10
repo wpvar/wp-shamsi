@@ -16,7 +16,7 @@ use WpshDate\WPSH_Date;
  * @since 1.0.0
  */
 class WPSH_Core
-{
+  {
     /**
      * Construction
      *
@@ -26,26 +26,31 @@ class WPSH_Core
      *
      */
     function __construct()
-    {
+      {
         register_activation_hook(WPSH_FILE, array(
             $this,
             'init'
         ));
 
         if (function_exists('wp_date'))
-        {
+          {
             add_filter('wp_date', array(
                 $this,
                 'wp_shamsi'
             ) , 10, 4);
-        }
+          }
         else
-        {
+          {
             add_filter('date_i18n', array(
                 $this,
                 'wp_shamsi'
             ) , 10, 4);
-        }
+          }
+
+        add_filter('human_time_diff', array(
+            $this,
+            'wp_shamsi_diff'
+        ) , 10, 4);
 
         add_action('wp_enqueue_scripts', array(
             $this,
@@ -57,8 +62,13 @@ class WPSH_Core
             'login_themes'
         ));
 
+        add_filter('tiny_mce_before_init', array(
+            $this,
+            'tinymce_style'
+        ) , 10, 1);
+
         if (!empty($this->option('translate-group') [0]['translate-target']))
-        {
+          {
             add_filter('gettext', array(
                 $this,
                 'translate'
@@ -67,26 +77,28 @@ class WPSH_Core
                 $this,
                 'translate'
             ) , 20, 1);
-        }
+          }
 
         if (get_locale() == 'fa_IR' || get_locale() == 'fa_AF')
-        {
+          {
             add_filter('wp_mail', array(
                 $this,
                 'email'
             ));
-        }
+          }
 
         add_filter('wp_insert_post_data', array( //wp_update_post_data
             $this,
             'save_post_date'
         ) , 99, 1);
+
         add_filter('wp_update_comment_data', array(
             $this,
             'save_comment_date'
         ) , 99, 1);
 
-    }
+        add_filter('wp_checkdate', '__return_true');
+      }
 
     /**
      * Activation Hook function
@@ -97,7 +109,7 @@ class WPSH_Core
      *
      */
     public function init()
-    {
+      {
 
         update_option('start_of_week', 6);
         load_plugin_textdomain('wpsh');
@@ -105,7 +117,7 @@ class WPSH_Core
         delete_transient('feed_' . md5('dashboard_primary_fa_IR'));
         wp_cache_flush();
 
-    }
+      }
 
     /**
      * Get options
@@ -119,30 +131,51 @@ class WPSH_Core
      * @return mixed Result of get_option.
      */
     public function option($option, $bool = false, $default = true)
-    {
+      {
         $options = get_option('wpsh');
 
         if (!isset($options[$option]) && $default === true)
-        {
+          {
             return true;
-        }
+          }
         if (!isset($options[$option]) && $default === false)
-        {
+          {
             return false;
-        }
+          }
         if ($bool === true)
-        {
+          {
             if ($options[$option] == 'yes'):
                 return true;
             else:
                 return false;
             endif;
-        }
+          }
         else
-        {
+          {
             return $options[$option];
-        }
-    }
+          }
+      }
+
+    /**
+     * Update Options
+     *
+     * Function to update plugin options
+     *
+     * @since 2.1.0
+     *
+     * @param string $key Key to find.
+     * @param bool $value Value to replace.
+     */
+    public function update($key, $value)
+      {
+
+        $option = get_option('wpsh');
+
+        $option[$key] = $value;
+
+        update_option('wpsh', $option);
+
+      }
 
     /**
      * Load JS and CSS
@@ -153,7 +186,7 @@ class WPSH_Core
      *
      */
     public function script()
-    {
+      {
         if ($this->option('persian-num', true, true)):
             wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array(
                 'jquery'
@@ -167,11 +200,11 @@ class WPSH_Core
 
         $theme = wp_get_theme()->stylesheet;
         if (in_array($theme, $this->supported_themes()))
-        {
+          {
             $this->themes($theme);
-        }
+          }
 
-    }
+      }
 
     /**
      * Supported themes list
@@ -184,7 +217,7 @@ class WPSH_Core
      * @return array array of supported themes.
      */
     public function supported_themes()
-    {
+      {
         $themes = array(
             'twentytwentyone', // Since 2.0.0
             'twentytwenty', // Since 1.2.0
@@ -199,7 +232,7 @@ class WPSH_Core
         );
 
         return $themes;
-    }
+      }
 
     /**
      * Make supported themes farsi compatible.
@@ -212,11 +245,11 @@ class WPSH_Core
      * @param string $theme Name of current theme.
      */
     public function themes($theme)
-    {
+      {
         if (!$this->option('fa-theme', true, true))
-        {
+          {
             return false;
-        }
+          }
         $path = WPSH_URL . 'assets/fonts/';
         $css = '
         @font-face {
@@ -258,23 +291,23 @@ class WPSH_Core
         ';
 
         if ($theme != 'wp-admin')
-        {
+          {
             include WPSH_PATH . 'themes/' . $theme . '.theme.php';
-        }
+          }
         else
-        {
+          {
             $css .= '
-            .wp-block textarea {
+            .wp-block textarea, .wp-block {
               font-family: Vazir, tahoma, sans-serif, arial !important;
             }
           ';
-        }
+          }
 
         wp_enqueue_style('wpsh-theme', WPSH_URL . 'assets/css/wpsh_theme.css', array() , WPSH_VERSION);
 
         wp_add_inline_style('wpsh-theme', (string)$css);
 
-    }
+      }
 
     /**
      * Change login page style
@@ -285,13 +318,34 @@ class WPSH_Core
      *
      */
     public function login_themes()
-    {
+      {
 
         wp_enqueue_style('wpsh-admin-css', WPSH_URL . 'assets/css/wpsh_admin.css', array() , WPSH_VERSION);
 
         $this->themes('wp-admin');
 
-    }
+      }
+
+    /**
+     * Chane font of Tinymce
+     *
+     * Chane font of Tinymce and make it farsi friendly.
+     *
+     * @since 2.1.0
+     *
+     * @return array array of tinymce configurations.
+     */
+    public function tinymce_style($tinymce)
+      {
+        if (!$this->option('fa-theme', true, true))
+          {
+            return $tinymce;
+          }
+
+        $tinymce['content_style'] = 'body#tinymce.wp-editor.content,body#tinymce.wp-editor.content p, body#tinymce.wp-editor.content ol, body#tinymce.wp-editor.content ul, body#tinymce.wp-editor.content dl, body#tinymce.wp-editor.content dt {font-family: Vazir, tahoma, sans-serif, arial !important;}';
+
+        return $tinymce;
+      }
 
     /**
      * Translate strings
@@ -304,20 +358,20 @@ class WPSH_Core
      * @return string Translated string.
      */
     public function translate($string)
-    {
+      {
 
         $txts = (array)$this->option('translate-group');
         foreach ($txts as $txt)
-        {
+          {
 
             if (!isset($txt['translate-source']) || !isset($txt['translate-target'])):
                 return $string;
             endif;
 
-            $string = str_ireplace($txt['translate-source'], $txt['translate-target'], $string);
-        }
+            $string = preg_replace('/\b' . $txt['translate-source'] . '\b/u', $txt['translate-target'], $string);
+          }
         return $string;
-    }
+      }
 
     /**
      * Filter outgoing mails
@@ -330,13 +384,13 @@ class WPSH_Core
      * @return array Returns filtered arguments.
      */
     public function email($args)
-    {
+      {
 
         $args['message'] = str_ireplace('http://wp-persian.com/', 'https://wpvar.com/', $args['message']);
         $args['message'] = str_ireplace('WP-Persian.com', 'wpvar.com', $args['message']);
 
         return $args;
-    }
+      }
 
     /**
      * Get Timezone
@@ -348,31 +402,49 @@ class WPSH_Core
      * @return string Timezone format.
      */
     private function timezone()
-    {
+      {
         $utc = (wp_timezone_override_offset()) ? wp_timezone_override_offset() : get_option('gmt_offset');
 
         $format = explode('.', $utc);
         $format = str_replace('+', '', $format);
 
         if (isset($format[1]))
-        {
+          {
             $result = (($format[0] > 0) ? '+' . $format[0] : $format[0]) . ':' . (($format[1] == 5) ? '30' : $format[1]);
-        }
+          }
         elseif (isset($format[0]) && !isset($format[1]))
-        {
+          {
             if ($format[0] == 0)
-            {
+              {
                 return 0;
-            }
+              }
             $result = ($format[0] > 0) ? '+' . $format[0] . ':00' : $format[0] . ':00';
-        }
+          }
         else
-        {
+          {
             $result = 0;
-        }
+          }
 
         return $result;
-    }
+      }
+
+    /**
+     * Disable shamsi regarding lang
+     *
+     * If language is not set to farsi admins can choose to disable shamsi dates.
+     *
+     * @since 2.1.0
+     *
+     * @return bool true or false.
+     */
+    protected function no_lang_no_shamsi()
+      {
+        if ($this->option('activate-no-lang-no-shamsi', true, false) && get_locale() != 'fa_IR' && get_locale() != 'fa_AF')
+          {
+            return true;
+          }
+        return false;
+      }
 
     /**
      * Make dates Jalali aka Shamsi
@@ -387,33 +459,52 @@ class WPSH_Core
      * @return mixed converted date.
      */
     public function wp_shamsi($date = null, $format = null, $timestamp = null, $timezone = null)
-    {
+      {
 
         $date = $this->normalize_date($date);
 
-        if ($date != null)
-        {
-            $check_point = date('Y', strtotime($date));
-            if ($check_point < 1970)
-            {
-                return $date;
-            }
-        }
+        /* Hook to add modify formats*/
+        $format = apply_filters('wpsh_date_replace_formats', $format);
 
-        if (!$this->option('activate-shamsi', true, true))
-        {
+        if ($timestamp < 0)
+          {
             return $date;
-        }
+          }
+
+        $skip_formats = array(
+            // DATE_W3C DATE_ATOM DATE_RFC3339
+            'Y-m-d\TH:i:sP',
+            // DATE_RSS DATE_RFC822 DATE_RFC1036 DATE_RFC1123 DATE_RFC2822
+            'D, d M Y H:i:s O',
+            // DATE_COOKIE DATE_RFC850
+            'l, d-M-Y H:i:s T',
+            // DATE_ISO8601
+            'Y-m-d\TH:i:sO'
+
+        );
+
+        /* Hook to add custom formats to be skipped */
+        $skip_formats = apply_filters('wpsh_date_skip_formats', $skip_formats);
+
+        if (is_array($skip_formats) && in_array($format, $skip_formats))
+          {
+            return $date;
+          }
+
+        if (!$this->option('activate-shamsi', true, true) || $this->no_lang_no_shamsi())
+          {
+            return $date;
+          }
 
         if ($this->option('activate-admin-shamsi', true, false) && is_admin())
-        {
+          {
             return $date;
-        }
+          }
 
         if ($format == null)
-        {
+          {
             $format = 'Y m d H:i:s';
-        }
+          }
 
         $format = ($format == 'F j, Y') ? 'j F, Y' : $format; // Make date readable without changing default format.
         $format = str_replace(',', '', $format);
@@ -421,11 +512,13 @@ class WPSH_Core
         $format = str_replace('.', '', $format);
         $format = str_replace('S', '', $format);
         $format = str_replace('js', 'j s', $format);
+        $format = str_replace('M j', 'j M', $format);
+        $format = str_replace('F j', 'j F', $format);
 
         if ($timezone == null || $timezone == '0')
-        {
+          {
             $timezone = $this->timezone();
-        }
+          }
 
         $date = ($timezone == '1') ? new WPSH_Jalali($timestamp, 'UTC') : new WPSH_Jalali($timestamp, $timezone);
         $date = $date->format($format);
@@ -433,9 +526,39 @@ class WPSH_Core
         /* Deprecated since 2.0.0 */
         //$date = $this->persian_num($date);
         /* Filter returned date to extend plugins developement capacity */
-        return apply_filters('wp_jdate', $date, $format, $timestamp, $timezone);
+        return apply_filters('wpsh_date', $date, $format, $timestamp, $timezone);
 
-    }
+      }
+
+    /**
+     * Correct diff
+     *
+     * Correct human readable dates
+     *
+     * @since 2.1.0
+     *
+     * @param string $since The difference in human readable text.
+     * @param int    $diff  The difference in seconds.
+     * @param int    $from  Unix timestamp from which the difference begins.
+     * @param int    $to    Unix timestamp to end the time difference.
+     * @return string Corrected human readable date.
+     */
+    public function wp_shamsi_diff($since, $diff, $from, $to)
+      {
+        if ($from < 0 && $to === time())
+          {
+            $from = date('Y-m-d H:i:s', $from);
+            $from = $this->gregorian($from, 'Y-m-d H:i:s');
+            $to = time();
+
+            return human_time_diff(strtotime($from) , $to);
+          }
+
+        else
+          {
+            return $since;
+          }
+      }
 
     /**
      * Post date to gregorian
@@ -448,17 +571,17 @@ class WPSH_Core
      * @return array new validated post in array.
      */
     public function save_post_date($data)
-    {
+      {
         $check_point = date('Y', strtotime($data['post_date']));
         if ($check_point >= 1970)
-        {
+          {
             return $data;
-        }
+          }
         $data['post_date'] = $this->gregorian($data['post_date'], 'Y-m-d H:i:s');
         $data['post_date_gmt'] = $this->gregorian($data['post_date_gmt'], 'Y-m-d H:i:s');
 
         return $data;
-    }
+      }
 
     /**
      * Comment date to gregorian
@@ -471,17 +594,17 @@ class WPSH_Core
      * @return array new validated comment data in array.
      */
     public function save_comment_date($data)
-    {
+      {
         $check_point = date('Y', strtotime($data['comment_date']));
         if ($check_point >= 1970)
-        {
+          {
             return $data;
-        }
+          }
         $data['comment_date'] = $this->gregorian($data['comment_date'], 'Y-m-d H:i:s');
         $data['comment_date_gmt'] = $this->gregorian($data['comment_date_gmt'], 'Y-m-d H:i:s');
 
         return $data;
-    }
+      }
 
     /**
      * Farsi numbers to English
@@ -494,7 +617,7 @@ class WPSH_Core
      * @return string new validated date.
      */
     private function normalize_date($data)
-    {
+      {
 
         $fa = array(
             '۰',
@@ -525,7 +648,7 @@ class WPSH_Core
         $data = str_replace($fa, $en, $data);
 
         return $data;
-    }
+      }
 
     /**
      * Shamsi to Gregorian
@@ -539,21 +662,21 @@ class WPSH_Core
      * @return mixed Converted date.
      */
     public function gregorian($date, $format = null)
-    {
+      {
 
         $date = $this->normalize_date($date);
 
         if ($format == null)
-        {
+          {
             $format = 'Y m d H:i:s';
-        }
+          }
 
         $date = new WPSH_Jalali($date, $this->timezone());
         $date = $date->tog()
             ->format($format);
 
         return $date;
-    }
+      }
 
     /**
      * Latin numbers to Farsi
@@ -567,12 +690,12 @@ class WPSH_Core
      */
     private function persian_num($content) // Display dates in persian numbers evein if jQuery is not available or dates displayed in admin area
 
-    {
+      {
 
         if (!$this->option('persian-num', true, true))
-        {
+          {
             return $content;
-        }
+          }
         $fa = array(
             '۰',
             '۱',
@@ -602,7 +725,59 @@ class WPSH_Core
         $result = str_replace($en, $fa, $content);
 
         return $result;
-    }
+      }
 
-}
+    /**
+     * $_GET Mask
+     *
+     * Mask and escape $_GET
+     *
+     * @since 2.1.0
+     *
+     * @param string $key Key of $_GET.
+     * @param string $mode String or boolean.
+     * @return mixed Escaped result or boolean.
+     */
+    protected function get($key, $mode = 'string')
+      {
+        if ($mode == 'string')
+          {
+            $get = (isset($_GET[$key])) ? esc_attr($_GET[$key]) : null;
+          }
+
+        if ($mode == 'bool')
+          {
+            $get = (isset($_GET[$key])) ? true : false;
+          }
+
+        return $get;
+      }
+
+    /**
+     * $_POST Mask
+     *
+     * Mask and escape $_POST
+     *
+     * @since 2.1.0
+     *
+     * @param string $key Key of $_POST.
+     * @param string $mode String or boolean.
+     * @return mixed Escaped result or boolean.
+     */
+    protected function post($key, $mode = 'string')
+      {
+        if ($mode == 'string')
+          {
+            $post = (isset($_POST[$key])) ? esc_attr($_POST[$key]) : null;
+          }
+
+        if ($mode == 'bool')
+          {
+            $post = (isset($_POST[$key])) ? true : false;
+          }
+
+        return $post;
+      }
+
+  }
 
