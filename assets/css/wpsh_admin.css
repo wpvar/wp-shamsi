@@ -96,6 +96,11 @@
   margin: 0 0 10px 0;
 }
 
+.notice .wpsh_dismiss
+{
+  margin: 0 0 10px 0;
+}
+
 #wpsh_email_validation, #wpsh_email_validation_settings {
   color: #c50000;
   font-weight: bold;

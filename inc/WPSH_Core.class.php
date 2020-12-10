@@ -187,7 +187,7 @@ class WPSH_Core
      */
     public function script()
       {
-        if ($this->option('persian-num', true, true)):
+        if ($this->option('persian-num', true, true) && (get_locale() == 'fa_IR' || get_locale() == 'fa_AF')):
             wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array(
                 'jquery'
             ) , WPSH_VERSION);

@@ -141,7 +141,7 @@ class WPSH_Admin extends WPSH_Core
         include_once (ABSPATH . WPINC . '/feed.php');
 
         $rss = fetch_feed('https://wpvar.com/feed');
-        $maxitems = (int) 0;
+        $maxitems = (int)0;
 
         if (!is_wp_error($rss)):
             $maxitems = $rss->get_item_quantity(3);
@@ -232,7 +232,7 @@ class WPSH_Admin extends WPSH_Core
     public function farsi_support()
     {
         $screen = get_current_screen();
-        $valid =  (parent::get('page', 'bool')) ? true : false;
+        $valid = (parent::get('page', 'bool')) ? true : false;
 
         if (!$valid)
         {
@@ -341,6 +341,7 @@ class WPSH_Admin extends WPSH_Core
             '/\bنوامبر\b/u',
             '/\bدسامبر\b/u'
         );
+
         $true_fa = array(
             'فروردین',
             'اردیبهشت',
@@ -357,6 +358,18 @@ class WPSH_Admin extends WPSH_Core
         );
 
         $string = preg_replace($fa, $true_fa, $string);
+
+        $fa_retro = array(
+            'مرداد ',
+            'مرداد‌'
+        );
+
+        $true_fa_retro = array(
+            'می ',
+            'می‌'
+        );
+
+        $string = str_replace($fa_retro, $true_fa_retro, $string);
 
         return $string;
     }
@@ -387,8 +400,7 @@ class WPSH_Admin extends WPSH_Core
         if (get_user_meta($user_id, 'wpsh_lang_notice', true) == 1)
         {
             return;
-        }
-?>
+        } ?>
         <div class="notice notice-warning is-dismissible">
           <p>
             <?php _e('<strong>هشدار:</strong> بسته زبانی فارسی وردپرس فعال نیست. برای فعال سازی آن <a href="' . get_admin_url() . 'options-general.php#default_role">از این صفحه</a> زبان سایت را به <strong>فارسی</strong> تغییر دهید', 'wpsh'); ?>
@@ -435,9 +447,8 @@ class WPSH_Admin extends WPSH_Core
         if (get_locale() == 'fa_AF')
         { // Future support if fa_AF becomes available
             $city = 'کابل';
-        }
+        } ?>
 
-?>
         <div class="notice notice-warning is-dismissible">
           <p>
             <?php _e('<strong>توجه:</strong> برای عملکرد دقیق تر شمسی ساز، زمان محلی را <a href="' . get_admin_url() . 'options-general.php#WPLANG">از این صفحه</a> به <strong>' . $city . '</strong> تغییر دهید', 'wpsh'); ?>
@@ -499,7 +510,7 @@ class WPSH_Admin extends WPSH_Core
             wp_enqueue_style('wpsh-admin-css', WPSH_URL . 'assets/css/wpsh_admin_shamsi.css', array() , WPSH_VERSION);
         endif;
 
-        if (parent::option('persian-admin-num', true, true)):
+        if (parent::option('persian-admin-num', true, true) && (get_locale() == 'fa_IR' || get_locale() == 'fa_AF')):
             wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array(
                 'jquery'
             ) , WPSH_VERSION);
@@ -507,10 +518,10 @@ class WPSH_Admin extends WPSH_Core
             $base = basename($_SERVER['PHP_SELF']);
             $isShamsiInAdmin = array(
                 'in_admin' => (is_admin()) ? 1 : 0,
-                'base'  => $base
+                'base' => $base
             );
 
-            wp_localize_script( 'wpsh', 'isShamsiInAdmin', $isShamsiInAdmin );
+            wp_localize_script('wpsh', 'isShamsiInAdmin', $isShamsiInAdmin);
         endif;
 
         if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false)):
