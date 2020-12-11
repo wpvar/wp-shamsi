@@ -9,4 +9,3 @@ $css .= '
       font-family: Vazir, tahoma, sans-serif, arial;
   }
   ';
-?>

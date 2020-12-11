@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -25,14 +26,12 @@ class WPSH_Calendar extends WPSH_Core
      */
     function __construct()
     {
-        if ((get_locale() == 'fa_IR' || get_locale() == 'fa_AF') && parent::option('activate-shamsi-calendar', true, true))
-        {
+        if ((get_locale() == 'fa_IR' || get_locale() == 'fa_AF') && parent::option('activate-shamsi-calendar', true, true)) {
             add_filter('get_calendar', array(
                 $this,
                 'calendar'
-            ) , 10, 2);
+            ), 10, 2);
         }
-
     }
 
     /**
@@ -66,12 +65,9 @@ class WPSH_Calendar extends WPSH_Core
     public function shamsi($date = null, $format, $timestamp = null)
     {
 
-        if ($timestamp != null)
-        {
+        if ($timestamp != null) {
             $result = parent::wp_shamsi(null, $format, $timestamp);
-        }
-        else
-        {
+        } else {
             $result = parent::wp_shamsi($date, $format, null);
         }
 
@@ -92,19 +88,16 @@ class WPSH_Calendar extends WPSH_Core
     {
         global $wpdb, $m, $monthnum, $year, $wp_locale, $posts, $previous, $next;
 
-        if (!in_the_loop())
-        {
+        if (!in_the_loop()) {
             $echo = false;
         }
 
         $key = md5($m . $monthnum . $year);
         $cache = wp_cache_get('get_jcalendar', 'calendar');
 
-        if ($cache && is_array($cache) && isset($cache[$key]))
-        {
+        if ($cache && is_array($cache) && isset($cache[$key])) {
             $output = apply_filters('get_jcalendar', $cache[$key]);
-            if ($echo)
-            {
+            if ($echo) {
                 echo $output;
                 return;
             }
@@ -112,55 +105,40 @@ class WPSH_Calendar extends WPSH_Core
             return $output;
         }
 
-        if (!is_array($cache))
-        {
+        if (!is_array($cache)) {
             $cache = array();
         }
 
-        if (!$posts)
-        {
+        if (!$posts) {
             $gotsome = $wpdb->get_var("SELECT 1 as test FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' LIMIT 1");
-            if (!$gotsome)
-            {
+            if (!$gotsome) {
                 $cache[$key] = '';
                 wp_cache_set('get_jcalendar', $cache, 'calendar');
                 return;
             }
         }
 
-        if (isset($_GET['w']))
-        {
+        if (isset($_GET['w'])) {
             $w = (int)$_GET['w'];
         }
 
         $week_begins = (int)get_option('start_of_week');
 
-        if (!empty($monthnum) && !empty($year))
-        {
-            $thismonth = zeroise(intval($monthnum) , 2);
+        if (!empty($monthnum) && !empty($year)) {
+            $thismonth = zeroise(intval($monthnum), 2);
             $thisyear = (int)$year;
-
-        }
-        elseif (!empty($w))
-        {
+        } elseif (!empty($w)) {
             $thisyear = (int)substr($m, 0, 4);
             $d = (($w - 1) * 7) + 6;
             $thismonth = $wpdb->get_var("SELECT DATE_FORMAT((DATE_ADD('{$thisyear}0101', INTERVAL $d DAY) ), '%m')");
-        }
-        elseif (!empty($m))
-        {
+        } elseif (!empty($m)) {
             $thisyear = (int)substr($m, 0, 4);
-            if (strlen($m) < 6)
-            {
+            if (strlen($m) < 6) {
                 $thismonth = '01';
+            } else {
+                $thismonth = zeroise((int)substr($m, 4, 2), 2);
             }
-            else
-            {
-                $thismonth = zeroise((int)substr($m, 4, 2) , 2);
-            }
-        }
-        else
-        {
+        } else {
             $thisyear = current_time('Y');
             $thismonth = current_time('m');
         }
@@ -189,19 +167,17 @@ class WPSH_Calendar extends WPSH_Core
         $famonth = $this->shamsi(null, 'F', $mstamp);
 
         $calendar_output = '<table id="wp-calendar" class="wp-calendar-table">
-    	<caption>' . sprintf($calendar_caption, $famonth, $this->shamsi(gmdate('Y', $unixmonth) , 'Y')) . '</caption>
+    	<caption>' . sprintf($calendar_caption, $famonth, $this->shamsi(gmdate('Y', $unixmonth), 'Y')) . '</caption>
     	<thead>
     	<tr>';
 
         $myweek = array();
 
-        for ($wdcount = 0;$wdcount <= 6;$wdcount++)
-        {
+        for ($wdcount = 0; $wdcount <= 6; $wdcount++) {
             $myweek[] = $wp_locale->get_weekday(($wdcount + $week_begins) % 7);
         }
 
-        foreach ($myweek as $wd)
-        {
+        foreach ($myweek as $wd) {
             $day_name = $initial ? $wp_locale->get_weekday_initial($wd) : $wp_locale->get_weekday_abbrev($wd);
             $wd = esc_attr($wd);
             $calendar_output .= "\n\t\t<th scope=\"col\" title=\"$wd\">$day_name</th>";
@@ -220,17 +196,14 @@ class WPSH_Calendar extends WPSH_Core
     		AND post_type = 'post' AND post_status = 'publish'
     		AND post_date <= '{$thisyear}-{$thismonth}-{$last_day} 23:59:59'", ARRAY_N);
 
-        if ($dayswithposts)
-        {
-            foreach ((array)$dayswithposts as $daywith)
-            {
+        if ($dayswithposts) {
+            foreach ((array)$dayswithposts as $daywith) {
                 $daywithpost[] = (int)$daywith[0];
             }
         }
 
         $pad = calendar_week_mod(gmdate('w', $unixmonth) - $week_begins);
-        if (0 != $pad)
-        {
+        if (0 != $pad) {
             $calendar_output .= "\n\t\t" . '<td colspan="' . esc_attr($pad) . '" class="pad">&nbsp;</td>';
         }
 
@@ -239,51 +212,41 @@ class WPSH_Calendar extends WPSH_Core
         $newrow = false;
         $daysinmonth = $monthnum;
 
-        for ($day = 1;$day <= $daysinmonth;++$day)
-        {
+        for ($day = 1; $day <= $daysinmonth; ++$day) {
 
             $jstamp = mktime(0, 0, 0, $thismonth, $day, $thisyear);
 
             $faday = $this->shamsi(null, 'd', $jstamp);
 
-            if (isset($newrow) && $newrow)
-            {
+            if (isset($newrow) && $newrow) {
                 $calendar_output .= "\n\t</tr>\n\t<tr>\n\t\t";
             }
             $newrow = false;
 
-            if (current_time('j') == $day && current_time('m') == $thismonth && current_time('Y') == $thisyear)
-            {
+            if (current_time('j') == $day && current_time('m') == $thismonth && current_time('Y') == $thisyear) {
                 $calendar_output .= '<td id="today">';
-            }
-            else
-            {
+            } else {
                 $calendar_output .= '<td>';
             }
 
-            if (in_array($day, $daywithpost, true))
-            {
-                $date_format = gmdate(_x('F j, Y', 'daily archives date format') , strtotime("{$thisyear}-{$thismonth}-{$day}"));
+            if (in_array($day, $daywithpost, true)) {
+                $date_format = gmdate(_x('F j, Y', 'daily archives date format'), strtotime("{$thisyear}-{$thismonth}-{$day}"));
 
-                $label = sprintf(__('Posts published on %s') , $this->shamsi($date_format, _x('F j, Y', 'daily archives date format')));
-                $calendar_output .= sprintf('<a href="%s" aria-label="%s">%s</a>', get_day_link($thisyear, $thismonth, $day) , esc_attr($label) , $faday);
-            }
-            else
-            {
+                $label = sprintf(__('Posts published on %s'), $this->shamsi($date_format, _x('F j, Y', 'daily archives date format')));
+                $calendar_output .= sprintf('<a href="%s" aria-label="%s">%s</a>', get_day_link($thisyear, $thismonth, $day), esc_attr($label), $faday);
+            } else {
                 $calendar_output .= $faday;
             }
 
             $calendar_output .= '</td>';
 
-            if (6 == calendar_week_mod(gmdate('w', mktime(0, 0, 0, $thismonth, $day, $thisyear)) - $week_begins))
-            {
+            if (6 == calendar_week_mod(gmdate('w', mktime(0, 0, 0, $thismonth, $day, $thisyear)) - $week_begins)) {
                 $newrow = true;
             }
         }
 
         $pad = 7 - calendar_week_mod(gmdate('w', mktime(0, 0, 0, $thismonth, $day, $thisyear)) - $week_begins);
-        if (0 != $pad && 7 != $pad)
-        {
+        if (0 != $pad && 7 != $pad) {
             $calendar_output .= "\n\t\t" . '<td class="pad" colspan="' . esc_attr($pad) . '">&nbsp;</td>';
         }
 
@@ -293,23 +256,17 @@ class WPSH_Calendar extends WPSH_Core
 
         $calendar_output .= '<nav aria-label="' . __('Previous and next months') . '" class="wp-calendar-nav">';
 
-        if ($previous)
-        {
+        if ($previous) {
             $calendar_output .= "\n\t\t" . '<span class="wp-calendar-nav-prev"><a href="' . get_month_link($previous->year, $previous->month) . '">&laquo; ' . $this->shamsi(null, 'F', mktime(0, 0, 0, $thismonth - 1, 1, $thisyear)) . '</a></span>';
-        }
-        else
-        {
+        } else {
             $calendar_output .= "\n\t\t" . '<span class="wp-calendar-nav-prev">&nbsp;</span>';
         }
 
         $calendar_output .= "\n\t\t" . '<span class="pad">&nbsp;</span>';
 
-        if ($next)
-        {
+        if ($next) {
             $calendar_output .= "\n\t\t" . '<span class="wp-calendar-nav-next"><a href="' . get_month_link($next->year, $next->month) . '">' . $this->shamsi(null, 'F', mktime(0, 0, 0, $thismonth + 1, 1, $thisyear)) . ' &raquo;</a></span>';
-        }
-        else
-        {
+        } else {
             $calendar_output .= "\n\t\t" . '<span class="wp-calendar-nav-next">&nbsp;</span>';
         }
 
@@ -318,8 +275,7 @@ class WPSH_Calendar extends WPSH_Core
 
         $cache[$key] = $calendar_output;
         wp_cache_set('get_jcalendar', $cache, 'calendar');
-        if ($echo)
-        {
+        if ($echo) {
             /**
              * Filters the HTML Shamsi calendar output.
              *
@@ -332,6 +288,4 @@ class WPSH_Calendar extends WPSH_Core
         }
         return apply_filters('get_jcalendar', $calendar_output);
     }
-
 }
-

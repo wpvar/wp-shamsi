@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -50,36 +51,29 @@ class WPSH_Addon_Woocommerce_Price extends WPSH_Addons
 
         );
 
-        if (!parent::validate($slug, $is_active))
-        {
+        if (!parent::validate($slug, $is_active)) {
             return false;
             die();
         }
-        if (class_exists('WooCommerce'))
-        {
+        if (class_exists('WooCommerce')) {
             add_filter('woocommerce_get_price_html', array(
                 $this,
                 'addon'
-            ) , 10, 2);
+            ), 10, 2);
         }
-
     }
 
     public function addon($price, $product)
     {
-        if ($product->get_price() == 0)
-        {
-            if ($product->is_on_sale() && $product->get_regular_price())
-            {
+        if ($product->get_price() == 0) {
+            if ($product->is_on_sale() && $product->get_regular_price()) {
                 $regular_price = wc_get_price_to_display($product, array(
                     'qty' => 1,
                     'price' => $product->get_regular_price()
                 ));
 
                 $price = wc_format_price_range($regular_price, __('رایگان', 'woocommerce'));
-            }
-            else
-            {
+            } else {
                 $price = '<span class="amount">' . __('رایگان', 'woocommerce') . '</span>';
             }
         }

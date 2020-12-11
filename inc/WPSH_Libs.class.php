@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -25,24 +26,17 @@ class WPSH_Libs
     function __construct()
     {
 
-        if (!class_exists('WPSH_DateAbstract'))
-        {
+        if (!class_exists('WPSH_DateAbstract')) {
             require_once WPSH_PATH . 'lib/Date/DateAbstract.php';
         }
-        if (!class_exists('WPSH_Jalali'))
-        {
+        if (!class_exists('WPSH_Jalali')) {
             require_once WPSH_PATH . 'lib/Date/Jalali.php';
         }
-        if (!class_exists('WPSH_Date'))
-        {
+        if (!class_exists('WPSH_Date')) {
             require_once WPSH_PATH . 'lib/Date/Date.php';
         }
-        if (!class_exists('Exopite_Simple_Options_Framework') && is_admin())
-        {
+        if (!class_exists('Exopite_Simple_Options_Framework') && is_admin()) {
             require_once WPSH_PATH . 'lib/Options/options-class.php';
         }
-
     }
-
 }
-

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -49,21 +50,17 @@ class WPSH_Disable_Admin_Addon extends WPSH_Addons
 
         );
 
-        if (!parent::validate($slug, $is_active))
-        {
+        if (!parent::validate($slug, $is_active)) {
             return false;
             die();
-
         }
 
-        if (is_admin())
-        {
+        if (is_admin()) {
             add_filter('admin_init', array(
                 $this,
                 'admin'
             ));
         }
-
     }
 
     public function admin($bar)
@@ -72,14 +69,11 @@ class WPSH_Disable_Admin_Addon extends WPSH_Addons
         $disallowed_roles = array(
             'subscriber'
         );
-        if (is_admin() && array_intersect($disallowed_roles, $user->roles) && !defined('DOING_AJAX'))
-        {
+        if (is_admin() && array_intersect($disallowed_roles, $user->roles) && !defined('DOING_AJAX')) {
             wp_redirect(home_url());
             exit;
         }
     }
-
 }
 
 new WPSH_Disable_Admin_Addon();
-

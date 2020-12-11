@@ -68,7 +68,7 @@ class WPSH_Jalali extends WPSH_DateAbstract
      * @var array
      */
     protected $format_F = array('فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند');
-
+    protected $format_af_F = array("حمل", "ثور", "جوزا", "سرطان", "اسد", "سنبله", "میزان", "عقرب", "قوس", "جدی","دلو", "حوت");
     /**
      * Month names
      *
@@ -76,6 +76,7 @@ class WPSH_Jalali extends WPSH_DateAbstract
      */
     //protected $format_M = array('فرو', 'ارد', 'خرد', 'تیر', 'مرد', 'شهر', 'مهر', 'آبا', 'آذر', 'دی', 'بهم', 'اسف');
       protected $format_M = array('فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند');
+      protected $format_af_M = array("حمل", "ثور", "جوزا", "سرطان", "اسد", "سنبله", "میزان", "عقرب", "قوس", "جدی","دلو", "حوت");
 
     /**
      * @param string|null $time
@@ -267,11 +268,26 @@ class WPSH_Jalali extends WPSH_DateAbstract
                     break;
 
                 case 'F':
-                    $v = $this->format_F[$this->jMonth - 1];
+
+                    if(get_option('wpsh')['country-select'] == 'af')
+                    {
+                         $v = $this->format_af_F[$this->jMonth - 1];
+                    }
+                    else {
+                        $v = $this->format_F[$this->jMonth - 1];
+                    }
+
                     break;
 
                 case 'M':
-                    $v = $this->format_M[$this->jMonth - 1];
+                    if(get_option('wpsh')['country-select'] == 'af')
+                    {
+                         $v = $this->format_af_M[$this->jMonth - 1];
+                    }
+                    else {
+                        $v = $this->format_M[$this->jMonth - 1];
+                    }
+
                     break;
 
                 case 'n':

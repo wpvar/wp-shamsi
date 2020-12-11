@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -49,28 +50,23 @@ class WPSH_Disable_Admin_Bar_Addon extends WPSH_Addons
 
         );
 
-        if (!parent::validate($slug, $is_active))
-        {
+        if (!parent::validate($slug, $is_active)) {
             return false;
             die();
-
         }
 
-        if (!is_admin())
-        {
+        if (!is_admin()) {
             add_filter('show_admin_bar', array(
                 $this,
                 'admin_bar'
             ));
         }
-
     }
 
     public function admin_bar($bar)
     {
         return false;
     }
-
 }
 
 new WPSH_Disable_Admin_Bar_Addon();

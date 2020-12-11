@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -50,25 +51,22 @@ class WPSH_Addon_Disable_Copy extends WPSH_Addons
 
         );
 
-        if (!parent::validate($slug, $is_active))
-        {
+        if (!parent::validate($slug, $is_active)) {
             return false;
             die();
-
         }
 
         add_action('wp_enqueue_scripts', array(
             $this,
             'script'
         ));
-
     }
 
     public function script()
     {
         wp_enqueue_script('wpsh-addons', WPSH_URL . 'assets/js/wpsh_addons.js', array(
             'jquery'
-        ) , WPSH_VERSION);
+        ), WPSH_VERSION);
         wp_add_inline_script('wpsh-addons', '
           jQuery(document).bind("copy", function(e) {
               e.preventDefault();
@@ -81,7 +79,6 @@ class WPSH_Addon_Disable_Copy extends WPSH_Addons
           });
       ');
     }
-
 }
 
 new WPSH_Addon_Disable_Copy();
