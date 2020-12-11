@@ -1,7 +1,8 @@
 #wpadminbar #wp-admin-bar-wpsh .ab-icon:before {
-    content: '\f508';
-    top: 2px;
+  content: '\f508';
+  top: 2px;
 }
+
 .rtl #wpadminbar * {
   font-family: Vazir, tahoma, sans-serif, arial;
 }

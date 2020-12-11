@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -28,8 +29,7 @@ class WPSH_Datebar extends WPSH_Core
         add_action('admin_bar_menu', array(
             $this,
             'date_bar'
-        ) , 1000);
-
+        ), 1000);
     }
 
     /**
@@ -43,8 +43,7 @@ class WPSH_Datebar extends WPSH_Core
      */
     public function date_bar($wp_admin_bar)
     {
-        if (!parent::option('admin-bar-date', true, true) || parent::option('activate-admin-shamsi', true, false) || !parent::option('activate-shamsi', true, true))
-        {
+        if (!parent::option('admin-bar-date', true, true) || parent::option('activate-admin-shamsi', true, false) || !parent::option('activate-shamsi', true, true)) {
             return;
         }
 
@@ -53,19 +52,18 @@ class WPSH_Datebar extends WPSH_Core
         $jtime = parent::wp_shamsi(null, 'g:i a', time());
         $jintdate = parent::wp_shamsi(null, 'Y/m/d', time());
         $gintdate = date('Y/m/d', time());
-        if (!current_user_can('manage_options'))
-        {
+        if (!current_user_can('manage_options')) {
             $args = array(
                 'id' => 'wpsh',
                 'title' => '<span class="ab-icon"></span>' . $jdate,
-                'href' => home_url() ,
+                'href' => home_url(),
             );
             $wp_admin_bar->add_node($args);
 
             $args = array(
                 'id' => 'gdate_bar',
                 'title' => $gdate,
-                'href' => home_url() ,
+                'href' => home_url(),
                 'parent' => 'wpsh'
             );
             $wp_admin_bar->add_node($args);
@@ -73,7 +71,7 @@ class WPSH_Datebar extends WPSH_Core
             $args = array(
                 'id' => 'gintdate_bar',
                 'title' => $gintdate,
-                'href' => home_url() ,
+                'href' => home_url(),
                 'parent' => 'wpsh'
             );
             $wp_admin_bar->add_node($args);
@@ -81,7 +79,7 @@ class WPSH_Datebar extends WPSH_Core
             $args = array(
                 'id' => 'jintdate_bar',
                 'title' => $jintdate,
-                'href' => home_url() ,
+                'href' => home_url(),
                 'parent' => 'wpsh'
             );
             $wp_admin_bar->add_node($args);
@@ -89,13 +87,11 @@ class WPSH_Datebar extends WPSH_Core
             $args = array(
                 'id' => 'wpsh_time_bar',
                 'title' => 'ساعت: ' . $jtime,
-                'href' => home_url() ,
+                'href' => home_url(),
                 'parent' => 'wpsh'
             );
             $wp_admin_bar->add_node($args);
-        }
-        else
-        {
+        } else {
             $args = array(
                 'id' => 'wpsh',
                 'title' => '<span class="ab-icon"></span>' . $jdate,
@@ -144,6 +140,4 @@ class WPSH_Datebar extends WPSH_Core
             $wp_admin_bar->add_node($args);
         }
     }
-
 }
-

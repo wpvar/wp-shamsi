@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -47,44 +48,37 @@ class WPSH_Admin extends WPSH_Core
         add_filter('the_post', array(
             $this,
             'display_post_date'
-        ) , 99, 1);
+        ), 99, 1);
 
-        if (!function_exists('wp_date'))
-        {
+        if (!function_exists('wp_date')) {
             add_filter('get_the_time', array(
                 $this,
                 'post_time'
-            ) , 10, 3);
+            ), 10, 3);
         }
 
         $base = basename($_SERVER['PHP_SELF']);
-        if (($base == 'post.php' && parent::get('post', 'bool') && parent::get('action', 'bool') && parent::get('action') == 'edit') || $base == 'post-new.php')
-        {
-            if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false))
-            {
+        if (($base == 'post.php' && parent::get('post', 'bool') && parent::get('action', 'bool') && parent::get('action') == 'edit') || $base == 'post-new.php') {
+            if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false)) {
                 add_filter('gettext', array(
                     $this,
                     'display_post_month'
-                ) , 10, 1);
+                ), 10, 1);
             }
-
         }
 
-        if (get_locale() != 'fa_IR' && get_locale() != 'fa_AF')
-        {
+        if (get_locale() != 'fa_IR' && get_locale() != 'fa_AF') {
             add_action('admin_notices', array(
                 $this,
                 'no_farsi'
             ));
         }
 
-        if (function_exists('wp_timezone_string'))
-        {
+        if (function_exists('wp_timezone_string')) {
 
             $zone = wp_timezone_string();
 
-            if ((get_locale() == 'fa_IR' || get_locale() == 'fa_AF') && $zone != 'Asia/Tehran' && $zone != 'Asia/Kabul' && $zone != '+03:30' && $zone != '+04:30')
-            {
+            if ((get_locale() == 'fa_IR' || get_locale() == 'fa_AF') && $zone != 'Asia/Tehran' && $zone != 'Asia/Kabul' && $zone != '+03:30' && $zone != '+04:30') {
                 add_action('admin_notices', array(
                     $this,
                     'no_valid_zone'
@@ -100,8 +94,7 @@ class WPSH_Admin extends WPSH_Core
         add_action('admin_enqueue_scripts', array(
             $this,
             'admin_script'
-        ) , 1);
-
+        ), 1);
     }
 
     /**
@@ -117,7 +110,7 @@ class WPSH_Admin extends WPSH_Core
         add_meta_box('rss_dashboard', 'وردپرس فارسی', array(
             $this,
             'dashboard'
-        ) , 'dashboard', 'normal', 'high');
+        ), 'dashboard', 'normal', 'high');
     }
 
     /**
@@ -132,18 +125,17 @@ class WPSH_Admin extends WPSH_Core
     {
         $transient = get_transient('wpsh_dashboard_site_feed');
 
-        if (!WP_DEBUG && $transient)
-        {
+        if (!WP_DEBUG && $transient) {
             echo $transient;
             return;
         }
 
-        include_once (ABSPATH . WPINC . '/feed.php');
+        include_once(ABSPATH . WPINC . '/feed.php');
 
         $rss = fetch_feed('https://wpvar.com/feed');
         $maxitems = (int)0;
 
-        if (!is_wp_error($rss)):
+        if (!is_wp_error($rss)) :
             $maxitems = $rss->get_item_quantity(3);
             $rss_items = $rss->get_items(0, $maxitems);
             $rss_title = '<a href="' . $rss->get_permalink() . '" target="_blank">' . strtoupper($rss->get_title()) . '</a>';
@@ -152,14 +144,11 @@ class WPSH_Admin extends WPSH_Core
         $html = '<div class="rss-widget">';
         $html .= '<ul>';
 
-        if ($maxitems == 0)
-        {
+        if ($maxitems == 0) {
             $html .= '<li>یافت نشد</li>';
-        }
-        else
-        {
-            foreach ($rss_items as $item):
-                $item_date = human_time_diff($item->get_date('U') , current_time('timestamp')) . ' پیش';
+        } else {
+            foreach ($rss_items as $item) :
+                $item_date = human_time_diff($item->get_date('U'), current_time('timestamp')) . ' پیش';
                 $html .= '<li>';
                 $html .= '<a href="' . esc_url($item->get_permalink()) . '" title="' . $item_date . '">';
                 $html .= '<strong>' . esc_html($item->get_title()) . '</strong>';
@@ -234,8 +223,7 @@ class WPSH_Admin extends WPSH_Core
         $screen = get_current_screen();
         $valid = (parent::get('page', 'bool')) ? true : false;
 
-        if (!$valid)
-        {
+        if (!$valid) {
             $screen->add_help_tab(array(
                 'id' => 'farsi-support',
                 'title' => 'پشتیبانی فارسی',
@@ -258,8 +246,7 @@ class WPSH_Admin extends WPSH_Core
      */
     public function display_post_date($post)
     {
-        if (!$this->block_editor())
-        {
+        if (!$this->block_editor()) {
             return $post;
         }
 
@@ -303,11 +290,9 @@ class WPSH_Admin extends WPSH_Core
      */
     public function block_editor()
     {
-        if (function_exists('get_current_screen'))
-        {
+        if (function_exists('get_current_screen')) {
             $screen = get_current_screen();
-            if (method_exists($screen, 'is_block_editor'))
-            {
+            if (method_exists($screen, 'is_block_editor')) {
                 return ($screen->is_block_editor() == 1) ? true : false;
             }
         }
@@ -327,6 +312,8 @@ class WPSH_Admin extends WPSH_Core
     public function display_post_month($string)
     {
 
+        $month = parent::get_month();
+
         $fa = array(
             '/\bژانویه\b/u',
             '/\bفوریه\b/u',
@@ -343,28 +330,33 @@ class WPSH_Admin extends WPSH_Core
         );
 
         $true_fa = array(
-            'فروردین',
-            'اردیبهشت',
-            'خرداد',
-            'تیر',
-            'مرداد',
-            'شهریور',
-            'مهر',
-            'آبان',
-            'آذر',
-            'دی',
-            'بهمن',
-            'اسفند'
+            $month[1],
+            $month[2],
+            $month[3],
+            $month[4],
+            $month[5],
+            $month[6],
+            $month[7],
+            $month[8],
+            $month[9],
+            $month[10],
+            $month[11],
+            $month[12]
+
         );
 
         $string = preg_replace($fa, $true_fa, $string);
 
         $fa_retro = array(
             'مرداد ',
-            'مرداد‌'
+            'مرداد‌',
+            'اسد ',
+            'اسد‌‌'
         );
 
         $true_fa_retro = array(
+            'می ',
+            'می‌',
             'می ',
             'می‌'
         );
@@ -384,30 +376,27 @@ class WPSH_Admin extends WPSH_Core
      */
     public function no_farsi()
     {
-        if (!current_user_can('manage_options'))
-        {
+        if (!current_user_can('manage_options')) {
             return;
         }
 
         $user_id = get_current_user_id();
         $link = get_admin_url() . 'index.php?wpsh_lang_notice=dismiss';
 
-        if (parent::get('wpsh_lang_notice', 'bool') && parent::get('wpsh_lang_notice') == 'dismiss')
-        {
+        if (parent::get('wpsh_lang_notice', 'bool') && parent::get('wpsh_lang_notice') == 'dismiss') {
             update_user_meta($user_id, 'wpsh_lang_notice', 1);
         }
 
-        if (get_user_meta($user_id, 'wpsh_lang_notice', true) == 1)
-        {
+        if (get_user_meta($user_id, 'wpsh_lang_notice', true) == 1) {
             return;
         } ?>
         <div class="notice notice-warning is-dismissible">
-          <p>
-            <?php _e('<strong>هشدار:</strong> بسته زبانی فارسی وردپرس فعال نیست. برای فعال سازی آن <a href="' . get_admin_url() . 'options-general.php#default_role">از این صفحه</a> زبان سایت را به <strong>فارسی</strong> تغییر دهید', 'wpsh'); ?>
-          </p>
-          <a href="<?php echo $link ?>" class="button wpsh_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
+            <p>
+                <?php _e('<strong>هشدار:</strong> بسته زبانی فارسی وردپرس فعال نیست. برای فعال سازی آن <a href="' . get_admin_url() . 'options-general.php#default_role">از این صفحه</a> زبان سایت را به <strong>فارسی</strong> تغییر دهید', 'wpsh'); ?>
+            </p>
+            <a href="<?php echo $link ?>" class="button wpsh_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
         </div>
-        <?php
+    <?php
     }
 
     /**
@@ -421,41 +410,36 @@ class WPSH_Admin extends WPSH_Core
     public function no_valid_zone()
     {
 
-        if (!current_user_can('manage_options'))
-        {
+        if (!current_user_can('manage_options')) {
             return;
         }
 
         $user_id = get_current_user_id();
         $link = get_admin_url() . 'index.php?wpsh_timezone_notice=dismiss';
 
-        if (parent::get('wpsh_timezone_notice', 'bool') && parent::get('wpsh_timezone_notice') == 'dismiss')
-        {
+        if (parent::get('wpsh_timezone_notice', 'bool') && parent::get('wpsh_timezone_notice') == 'dismiss') {
             update_user_meta($user_id, 'wpsh_timezone_notice', 1);
         }
 
-        if (get_user_meta($user_id, 'wpsh_timezone_notice', true) == 1)
-        {
+        if (get_user_meta($user_id, 'wpsh_timezone_notice', true) == 1) {
             return;
         }
 
-        if (get_locale() == 'fa_IR')
-        {
+        if (get_locale() == 'fa_IR') {
             $city = 'تهران';
         }
 
-        if (get_locale() == 'fa_AF')
-        { // Future support if fa_AF becomes available
+        if (get_locale() == 'fa_AF') { // Future support if fa_AF becomes available
             $city = 'کابل';
         } ?>
 
         <div class="notice notice-warning is-dismissible">
-          <p>
-            <?php _e('<strong>توجه:</strong> برای عملکرد دقیق تر شمسی ساز، زمان محلی را <a href="' . get_admin_url() . 'options-general.php#WPLANG">از این صفحه</a> به <strong>' . $city . '</strong> تغییر دهید', 'wpsh'); ?>
-          </p>
-          <a href="<?php echo $link ?>" class="button wpsh_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
+            <p>
+                <?php _e('<strong>توجه:</strong> برای عملکرد دقیق تر شمسی ساز، زمان محلی را <a href="' . get_admin_url() . 'options-general.php#WPLANG">از این صفحه</a> به <strong>' . $city . '</strong> تغییر دهید', 'wpsh'); ?>
+            </p>
+            <a href="<?php echo $link ?>" class="button wpsh_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
         </div>
-        <?php
+<?php
     }
 
     /**
@@ -477,7 +461,6 @@ class WPSH_Admin extends WPSH_Core
 
         array_push($links, $settings_link, $forum_link, $wpvar);
         return $links;
-
     }
 
     /**
@@ -493,27 +476,27 @@ class WPSH_Admin extends WPSH_Core
 
         wp_enqueue_script('wpsh-admin-core', WPSH_URL . 'assets/js/wpsh_admin.js', array(
             'jquery'
-        ) , WPSH_VERSION, true);
+        ), WPSH_VERSION, true);
 
-        wp_enqueue_style('wpsh-admin-css-core', WPSH_URL . 'assets/css/wpsh_admin.css', array() , WPSH_VERSION);
+        wp_enqueue_style('wpsh-admin-css-core', WPSH_URL . 'assets/css/wpsh_admin.css', array(), WPSH_VERSION);
 
-        if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false) && !parent::no_lang_no_shamsi())
-        {
+        if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false) && !parent::no_lang_no_shamsi()) {
             wp_enqueue_script('wpsh-admin', WPSH_URL . 'assets/js/wpsh_admin_shamsi.js', array(
                 'jquery'
-            ) , WPSH_VERSION, true);
+            ), WPSH_VERSION, true);
+            wp_localize_script('wpsh-admin', 'listFarsiMonth', parent::get_month());
         }
 
-        if (parent::option('dashboard-font', true, true)):
+        if (parent::option('dashboard-font', true, true)) :
 
             parent::themes('wp-admin'); // Since 1.2.0
-            wp_enqueue_style('wpsh-admin-css', WPSH_URL . 'assets/css/wpsh_admin_shamsi.css', array() , WPSH_VERSION);
+            wp_enqueue_style('wpsh-admin-css', WPSH_URL . 'assets/css/wpsh_admin_shamsi.css', array(), WPSH_VERSION);
         endif;
 
-        if (parent::option('persian-admin-num', true, true) && (get_locale() == 'fa_IR' || get_locale() == 'fa_AF')):
+        if (parent::option('persian-admin-num', true, true) && (get_locale() == 'fa_IR' || get_locale() == 'fa_AF')) :
             wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array(
                 'jquery'
-            ) , WPSH_VERSION);
+            ), WPSH_VERSION);
 
             $base = basename($_SERVER['PHP_SELF']);
             $isShamsiInAdmin = array(
@@ -522,61 +505,61 @@ class WPSH_Admin extends WPSH_Core
             );
 
             wp_localize_script('wpsh', 'isShamsiInAdmin', $isShamsiInAdmin);
+
         endif;
 
-        if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false)):
+        if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false)) :
             $js = (string)'';
-            if (wp_script_is('wp-i18n'))
-            {
+            if (wp_script_is('wp-i18n')) {
+
+                $month = parent::get_month();
+
                 $js .= '
             wp.i18n.setLocaleData({
               "October": [
-                "دی"
+                "' . $month[10] .  '"
               ],
               "November": [
-                "بهمن"
+                "' . $month[11] .  '"
               ],
               "December": [
-                "اسفند"
+                "' . $month[12] .  '"
               ],
               "January": [
-                "فروردین"
+                "' . $month[1] .  '"
               ],
               "February": [
-                "اردیبهشت"
+                "' . $month[2] .  '"
               ],
               "March": [
-                "خرداد"
+                "' . $month[3] .  '"
               ],
               "April": [
-                "تیر"
+                "' . $month[4] .  '"
               ],
               "May": [
-                "مرداد"
+                "' . $month[5] .  '"
               ],
               "June": [
-                "شهریور"
+                "' . $month[6] .  '"
               ],
               "July": [
-                "مهر"
+                "' . $month[7] .  '"
               ],
               "August": [
-                "آبان"
+                "' . $month[8] .  '"
               ],
               "September": [
-                "آذر"
+                "' . $month[9] .  '"
               ]
             });
             ';
             }
 
-            if (function_exists('wp_add_inline_script'))
-            {
+            if (function_exists('wp_add_inline_script')) {
                 wp_add_inline_script('wpsh-admin', $js);
             }
 
         endif;
-
     }
 }
-

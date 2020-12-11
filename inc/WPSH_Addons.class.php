@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -27,10 +28,8 @@ class WPSH_Addons extends WPSH_Core
     {
         global $wpsh_addon;
         $wpsh_addon = array();
-        foreach (glob(WPSH_PATH . 'addons/*.php') as $filename)
-        {
+        foreach (glob(WPSH_PATH . 'addons/*.php') as $filename) {
             include_once $filename;
-
         }
     }
 
@@ -52,4 +51,3 @@ class WPSH_Addons extends WPSH_Core
         return $validate;
     }
 }
-

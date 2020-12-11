@@ -5,6 +5,7 @@
 تفاوت افزونه تاریخ شمسی و فارسی ساز وردپرس با سایر افزونه های مشابه در عملکرد و سرعت و دوستدار سئو بودن آن است. برخلاف سایر افزونه ها، این افزونه فقط شمسی سازی (به طور 100%) و فارسی سازی را بدون اعمال تغییری در هسته وردپرس انجام می دهد و هیچ عملکرد غیرضروری و کد اضافی ندارد. در نتیجه موجب کاهش سرعت و عملکرد وردپرس نمی شود. همچنین برخلاف سایر افزونه های مشابه موجب افت سئو و رنک در گوگل و موتورهای جستجو نخواهد شد.
 با استفاده از افزونه می توانید بدون نیاز به نرم افزار خاصی، افزونه و قالب های سایت خود را به طور مستقیم از قسمت تنظیمات ترجمه کنید. همچنین از طریق افزونه می توانید استایل وردپرس را تغییر دهید.
 پوسته پیشفرض وردپرس و سایر پوسته های محبوب آن، توسط افزونه به طور خودکار فارسی سازی می شوند.
+افزونه تاریخ شمسی و فارسی ساز وردپرس علاوه‌بر پشتیبانی از تاریخ شمسی **ایران**، از تاریخ شمسی و ماه‌های کشور ** افغانستان ** نیز پشتیبانی می ‌کند.
 **فارسی سازی و شمسی سازی 100% وردپرس**
 
 WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calendar and improves local UI to farsi users.
@@ -20,6 +21,7 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 * شمسی سازی ابزارک و بلوک تقویم وردپرس
 * شمسی سازی گوتنبرگ (ویرایشگر بلوک) و قسمت ویرایش سریع
 * شمسی سازی مدیریت دیدگاه ها
+* پشتیبانی کامل از تاریخ شمسی و ماه‌های ایران و افغانستان
 * شمسی سازی فیلترهای تاریخ
 * شمسی سازی و سازگاری با فروشگاه ساز ووکامرس
 * دوستدار سئو
@@ -78,19 +80,24 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 
 ## تصاویر
 
-![ Image 1](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-1.png)
-![ Image 2](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-3.png)
-![ Image 3](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-2.png)
-![ Image 4](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-4.png)
-![ Image 5](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-5.png)
-![ Image 6](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-6.png)
-![ Image 7](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-7.png)
-![ Image 8](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-8.png)
-![ Image 9](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-9.png)
-![ Image 10](https://raw.githubusercontent.com/alifaraji/wp-shamsi/2.0.0/screenshot-10.png)
+![ Image 1](https://ps.w.org/wp-shamsi/assets/screenshot-1.gif)
+![ Image 2](https://ps.w.org/wp-shamsi/assets/screenshot-2.gif)
+![ Image 3](https://ps.w.org/wp-shamsi/assets/screenshot-3.gif)
+![ Image 4](https://ps.w.org/wp-shamsi/assets/screenshot-4.gif)
+![ Image 5](https://ps.w.org/wp-shamsi/assets/screenshot-5.gif)
+![ Image 6](https://ps.w.org/wp-shamsi/assets/screenshot-6.gif)
+![ Image 7](https://ps.w.org/wp-shamsi/assets/screenshot-7.gif)
 
 
 ## تغییرات
+2.1.1
+در این نسخه 1 امکانات جدید معرفی شده، 1 بهبود اضافه شده و 2 باگ رفع شده است :
+
+* امکانات جدید: پشتیبانی از ماه‌های کشور افغانستان
+* بهبود: عدم فارسی سازی اعداد درصورت فعال نبودن زبان فارسی
+* رفع باگ: رفع عدم شمسی سازی تاریخ در مرورگر فایرفوکس و اج در قسمت ویرایش سریع
+* رفع باگ: رفع قرارگیری مرداد به جای می در متون
+
 2.1.0
 
 * در این نسخه 4 امکانات جدید معرفی شده، 9 بهبود اضافه شده و 6 باگ رفع شده است :

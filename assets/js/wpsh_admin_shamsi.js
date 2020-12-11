@@ -7,7 +7,8 @@
  * @copyright Copyright Ali Faraji (mail.wpvar@gmail.com) | https://wpvar.com
  *
  */
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
+
   function toEn(number) {
     if (number === undefined) return '';
     var str = jQuery.trim(number.toString());
@@ -83,9 +84,23 @@ jQuery(document).ready(function() {
     }
     return [jy, njm, njd];
   }
-  var months = ['اسفند و فروردین', 'فروردین و اردیبهشت', 'اردیبهشت و خرداد', 'خرداد و تیر', 'تیر و مرداد', 'مرداد و شهریور', 'شهریور و مهر', 'مهر و آبان', 'آبان و آذر', 'آذر و دی', 'دی و بهمن', 'بهمن و اسفند'];
+  var months = [
+    listFarsiMonth[12] + ' و ' + listFarsiMonth[1],
+    listFarsiMonth[1] + ' و ' + listFarsiMonth[2],
+    listFarsiMonth[2] + ' و ' + listFarsiMonth[3],
+    listFarsiMonth[3] + ' و ' + listFarsiMonth[4],
+    listFarsiMonth[4] + ' و ' + listFarsiMonth[5],
+    listFarsiMonth[5] + ' و ' + listFarsiMonth[6],
+    listFarsiMonth[6] + ' و ' + listFarsiMonth[7],
+    listFarsiMonth[7] + ' و ' + listFarsiMonth[8],
+    listFarsiMonth[8] + ' و ' + listFarsiMonth[9],
+    listFarsiMonth[9] + ' و ' + listFarsiMonth[10],
+    listFarsiMonth[10] + ' و ' + listFarsiMonth[11],
+    listFarsiMonth[11] + ' و ' + listFarsiMonth[12]
+  ];
+
   if (jQuery(".iedit").length > 0) {
-    jQuery('.iedit').each(function() {
+    jQuery('.iedit').each(function () {
       var jj = toEn(jQuery(this).find('.jj').text());
       var mm = toEn(jQuery(this).find('.mm').text());
       var aa = toEn(jQuery(this).find('.aa').text());
@@ -118,7 +133,7 @@ jQuery(document).ready(function() {
       jQuery(this).find('.mm').text(nmm);
       jQuery(this).find('.jj').text(njj);
     });
-    jQuery('.colspanchange').hover(function() {
+    jQuery('.colspanchange').hover(function () {
       quickEditDateHandle();
     });
   }
@@ -153,7 +168,7 @@ jQuery(document).ready(function() {
     jQuery('#aa').val(naa);
     jQuery('#mm').val(nmm);
     jQuery('#jj').val(njj);
-    jQuery('#mm option').each(function() {
+    jQuery('#mm option').each(function () {
       if (jQuery(this).val() == nmm) {
         jQuery(this).attr("selected", "selected");
       } else {
@@ -166,39 +181,39 @@ jQuery(document).ready(function() {
     if (month === undefined) return '';
     var str = month;
     if (str === '') return '';
-    str = str.replace('اکتبر', 'دی');
-    str = str.replace('نوامبر', 'بهمن');
-    str = str.replace('دسامبر', 'اسفند');
-    str = str.replace('ژانویه', 'فروردین');
-    str = str.replace('فوریه', 'اردیبهشت');
-    str = str.replace('مارس', 'خرداد');
-    str = str.replace('آوریل', 'تیر');
-    str = str.replace('مه', 'مرداد');
-    str = str.replace('ژوئن', 'شهریور');
-    str = str.replace('جولای', 'مهر');
-    str = str.replace('آگوست', 'آبان');
-    str = str.replace('سپتامبر', 'آذر');
+    str = str.replace('اکتبر', listFarsiMonth[10]);
+    str = str.replace('نوامبر', listFarsiMonth[11]);
+    str = str.replace('دسامبر', listFarsiMonth[12]);
+    str = str.replace('ژانویه', listFarsiMonth[1]);
+    str = str.replace('فوریه', listFarsiMonth[2]);
+    str = str.replace('مارس', listFarsiMonth[3]);
+    str = str.replace('آوریل', listFarsiMonth[4]);
+    str = str.replace('مه', listFarsiMonth[5]);
+    str = str.replace('ژوئن', listFarsiMonth[6]);
+    str = str.replace('جولای', listFarsiMonth[7]);
+    str = str.replace('آگوست', listFarsiMonth[8]);
+    str = str.replace('سپتامبر', listFarsiMonth[9]);
     /* Old WordPress versions */
-    str = str.replace('Oct', 'دی');
-    str = str.replace('Nov', 'بهمن');
-    str = str.replace('Dec', 'اسفند');
-    str = str.replace('Jan', 'فروردین');
-    str = str.replace('Feb', 'اردیبهشت');
-    str = str.replace('Mar', 'خرداد');
-    str = str.replace('Apr', 'تیر');
-    str = str.replace('May', 'مرداد');
-    str = str.replace('Jun', 'شهریور');
-    str = str.replace('Jul', 'مهر');
-    str = str.replace('Aug', 'آبان');
-    str = str.replace('Sep', 'آذر');
+    str = str.replace('Oct', listFarsiMonth[10]);
+    str = str.replace('Nov', listFarsiMonth[11]);
+    str = str.replace('Dec', listFarsiMonth[12]);
+    str = str.replace('Jan', listFarsiMonth[1]);
+    str = str.replace('Feb', listFarsiMonth[2]);
+    str = str.replace('Mar', listFarsiMonth[3]);
+    str = str.replace('Apr', listFarsiMonth[4]);
+    str = str.replace('May', listFarsiMonth[5]);
+    str = str.replace('Jun', listFarsiMonth[6]);
+    str = str.replace('Jul', listFarsiMonth[7]);
+    str = str.replace('Aug', listFarsiMonth[8]);
+    str = str.replace('Sep', listFarsiMonth[9]);
     return str;
   }
-  jQuery('select[name="mm"] option').each(function() {
+  jQuery('select[name="mm"] option').each(function () {
     var monthText = jQuery(this).text();
     var replaceMonth = farsiMonth(monthText);
     jQuery(this).text(replaceMonth);
   });
-  jQuery('select[name="m"] option').each(function(index) {
+  jQuery('select[name="m"] option').each(function (index) {
     if (index > 0) {
       var year = jQuery(this).val().slice(0, 4);
       var month = jQuery(this).val().slice(4, 6);
@@ -211,7 +226,7 @@ jQuery(document).ready(function() {
     }
   });
   if (jQuery('.column-date').length > 0) {
-    jQuery('.column-date').each(function() {
+    jQuery('.column-date').each(function () {
       var explode = jQuery(this).text();
       explode = explode.replace('Date', '');
       explode = explode.split(' ');
@@ -231,7 +246,7 @@ jQuery(document).ready(function() {
     });
   }
   if (jQuery('#media-attachment-date-filters').length > 0) {
-    jQuery('#media-attachment-date-filters option').each(function(index) {
+    jQuery('#media-attachment-date-filters option').each(function (index) {
       if (index > 0) {
         var explode = jQuery(this).text().split(' ');
         var enMonth = {};
@@ -259,9 +274,9 @@ jQuery(document).ready(function() {
     });
   }
   if (jQuery('.timestamp-wrap').length > 0) {
-    jQuery('.timestamp-wrap').contents().filter(function() {
+    jQuery('.timestamp-wrap').contents().filter(function () {
       return this.nodeType == 3;
-    }).each(function() {
+    }).each(function () {
       if (jQuery('.submitbox').length > 0) {
         this.textContent = this.textContent.replace('at', '@ ');
         this.textContent = this.textContent.replace(',', '، ');
@@ -272,7 +287,7 @@ jQuery(document).ready(function() {
     });
   }
   if (jQuery('.edit-post-post-schedule').length > 0 || jQuery('.edit-post-post-schedule__toggle').text() != 'بروز شده') {
-    jQuery(window).hover(function() {
+    jQuery(window).hover(function () {
       var gutenbergDate = jQuery('.edit-post-post-schedule__toggle').text().split(' ');
       if (parseInt(gutenbergDate[2]) > 1970) {
         jQuery('.edit-post-post-schedule__toggle').remove();

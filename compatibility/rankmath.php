@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -19,14 +20,10 @@ class WPSH_Rankmath extends WPSH_Core
     function __construct()
     {
 
-        if (!parent::option('activate-rankmath', true, true))
-        {
+        if (!parent::option('activate-rankmath', true, true)) {
             return;
         }
-
     }
-
 }
 
 new WPSH_Rankmath();
-

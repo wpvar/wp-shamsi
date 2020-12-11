@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -24,12 +25,11 @@ class WPSH_Archive extends WPSH_Core
      */
     function __construct()
     {
-        if (parent::option('activate-shamsi-archive', true, true))
-        {
+        if (parent::option('activate-shamsi-archive', true, true)) {
             add_filter('get_archives_link', array(
                 $this,
                 'archive'
-            ) , 10, 7);
+            ), 10, 7);
         }
     }
 
@@ -55,6 +55,7 @@ class WPSH_Archive extends WPSH_Core
         $text = strip_tags($text);
         $url = esc_url($url);
         $aria_current = $selected ? ' aria-current="page"' : '';
+        $month = parent::get_month();
 
         $year = (int)filter_var($text, FILTER_SANITIZE_NUMBER_INT);
         $patterns = array(
@@ -72,24 +73,23 @@ class WPSH_Archive extends WPSH_Core
             'دسامبر'
         );
         $month = array(
-            'دی و بهمن',
-            'بهمن و اسفند',
-            'اسفند و فروردین',
-            'فروردین و اردیبهشت',
-            'اردیبهشت و خرداد',
-            'خرداد و تیر',
-            'تیر و مرداد',
-            'مرداد و شهریور',
-            'شهریور و مهر',
-            'مهر و آبان',
-            'آبان و آذر',
-            'آذر و دی'
+            $month[10] .  ' و '  . $month[11],
+            $month[11] .  ' و '  . $month[12],
+            $month[12] .  ' و '  . $month[1],
+            $month[1] .  ' و '  . $month[2],
+            $month[2] .  ' و '  . $month[3],
+            $month[3] .  ' و '  . $month[4],
+            $month[4] .  ' و '  . $month[5],
+            $month[5] .  ' و '  . $month[6],
+            $month[6] .  ' و '  . $month[7],
+            $month[7] .  ' و '  . $month[8],
+            $month[8] .  ' و '  . $month[9],
+            $month[9] .  ' و '  . $month[10]
+
         );
         $farsi_month = '';
-        foreach ($patterns as $key => $value)
-        {
-            if (strpos($text, $value) !== false)
-            {
+        foreach ($patterns as $key => $value) {
+            if (strpos($text, $value) !== false) {
                 $farsi_month .= $key;
             }
         }
@@ -99,26 +99,17 @@ class WPSH_Archive extends WPSH_Core
 
         /* Deprecated since 2.0.0 */
         //$text = $this->persian_num($text);
-        if ('link' === $format)
-        {
+        if ('link' === $format) {
             $result = "\t<link rel='archives' title='" . esc_attr($text) . "' href='$url' />\n";
-        }
-        elseif ('option' === $format)
-        {
+        } elseif ('option' === $format) {
             $selected_attr = $selected ? " selected='selected'" : '';
             $result = "\t<option value='$url'$selected_attr>$before $text $after</option>\n";
-        }
-        elseif ('html' === $format)
-        {
+        } elseif ('html' === $format) {
             $result = "\t<li>$before<a href='$url'$aria_current>$text</a>$after</li>\n";
-        }
-        else
-        {
+        } else {
             $result = "\t$before<a href='$url'$aria_current>$text</a>$after\n";
         }
 
         return $result;
     }
-
 }
-

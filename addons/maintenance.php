@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -49,24 +50,20 @@ class WPSH_Maintenance_Addon extends WPSH_Addons
 
         );
 
-        if (!parent::validate($slug, $is_active))
-        {
+        if (!parent::validate($slug, $is_active)) {
             return false;
             die();
-
         }
 
         add_filter('get_header', array(
             $this,
             'maintenance'
         ));
-
     }
 
     public function maintenance()
     {
-        if (!current_user_can('activate_plugins') || !is_user_logged_in())
-        {
+        if (!current_user_can('activate_plugins') || !is_user_logged_in()) {
             $path = WPSH_URL . 'assets/fonts/';
 
             $css = '
@@ -87,13 +84,11 @@ class WPSH_Maintenance_Addon extends WPSH_Addons
                 }
                 ';
 
-            wp_die(__('<style>' . $css . '</style><h1>در دست تعمیر</h1> <br /> سایت در دست تعمیر می باشد، به زودی برمیگردیم. لطفا دقایقی دیگر مجددا مراجعه فرمایید.', 'wpsh') , get_bloginfo('name') . ' - ' . __('در دست تعمیر', 'wpsh') , array(
+            wp_die(__('<style>' . $css . '</style><h1>در دست تعمیر</h1> <br /> سایت در دست تعمیر می باشد، به زودی برمیگردیم. لطفا دقایقی دیگر مجددا مراجعه فرمایید.', 'wpsh'), get_bloginfo('name') . ' - ' . __('در دست تعمیر', 'wpsh'), array(
                 'response' => '503'
             ));
         }
     }
-
 }
 
 new WPSH_Maintenance_Addon();
-
