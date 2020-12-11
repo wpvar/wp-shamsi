@@ -80,7 +80,6 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 
 ## تصاویر
 
-![ Image 1](https://ps.w.org/wp-shamsi/assets/screenshot-1.gif)
 ![ Image 2](https://ps.w.org/wp-shamsi/assets/screenshot-2.gif)
 ![ Image 3](https://ps.w.org/wp-shamsi/assets/screenshot-3.gif)
 ![ Image 4](https://ps.w.org/wp-shamsi/assets/screenshot-4.gif)
