@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -19,14 +20,10 @@ class WPSH_ContactForm extends WPSH_Core
     function __construct()
     {
 
-        if (!parent::option('activate-contactform', true, true))
-        {
+        if (!parent::option('activate-contactform', true, true)) {
             return;
         }
-
     }
-
 }
 
 new WPSH_ContactForm();
-

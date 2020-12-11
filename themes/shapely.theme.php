@@ -12,4 +12,3 @@ $css .= '
     font-size: 20px;
   }
   ';
-?>

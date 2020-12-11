@@ -23,5 +23,3 @@ $css .= '
     text-decoration-style: dotted;
   }
   ';
-
-?>

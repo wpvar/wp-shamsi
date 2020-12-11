@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -19,14 +20,10 @@ class WPSH_Wpforo extends WPSH_Core
     function __construct()
     {
 
-        if (!parent::option('activate-wpforo', true, true))
-        {
+        if (!parent::option('activate-wpforo', true, true)) {
             return;
         }
-
     }
-
 }
 
 new WPSH_Wpforo();
-

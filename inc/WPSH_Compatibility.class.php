@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package WPSH
  */
@@ -25,13 +26,8 @@ class WPSH_Compatibility
     function __construct()
     {
 
-        foreach (glob(WPSH_PATH . 'compatibility/*.php') as $filename)
-        {
+        foreach (glob(WPSH_PATH . 'compatibility/*.php') as $filename) {
             include_once $filename;
-
         }
-
     }
-
 }
-
