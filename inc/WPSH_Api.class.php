@@ -108,6 +108,7 @@ class WPSH_Api extends WPSH_Core
      */
     public function send_stats()
     {
+
         $interval = 604800; // Every Week
         $failed_interval = 86400; // Every Day
         $is_permission = parent::option('activate-stats', true, false); // Default is False, Do not run function without permission
