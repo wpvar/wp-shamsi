@@ -174,11 +174,11 @@ class WPSH_Core
   public function option($option, $bool = false, $default = true)
   {
     $options = get_option('wpsh');
-
-    if (!isset($options[$option]) && $default === true) {
+    $valid = (!empty($options[$option])) ? $options[$option] : false;
+    if (!$valid && $default === true) {
       return true;
     }
-    if (!isset($options[$option]) && $default === false) {
+    if (!$valid && $default === false) {
       return false;
     }
     if ($bool === true) {
@@ -188,10 +188,10 @@ class WPSH_Core
         return false;
       endif;
     } else {
-      if ($options[$option] == null && is_string($default)) {
+      if ($valid || is_string($default)) {
         return $default;
       } else {
-        return $options[$option];
+        return $valid;
       }
     }
   }
@@ -230,6 +230,13 @@ class WPSH_Core
       wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array(
         'jquery'
       ), WPSH_VERSION);
+
+      $isShamsiInAdmin = array(
+        'in_admin' => (is_admin()) ? 1 : 0,
+        'base' => false
+      );
+
+      wp_localize_script('wpsh', 'isShamsiInAdmin', $isShamsiInAdmin);
     endif;
 
     if (get_locale() == 'fa_IR' || get_locale() == 'fa_AF') :
@@ -483,14 +490,14 @@ class WPSH_Core
   public function wp_shamsi($date = null, $format = null, $timestamp = null, $timezone = null)
   {
 
+    if ($timestamp < 0) {
+      return $date;
+    }
+
     $date = $this->normalize_date($date);
 
     /* Hook to add modify formats*/
     $format = apply_filters('wpsh_date_replace_formats', $format);
-
-    if ($timestamp < 0) {
-      return $date;
-    }
 
     $skip_formats = array(
       // DATE_W3C DATE_ATOM DATE_RFC3339

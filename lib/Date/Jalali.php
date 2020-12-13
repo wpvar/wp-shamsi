@@ -225,10 +225,12 @@ class WPSH_Jalali extends WPSH_DateAbstract
         $symbols = array('Y', 'm', 'd', 'D', 'H', 'i', 's', 'l', 'j', 'N', 'w', 'z', 'W', 'F', 'M', 'n', 't', 'L', 'o', 'y', 'a', 'A', 'B', 'g', 'G', 'h', 's', 'u', 'e', 'i', 'I', 'O', 'P', 'T', 'U', 'c', 'r');
         $intactSymbols = array('H', 'i', 's', 'N', 'w', 'B', 'g', 'G', 'h', 's', 'u', 'e', 'i', 'I', 'O', 'P', 'T', 'U', 'c', 'r');
 
-        $findSymbolsRegex = '/('.implode('|', $symbols).')(-|:|\s|\d|\z|\/)/';
-        $symbols = preg_match_all($findSymbolsRegex, $format, $symbols) ? $symbols[1] : array();
+        $afmonth = (!empty(get_option('wpsh')['country-select'])) ? get_option('wpsh')['country-select'] : false;
+        $format = esc_attr($format);
+        $split = str_split($format);
+        $merges = array_intersect($symbols, $split);
 
-        foreach ($symbols as $symbol) {
+        foreach ($merges as $symbol) {
             $v = '';
             switch ($symbol) {
                 case 'Y':
@@ -269,7 +271,7 @@ class WPSH_Jalali extends WPSH_DateAbstract
 
                 case 'F':
 
-                    if(get_option('wpsh')['country-select'] == 'af')
+                    if($afmonth == 'af')
                     {
                          $v = $this->format_af_F[$this->jMonth - 1];
                     }
@@ -280,7 +282,7 @@ class WPSH_Jalali extends WPSH_DateAbstract
                     break;
 
                 case 'M':
-                    if(get_option('wpsh')['country-select'] == 'af')
+                    if($afmonth == 'af')
                     {
                          $v = $this->format_af_M[$this->jMonth - 1];
                     }

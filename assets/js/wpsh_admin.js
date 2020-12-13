@@ -21,10 +21,10 @@ jQuery(document).ready(function () {
     }
     return false;
   }
-  jQuery('.wpsh_newsletter_dismiss').click(function () {
+  jQuery('.wpsh_newsletter_dismiss').on('click', function () {
     return confirm("آیا از عدم اشتراک در خبرنامه مطمئن هستید؟");
   });
-  jQuery('.wpsh_dismiss').click(function () {
+  jQuery('.wpsh_dismiss').on('click', function () {
     return confirm("آیا مطمئن هستید؟");
   });
   jQuery('#wpsh_form').on('submit', function (e) {
@@ -37,7 +37,7 @@ jQuery(document).ready(function () {
       this.submit();
     }
   });
-  jQuery('#wpsh_form_settings').click(function (e) {
+  jQuery('#wpsh_form_settings').on('click', function (e) {
     var email = jQuery('#wpsh_email_settings').val();
     var selector = jQuery('#wpsh_email_validation_settings');
     if (WpshValidateEmail(email, selector)) {
@@ -49,10 +49,10 @@ jQuery(document).ready(function () {
       e.preventDefault();
     }
   });
-  jQuery('#wpsh_email_settings').keypress(function (e) {
+  jQuery('#wpsh_email_settings').on('keypress', function (e) {
     var key = e.which;
     if (key == 13) {
-      jQuery('#wpsh_form_settings').click();
+      jQuery('#wpsh_form_settings').trigger('click');
       e.preventDefault();
       return false;
     }
