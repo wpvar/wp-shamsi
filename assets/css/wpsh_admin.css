@@ -80,6 +80,24 @@
   background: #0071a1;
 }
 
+#wpsh_downloads {
+  background: #de4410;
+  border: 1px solid #983411;
+  padding: 5px;
+  border-radius: 2px;
+  margin-top: -20px;
+  float: left;
+  height: auto;
+  width: auto;
+  min-width: 150px;
+  text-align: center;
+}
+
+#wpsh_downloads:hover {
+  background: #ca4a1f;
+  border: 1px solid #9e3816;
+}
+
 .wpsh_newsletter_settings strong {
   color: #347528;
 }
