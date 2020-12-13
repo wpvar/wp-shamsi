@@ -95,6 +95,28 @@ class WPSH_Admin extends WPSH_Core
             $this,
             'admin_script'
         ), 1);
+
+        add_action('admin_head', array(
+            $this,
+            'remove_notices'
+        ), 10);
+    }
+
+    /**
+     * No admin_notices
+     *
+     * Do not display notices inside plugins settings.
+     *
+     * @since 2.1.2
+     *
+     */
+    public function remove_notices()
+    {
+        $page = isset($_GET['page']) ? esc_attr($_GET['page']) : false;
+
+        if ($page !== false && $page === 'wpsh') {
+            remove_all_actions('admin_notices');
+        }
     }
 
     /**

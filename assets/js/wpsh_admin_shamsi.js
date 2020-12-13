@@ -133,7 +133,7 @@ jQuery(document).ready(function () {
       jQuery(this).find('.mm').text(nmm);
       jQuery(this).find('.jj').text(njj);
     });
-    jQuery('.colspanchange').hover(function () {
+    jQuery('.colspanchange').on('hover', function () {
       quickEditDateHandle();
     });
   }
@@ -245,6 +245,15 @@ jQuery(document).ready(function () {
       }
     });
   }
+  if (jQuery('.column-expiry_date').length > 0) {
+    jQuery('.expiry_date').each(function () {
+      var explode = jQuery(this).text();
+      explode = explode.replace('،', '');
+      explode = explode.replace(',', '');
+      explode = explode.split(' ');
+      jQuery(this).text(explode[1] + ' ' + farsiMonth(explode[0]) + ' ' + ' ' + explode[2]);
+    });
+  }
   if (jQuery('#media-attachment-date-filters').length > 0) {
     jQuery('#media-attachment-date-filters option').each(function (index) {
       if (index > 0) {
@@ -287,7 +296,7 @@ jQuery(document).ready(function () {
     });
   }
   if (jQuery('.edit-post-post-schedule').length > 0 || jQuery('.edit-post-post-schedule__toggle').text() != 'بروز شده') {
-    jQuery(window).hover(function () {
+    jQuery(window).on('hover', function () {
       var gutenbergDate = jQuery('.edit-post-post-schedule__toggle').text().split(' ');
       if (parseInt(gutenbergDate[2]) > 1970) {
         jQuery('.edit-post-post-schedule__toggle').remove();
