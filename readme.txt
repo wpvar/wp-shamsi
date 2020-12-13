@@ -5,7 +5,7 @@ Donate link: https://payping.ir/@wpvar
 Requires at least: 4.0
 Tested up to: 5.6
 Requires PHP: 5.5
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 License: GNU Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
