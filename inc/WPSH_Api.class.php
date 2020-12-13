@@ -30,25 +30,17 @@ class WPSH_Api extends WPSH_Core
 
             add_action('admin_notices', array(
                 $this,
-                'notice_check'
+                'newsletter'
             ));
 
-            if (has_action('admin_notices')) {
-                add_action('admin_notices', array(
-                    $this,
-                    'newsletter'
-                ));
-
-                add_action('admin_notices', array(
-                    $this,
-                    'stats'
-                ));
-            } else {
-                add_action('admin_init', array(
-                    $this,
-                    'newsletter_core'
-                ));
-            }
+            add_action('admin_notices', array(
+                $this,
+                'stats'
+            ));
+            add_action('admin_init', array(
+                $this,
+                'newsletter_core'
+            ));
 
             add_action('admin_init', array(
                 $this,
@@ -60,20 +52,6 @@ class WPSH_Api extends WPSH_Core
             $this,
             'send_stats'
         ));
-    }
-
-    /**
-     * Check admin_notices availability
-     *
-     * Triggers admin_notices. If action hook had been deleted plugin will switch to admin_init.
-     *
-     * @since 2.1.0
-     *
-     * @return bool True.
-     */
-    public function notice_check()
-    {
-        return true;
     }
 
     /**
@@ -189,7 +167,7 @@ class WPSH_Api extends WPSH_Core
      *
      * @return array Respone of endpoit.
      */
-    private function newsletter_core()
+    public function newsletter_core()
     {
 
         $permission = $this->permission('newsletter');
@@ -199,7 +177,6 @@ class WPSH_Api extends WPSH_Core
         }
 
         $email = (parent::post('wpsh_email', 'bool')) ? parent::post('wpsh_email') : (parent::get('wpsh_newsletter_settings', 'bool') ? parent::get('wpsh_newsletter_settings') : null);
-
         if ($email == null) {
             return null;
         }
