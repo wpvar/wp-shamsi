@@ -356,6 +356,14 @@ class WPSH_Options extends WPSH_Core
                     'default' => 'yes',
                 ),
                 array(
+                    'id' => 'activate-ssl',
+                    'type' => 'switcher',
+                    'title' => __('SSL واقعا ساده', 'wpsh'),
+                    'description' => __('فعال سازی حالت SSL دامنه', 'wpsh'),
+                    'after'   => $this->makhzan_download('really-simple-ssl', 'دانلود SSL واقعا ساده'),
+                    'default' => 'yes',
+                ),
+                array(
                     'id' => 'activate-bbpress',
                     'type' => 'switcher',
                     'title' => __('بی بی پرس', 'wpsh'),
