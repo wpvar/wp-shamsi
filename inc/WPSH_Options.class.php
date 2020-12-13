@@ -57,6 +57,25 @@ class WPSH_Options extends WPSH_Core
         return $result;
     }
     /**
+     * Generate download links
+     *
+     * Generate download links targeting to plugin pages.
+     *
+     * @since 2.1.2
+     *
+     * @param string $slug Slug in makhzan.
+     * @param string $title Title of link.
+     * @return string HTML generated download links.
+     */
+    public function makhzan_download($slug, $title = 'دانلود') {
+
+        $url = 'https://wpvar.com/downloads/' . $slug . '/';
+        $html = '<a href="' . $url . '" class="button button-primary" id="wpsh_downloads" target="_blank">' . $title . '</a>';
+
+        return $html;
+
+    }
+    /**
      * Register settings menu
      *
      * Registers settings menu and created settings page with all fields and settings
@@ -301,6 +320,15 @@ class WPSH_Options extends WPSH_Core
                     'type' => 'switcher',
                     'title' => __('ووکامرس', 'wpsh'),
                     'description' => __('فروشگاه ساز ووکامرس', 'wpsh'),
+                    'after'   => $this->makhzan_download('woocommerce', 'دانلود ووکامرس'),
+                    'default' => 'yes',
+                ),
+                array(
+                    'id' => 'activate-classic-editor',
+                    'type' => 'switcher',
+                    'title' => __('ویرایشگر کلاسیک', 'wpsh'),
+                    'description' => __('ویرایشگر کلاسیک وردپرس برای حذف ویرایشگر گوتنبرگ', 'wpsh'),
+                    'after'   => $this->makhzan_download('classic-editor', 'دانلود ویرایشگر کلاسیک'),
                     'default' => 'yes',
                 ),
                 array(
@@ -308,6 +336,7 @@ class WPSH_Options extends WPSH_Core
                     'type' => 'switcher',
                     'title' => __('فرم تماس 7 و فلامینگو', 'wpsh'),
                     'description' => __('افزونه Contact Form 7 و Flamingo', 'wpsh'),
+                    'after'   => $this->makhzan_download('contact-form-7', 'دانلود افزونه تماس‌با‌ما'),
                     'default' => 'yes',
                 ),
                 array(
@@ -315,13 +344,23 @@ class WPSH_Options extends WPSH_Core
                     'type' => 'switcher',
                     'title' => __('رنک مث', 'wpsh'),
                     'description' => __('افزونه بهبود سئو وردپرس Rank Math', 'wpsh'),
+                    'after'   => $this->makhzan_download('seo-by-rank-math', 'دانلود افزونه رنک مث'),
                     'default' => 'yes',
                 ),
                 array(
-                    'id' => 'activate-wpforo',
+                    'id' => 'activate-elementor',
                     'type' => 'switcher',
-                    'title' => __('wpForo', 'wpsh'),
-                    'description' => __('افزونه ایجاد انجمن گفتگو برای وردپرس', 'wpsh'),
+                    'title' => __('المنتور', 'wpsh'),
+                    'description' => __('صفحه ساز المنتور', 'wpsh'),
+                    'after'   => $this->makhzan_download('elementor', 'دانلود المنتور'),
+                    'default' => 'yes',
+                ),
+                array(
+                    'id' => 'activate-bbpress',
+                    'type' => 'switcher',
+                    'title' => __('بی بی پرس', 'wpsh'),
+                    'description' => __('انجمن گفتگو ساز بی بی پرس', 'wpsh'),
+                    'after'   => $this->makhzan_download('bbpress', 'دانلود بی بی پرس'),
                     'default' => 'yes',
                 ),
                 array(
