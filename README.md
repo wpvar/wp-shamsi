@@ -90,7 +90,7 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 
 
 ## تغییرات
-2.1.2
+2.1.3
 * در این نسخه 1 باگ رفع شده است :
 
 * رفع باگ: رفع عدم ثبت و اجرای سیستم مترجم و استایل سفارشی
