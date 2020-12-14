@@ -174,7 +174,7 @@ class WPSH_Core
   public function option($option, $bool = false, $default = null)
   {
     $options = get_option('wpsh');
-    $valid = (!empty($options[$option])) ? $options[$option] : false;
+    $valid = (!empty($options[$option])) ? true : false;
 
     if (!$valid) {
       return $default;
@@ -187,7 +187,7 @@ class WPSH_Core
         return false;
       endif;
     } else {
-      return $valid;
+      return $options[$option];
     }
   }
 
