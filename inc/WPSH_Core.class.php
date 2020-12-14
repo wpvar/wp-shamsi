@@ -171,16 +171,15 @@ class WPSH_Core
    * @param bool $bool Requested option is boolean or not.
    * @return mixed Result of get_option.
    */
-  public function option($option, $bool = false, $default = true)
+  public function option($option, $bool = false, $default = null)
   {
     $options = get_option('wpsh');
-    $valid = (!empty($options[$option])) ? $options[$option] : false;
-    if (!$valid && $default === true) {
-      return true;
+    $valid = (!empty($options[$option])) ? true : false;
+
+    if (!$valid) {
+      return $default;
     }
-    if (!$valid && $default === false) {
-      return false;
-    }
+
     if ($bool === true) {
       if ($options[$option] == 'yes') :
         return true;
@@ -188,11 +187,7 @@ class WPSH_Core
         return false;
       endif;
     } else {
-      if ($valid || is_string($default)) {
-        return $default;
-      } else {
-        return $valid;
-      }
+      return $options[$option];
     }
   }
 
