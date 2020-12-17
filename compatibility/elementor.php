@@ -30,17 +30,8 @@ class WPSH_Elementor extends WPSH_Core
                 if (get_locale() == 'fa_IR' || get_locale() == 'fa_AF') :
                     wp_enqueue_style('wpsh-elementor-style', WPSH_URL . 'assets/css/wpsh_custom.css', array(), WPSH_VERSION, true);
                     $css = '
-                    *,
-                    :after,
-                    :before,
-                    #elementor-panel,
-                    #elementor-panel-elements-search-input,
-                    #elementor-panel-saver-button-publish,
-                    .elementor-loading-title,
-                    .elementor-add-section-drag-title,
-                    .e-global__confirm-input-wrapper input,
-                    .elementor-editor-element-settings,
-                    .elementor-sortable-helper .title  {
+                    body, div, span, p, input, code, pre, textarea, button, dl, dt, tr, ul, li, em, a
+                    {
                        font-family: Vazir, tahoma, sans-serif, arial, eicons !important;
                     }
                     ';
