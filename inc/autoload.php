@@ -30,3 +30,4 @@ new WPSH_Archive();
 new WPSH_Addons();
 new WPSH_Calendar();
 new WPSH_Compatibility();
+new WPSH_Shamsi_Api_Pro();

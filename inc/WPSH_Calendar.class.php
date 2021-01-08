@@ -26,6 +26,11 @@ class WPSH_Calendar extends WPSH_Core
      */
     function __construct()
     {
+
+        if (!parent::can_continue()) {
+            return;
+        }
+
         if ((get_locale() == 'fa_IR' || get_locale() == 'fa_AF') && parent::option('activate-shamsi-calendar', true, true)) {
             add_filter('get_calendar', array(
                 $this,

@@ -67,13 +67,13 @@ class WPSH_Options extends WPSH_Core
      * @param string $title Title of link.
      * @return string HTML generated download links.
      */
-    public function makhzan_download($slug, $title = 'دانلود') {
+    public function makhzan_download($slug, $title = 'دانلود')
+    {
 
         $url = 'https://wpvar.com/downloads/' . $slug . '/';
         $html = '<a href="' . $url . '" class="button button-primary" id="wpsh_downloads" target="_blank">' . $title . '</a>';
 
         return $html;
-
     }
     /**
      * Register settings menu
@@ -117,6 +117,9 @@ class WPSH_Options extends WPSH_Core
           ';
         }
 
+        $pro = !parent::pro() ? '<strong class="wpsh-pro-intro"><a target="_blank" href="https://wpvar.com/pro/">ارتقا به نسخه حرفه‌ای</a></strong>' : '<strong class="wpsh-pro-intro">حرفه‌ای</strong>';
+        $version = WPSH_VERSION . $pro;
+
         $fields[] = array(
             'name' => 'shamsi',
             'title' => __('شمسی‌ساز', 'wpsh'),
@@ -127,7 +130,7 @@ class WPSH_Options extends WPSH_Core
                     'wrap_class' => 'no-border-bottom',
                     'title' => __('نسخه افزونه', 'wpsh'),
                     'content' => __('برای عملکرد بهتر افزونه، همیشه آن را به آخرین نسخه موجود به‌روزرسانی‌‌ کنید. <a href="' . get_admin_url() . 'plugins.php" target="_blank">فعال‌سازی به‌روزرسانی‌‌ خودکار</a>.', 'wpsh'),
-                    'before' => '<strong>' . WPSH_VERSION . '</strong>',
+                    'before' => '<strong>' . $version . '</strong>',
                 ),
                 array(
                     'type' => 'content',
@@ -554,30 +557,36 @@ class WPSH_Options extends WPSH_Core
                 ),
             )
         );
-        $fields[] = array(
-            'name' => 'donate',
-            'title' => __('حمایت', 'wpsh'),
-            'icon' => 'dashicons-heart',
-            'fields' => array(
 
-                array(
-                    'type' => 'content',
-                    'class' => 'class-name',
-                    'content' => __('
-                  <h2>حمایت از ما</h2>
-                  <p>با معرفی افزونه ما در وبسایت/وبلاگ خود می‌توانید از ما حمایت کنید. همچنین با دنبال کردن ما در شبکه اینستاگرام از آخرین اخبار و مطالب وبسایت وردپرس فارسی و افزونه‌ها مطلع شوید.
- 	                <br /><br /> <strong>اینستاگرام</strong> <a href="https://instagram.com/wpvar" target="_blank">@wpvar</a> <br />
-                  <strong>وبسایت:</strong> <a href="https://wpvar.com" target="_blank">وردپرس فارسی</a>
-                  </p>
-                  <h2>حمایت مالی</h2>
-                  <p>صدها ساعت زمان و انرژی صرف برنامه‌نویسی این افزونه شده. اگه ازش خوشت اومده می‌تونی برامون یه قهوه بخری! :) <br /><br />
-	                <div style="text-align: center;"><span style="color:#ca4a1f;" class="exopite-sof-nav-icon dashicons-before dashicons-heart"></span><strong><a href="https://payping.ir/@wpvar" target="_blank" rel="nofollow" style="font-size: 18px; display: block; height: 40px;">حمایت مالی از ما</a></strong><br />
-                  <a href="https://payping.ir/@wpvar" target="_blank" rel="nofollow"><img src="' . WPSH_URL . 'assets/img/qr.png" /></a></div>
-	                </p>
-                  ', 'wpsh'),
-                ),
-            )
+        $license_pro = array();
+
+        $fields[] = array(
+            'name' => 'wpshlicense',
+            'title' => __('نسخه حرفه‌ای', 'wpsh'),
+            'icon' => 'dashicons-star-filled',
+            'fields' => apply_filters('wpsh_pro_license', $license_pro)
         );
+
+        if (parent::pro()) {
+            $settings_pro = array();
+            $settings_pro = apply_filters('wpsh_settings_pro', $settings_pro);
+
+            foreach ($settings_pro as $key => $value) {
+                $fields[] = $value;
+            }
+
+
+            $options_pro = array();
+
+            $fields[] = array(
+                'name' => 'wpshpro',
+                'title' => __('بیشتر', 'wpsh'),
+                'icon' => 'dashicons-ellipsis',
+                'fields' => apply_filters('wpsh_pro_options', $options_pro)
+            );
+        }
+        $fields = apply_filters('wpsh_options_array', $fields);
+
         $options_panel = new Exopite_Simple_Options_Framework($config_submenu, $fields);
     }
 }

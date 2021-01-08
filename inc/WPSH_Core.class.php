@@ -288,6 +288,11 @@ class WPSH_Core
     if (!$this->option('fa-theme', true, true)) {
       return false;
     }
+
+    if ($this->pro() && $this->option('activate-fonts', true, false)) {
+      return false;
+    }
+
     $path = WPSH_URL . 'assets/fonts/';
     $css = '
         @font-face {
@@ -419,6 +424,8 @@ class WPSH_Core
 
     $args['message'] = str_replace('http://wp-persian.com/', 'https://wpvar.com/', $args['message']);
     $args['message'] = str_replace('WP-Persian.com', 'wpvar.com', $args['message']);
+    $args['message'] = str_replace('https://wordpress.org/support/forums/', 'https://wpvar.com/forums/', $args['message']);
+
 
     return $args;
   }
@@ -471,6 +478,37 @@ class WPSH_Core
   }
 
   /**
+   * Disable shamsi dates
+   *
+   * Disable shamsi dates if link had set so.
+   *
+   * @since 3.0.0
+   *
+   * @return bool true or false.
+   */
+  protected function can_continue()
+  {
+
+    if (!$this->pro()) {
+      return true;
+    }
+
+    $links = $this->option('advanced-group', false, null);
+    $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+    if (!empty($links)) {
+
+      foreach ($links as $link) {
+        if ($link['advanced-link'] === $actual_link) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  /**
    * Make dates Jalali aka Shamsi
    *
    * Convert wordpress dates to Shamsi aka Jalali dates.
@@ -484,6 +522,10 @@ class WPSH_Core
    */
   public function wp_shamsi($date = null, $format = null, $timestamp = null, $timezone = null)
   {
+
+    if (!$this->can_continue()) {
+      return $date;
+    }
 
     if ($timestamp < 0) {
       return $date;
@@ -536,6 +578,10 @@ class WPSH_Core
 
     if ($timezone == null || $timezone == '0') {
       $timezone = $this->timezone();
+    }
+
+    if ($this->timezone() == 0) {
+      $timezone = 1;
     }
 
     $date = ($timezone == '1') ? new WPSH_Jalali($timestamp, 'UTC') : new WPSH_Jalali($timestamp, $timezone);
@@ -734,6 +780,88 @@ class WPSH_Core
     $result = str_replace($en, $fa, $content);
 
     return $result;
+  }
+
+  /**
+   * Validate pro
+   *
+   * Pro version validation.
+   *
+   * @since 3.0.0
+   *
+   * @return bool true if is validated.
+   */
+  protected function pro()
+  {
+    $serial = !empty(get_option('wpsh_pro_license')) ? get_option('wpsh_pro_license') : false;
+    $status = !empty(get_option('wpsh_pro_license_status')) && get_option('wpsh_pro_license_status') == 1 ? true : false;
+    $due = !empty(get_option('wpsh_pro_license_due')) && get_option('wpsh_pro_license_due') > current_time('timestamp', false) ? true : false;
+    $shamsi = ABSPATH . '/wp-content/plugins/wp-shamsi-pro/wp-shamsi-pro.php';
+    $exists = file_exists($shamsi) ? true : false;
+
+    if ($serial && $status && $due && $exists) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Validate VIP
+   *
+   * VIP version validation.
+   *
+   * @since 3.0.0
+   *
+   * @return bool true if is validated.
+   */
+  protected function vip()
+  {
+    if (!$this->pro()) {
+      return false;
+    }
+
+    $vip = get_option('wpsh_pro_is_vip');
+
+    if (!empty($vip) && $vip == 1) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Validate due
+   *
+   * Pro version due date.
+   *
+   * @since 3.0.0
+   *
+   * @return mixed Return in dayas or bool.
+   */
+  protected function pro_due($int = false)
+  {
+
+    if (!$this->pro()) {
+      return null;
+    }
+
+    $reminder = 30;
+
+    $due = get_option('wpsh_pro_license_due');
+    $days = 60 * 60 * 24;
+    $now = current_time('timestamp', false);
+    $remain = floor(($due - $now) / $days);
+
+    if ($int) {
+      return $remain;
+    } else {
+      if ($remain < $reminder) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   /**

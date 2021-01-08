@@ -32,7 +32,7 @@ class WPSH_Elementor extends WPSH_Core
                     $css = '
                     body, div, span, p, input, code, pre, textarea, button, dl, dt, tr, ul, li, em, a
                     {
-                       font-family: Vazir, tahoma, sans-serif, arial, eicons !important;
+                       font-family: Vazir, tahoma, sans-serif, arial, eicons;
                     }
                     ';
                     wp_add_inline_style('wpsh-elementor-style', $css);

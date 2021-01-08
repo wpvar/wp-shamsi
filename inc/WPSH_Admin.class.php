@@ -91,6 +91,11 @@ class WPSH_Admin extends WPSH_Core
             'add_settings_link'
         ));
 
+        add_filter('plugin_row_meta', array(
+            $this,
+            'add_settings_meta'
+        ), 10, 4);
+
         add_action('admin_enqueue_scripts', array(
             $this,
             'admin_script'
@@ -162,8 +167,12 @@ class WPSH_Admin extends WPSH_Core
             $rss_items = $rss->get_items(0, $maxitems);
             $rss_title = '<a href="' . $rss->get_permalink() . '" target="_blank">' . strtoupper($rss->get_title()) . '</a>';
         endif;
-
         $html = '<div class="rss-widget">';
+        if (parent::pro_due()) {
+            $html .= '<div class="wpsh-pro-due-widget">';
+            $html .= '<p>اعتبار لایسنس نسخه حرفه‌ای تاریخ شمسی و فارسی ساز وردپرس رو به <strong>اتمام</strong> است. برای تمدید لایسنس لطفا <strong><a target="_blank" href="https://wpvar.com/pro/?renew=1">اینجا کلیک کنید</a></strong>.</p>';
+            $html .= '</div>';
+        }
         $html .= '<ul>';
 
         if ($maxitems == 0) {
@@ -192,6 +201,11 @@ class WPSH_Admin extends WPSH_Core
             <li><a href="https://wpvar.com/edu/" target="_blank" title="آموزش وردپرس"><span class="dashicons dashicons-welcome-learn-more"></a></span></li>
           </ul>
         </div>';
+        if (!parent::pro()) {
+            $html .= '<a target="_blank" href="https://wpvar.com/pro/?renew=1" class="wpsh-pro-widget"><div>';
+            $html .= '<p><strong>ارتقا به نسخه حرفه‌ای</strong></p>';
+            $html .= '</div></a>';
+        }
         echo $html;
         set_transient('wpsh_dashboard_site_feed', $html, 12 * HOUR_IN_SECONDS);
     }
@@ -467,7 +481,7 @@ class WPSH_Admin extends WPSH_Core
     /**
      * Settings shortcut
      *
-     * Adds settings page shortcit link to plugins page.
+     * Adds settings page shortcut link to plugins page.
      *
      * @since 1.2.0
      *
@@ -477,12 +491,41 @@ class WPSH_Admin extends WPSH_Core
     public function add_settings_link($links)
     {
 
+        $pro = '<a href="https://wpvar.com/pro/" target="_blank" class="wpsh-color wpsh-bold wpsh-star">' . __('نسخه حرفه‌ای', 'wpsh') . '</a>';
         $settings_link = '<a href="' . get_admin_url() . 'admin.php?page=wpsh">' . __('تنظیمات', 'wpsh') . '</a>';
-        $wpvar = '<a href="https://wpvar.com/edu/" target="_blank">' . __('آموزش وردپرس', 'wpsh') . '</a>';
         $forum_link = '<a href="https://wpvar.com/forums/" target="_blank">' . __('انجمن پشتیبانی', 'wpsh') . '</a>';
 
-        array_push($links, $settings_link, $forum_link, $wpvar);
+
+        if (!parent::pro()) {
+            array_push($links, $pro, $settings_link, $forum_link);
+        } else {
+            array_push($links, $settings_link, $forum_link);
+        }
+
         return $links;
+    }
+
+    /**
+     * Settings meta
+     *
+     * Adds meta to plugins setting row.
+     *
+     * @since 3.0.0
+     *
+     * @param array $plugin_meta An array of the plugin's metadata
+     * @param string $plugin_file Path to the plugin file
+     * @param array $plugin_data An array of plugin data
+     * @param string $status Status of the plugin
+     * @return array Modified meta.
+     */
+    public function add_settings_meta($plugin_meta, $plugin_file, $plugin_data, $status)
+    {
+        if ($plugin_file == WPSH_BASE) {
+            $plugin_meta[] = '<a href="https://wpvar.com/" target="_blank">' . __('وردپرس فارسی', 'wpsh') . '</a>';
+            $plugin_meta[] = '<a href="https://wpvar.com/edu/" target="_blank">' . __('آموزش وردپرس', 'wpsh') . '</a>';
+        }
+
+        return $plugin_meta;
     }
 
     /**
