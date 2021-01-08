@@ -109,7 +109,7 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
 
     public function tasks()
     {
-        if (parent::pro() && current_user_can('manage_options') && is_admin()) {
+        if (parent::pro(true) && current_user_can('manage_options') && is_admin()) {
             $shamsi = ABSPATH . '/wp-content/plugins/wp-shamsi-pro/wp-shamsi-pro.php';
             $exists = file_exists($shamsi) ? true : false;
             if ($exists) {

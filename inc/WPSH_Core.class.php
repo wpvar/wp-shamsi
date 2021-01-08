@@ -791,7 +791,7 @@ class WPSH_Core
    *
    * @return bool true if is validated.
    */
-  protected function pro()
+  protected function pro($soft = false)
   {
     $serial = !empty(get_option('wpsh_pro_license')) ? get_option('wpsh_pro_license') : false;
     $status = !empty(get_option('wpsh_pro_license_status')) && get_option('wpsh_pro_license_status') == 1 ? true : false;
@@ -799,10 +799,18 @@ class WPSH_Core
     $shamsi = ABSPATH . '/wp-content/plugins/wp-shamsi-pro/wp-shamsi-pro.php';
     $exists = file_exists($shamsi) ? true : false;
 
-    if ($serial && $status && $due && $exists) {
-      return true;
+    if ($soft) {
+      if ($serial && $status && $due) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
-      return false;
+      if ($serial && $status && $due && $exists) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 
