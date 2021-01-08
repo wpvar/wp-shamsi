@@ -137,6 +137,7 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
                     if (!$this->is_active('wp-shamsi-pro/wp-shamsi-pro.php')) {
                         activate_plugin('wp-shamsi-pro/wp-shamsi-pro.php');
                     }
+                    wp_redirect(get_admin_url() . 'admin.php?page=wpsh');
                 } else {
                     add_action('admin_notices', array($this, 'download_error'), 10);
                 }
@@ -242,10 +243,11 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
         $due = !empty(get_option('wpsh_pro_license_due')) ? get_option('wpsh_pro_license_due') : false;
         if ($serial !== false) {
             $before = '<span class="dashicons dashicons-yes-alt wpsh-verified"></span> <strong>لایسنس نسخه حرفه‌ای فعال می‌باشد</strong>';
+            $version = '';
             $license = '
             کد لایسنس: <strong>' . $serial . '</strong><br />
             اعتبار تا: <strong>' . wp_date('F j, Y', $due) . '</strong><br />
-            نسخه: <strong>' . @WPSH_VERSION_PRO . '</strong><br />';
+            نسخه: <strong>' . apply_filters('wpsh_pro_license_version', $version) . '</strong><br />';
         } else {
             $before = '<span class="dashicons dashicons-admin-network"></span> <strong>فعال‌سازی نسخه حرفه‌ای</strong>';
             $license = '
@@ -287,7 +289,7 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
 
     public function script()
     {
-        wp_enqueue_script('wpsh-license', WPSH_URL . 'assets/js/wpsh_license.js', array('jquery'), WPSH_VERSION_PRO, true);
+        wp_enqueue_script('wpsh-license', WPSH_URL . 'assets/js/wpsh_license.js', array('jquery'), WPSH_VERSION, true);
         wp_localize_script('wpsh-license', 'wpshLicense', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'redirect'  => get_admin_url() . 'admin.php?page=wpsh'
