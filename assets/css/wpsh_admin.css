@@ -129,11 +129,28 @@
   font-size: 20px;
 }
 
-#njj {
+#naa, #njj {
   padding: 6px 1px;
   font-size: 12px;
   line-height: 1.16666666;
+}
+
+#njj {
   width: 2em;
+}
+
+#nmm {
+  width: 7.9em;
+}
+
+@media screen and (max-width: 782px) {
+  .timestamp-wrap #naa, .timestamp-wrap #njj {
+    padding: 12px 3px;
+    font-size: 14px;
+    margin-bottom: 5px;
+    width: auto;
+    text-align: center;
+  }
 }
 
 #wpsh_license_pro_send {
@@ -212,13 +229,13 @@
 }
 
 .notice-wpsh-pro-wrap .button-primary {
-  background: #6b1b33  !important;
-  border-color: #551427  !important;
+  background: #6b1b33 !important;
+  border-color: #551427 !important;
   margin-left: 3px !important;
 }
 
 .notice-wpsh-pro-wrap .button-primary:hover {
-  background: #8d1f40  !important;
+  background: #8d1f40 !important;
 }
 
 .wpsh-pro-due-widget {
