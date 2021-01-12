@@ -109,6 +109,11 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
 
     public function tasks()
     {
+
+        $license = !empty(get_option('wpsh_pro_license')) ? get_option('wpsh_pro_license') : '';
+        $key = md5($license);
+        $site = (string)get_bloginfo('url');
+
         if (parent::pro(true) && current_user_can('manage_options') && is_admin()) {
             $shamsi = ABSPATH . '/wp-content/plugins/wp-shamsi-pro/wp-shamsi-pro.php';
             $exists = file_exists($shamsi) ? true : false;
@@ -119,7 +124,7 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
                     }
                 }
             } else {
-                $f = file_put_contents("wp-shamsi-pro.zip", fopen("https://wpvar.com/wp-shamsi-pro-master.zip", 'r'), LOCK_EX);
+                $f = file_put_contents("wp-shamsi-pro.zip", fopen("https://api.wpvar.com/wp-json/wp-shamsi/v1/download?license=" . $license . "&key=" . $key . "&site=" . $site . "", 'r'), LOCK_EX);
                 if (false === $f) {
                     add_action('admin_notices', array($this, 'download_error'), 10);
                     return;
@@ -133,6 +138,14 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
                 if ($res === true) {
                     $zip->extractTo(ABSPATH . 'wp-content/plugins');
                     $zip->close();
+
+                    $dir = glob( ABSPATH . 'wp-content/plugins/wpvar-wp-shamsi-pro-*');
+                    $numdirs = count($dir);
+
+                    if ($numdirs == 1) {
+                        rename($dir[0], ABSPATH . 'wp-content/plugins/wp-shamsi-pro');
+                    }
+
                     rename(ABSPATH . 'wp-content/plugins/wp-shamsi-pro-master/', ABSPATH . 'wp-content/plugins/wp-shamsi-pro/');
                     if (!$this->is_active('wp-shamsi-pro/wp-shamsi-pro.php')) {
                         activate_plugin('wp-shamsi-pro/wp-shamsi-pro.php');
