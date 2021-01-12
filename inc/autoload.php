@@ -22,6 +22,8 @@ new WPSH_Core();
 if (is_admin()) {
     new WPSH_Options('wpsh');
     new WPSH_Admin();
+    new WPSH_Gutenberg();
+
 }
 
 new WPSH_Api();

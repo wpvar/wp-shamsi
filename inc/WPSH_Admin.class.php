@@ -45,10 +45,10 @@ class WPSH_Admin extends WPSH_Core
             'farsi_support'
         ));
 
-        add_filter('the_post', array(
+       /* add_filter('the_post', array(
             $this,
             'display_post_date'
-        ), 99, 1);
+        ), 99, 1);*/
 
         if (!function_exists('wp_date')) {
             add_filter('get_the_time', array(

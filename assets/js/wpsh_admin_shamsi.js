@@ -199,15 +199,7 @@ jQuery(document).ready(function () {
       }
     });
   }
-  if (jQuery('.edit-post-post-schedule').length > 0 || jQuery('.edit-post-post-schedule__toggle').text() != 'به‌روز شده') {
-    jQuery(window).on('mouseenter', function () {
-      var gutenbergDate = jQuery('.edit-post-post-schedule__toggle').text().split(' ');
-      if (parseInt(gutenbergDate[2]) > 1970) {
-        jQuery('.edit-post-post-schedule__toggle').remove();
-        jQuery('.edit-post-post-schedule .components-dropdown').html('<button class="components-button edit-post-post-schedule__toggle is-tertiary" aria-expanded="false" type="button">به‌روز شده</button>');
-      }
-    });
-  }
+  jQuery('.edit-post-post-schedule').html('');
 });
 
 function toEn(number) {
