@@ -284,3 +284,14 @@
   margin-left: 4px;
   font-size: 10px;
 }
+
+#wpsh-license-recheck {
+  cursor: pointer;
+  margin-top: 5px;
+  display: inline-block;
+  font-size: 10px;
+}
+
+.wpsh-ltr {
+  direction: ltr;
+}

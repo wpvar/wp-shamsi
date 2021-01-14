@@ -10,6 +10,7 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
     function __construct()
     {
         add_filter('wpsh_pro_license', array($this, 'settings'), 12);
+        add_filter('wpsh_pro_intro', array($this, 'intro'), 12);
         add_filter('admin_footer_text', array($this, 'footer'), 10);
         add_action('init', array($this, 'init'), 10, 2);
         add_action('init', array($this, 'reminder'), 10);
@@ -33,7 +34,6 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
 
     public function init($bypass = false, $key = null)
     {
-
         if ($key !== null) {
             $serial = $key;
         } else {
@@ -50,6 +50,30 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
         $check = $this->stamp($success_stamp);
 
         if ($check || $bypass) {
+
+            $due = get_option('wpsh_pro_license_due');
+            if (!empty($due)) {
+                $current = current_time('timestamp', false);
+                $datediff = $due - $current;
+                $days = round($datediff / (60 * 60 * 24));
+
+                if ($days < 32 && $days >= 0) {
+                    $mail_msg = __('
+با عرض سلام
+        
+لایسنس افزونه تاریخ شمسی و فارسی‌ساز وردپرس رو به اتمام است. لطفا از لینک زیر اقدام به تمدید لایسنس بفرمایید:
+https://wpvar.com/pro/?renew=1
+        
+با تشکر
+وردپرس فارسی
+wpvar.com
+', 'wpsh');
+
+                    wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
+                }
+            }
+
+
             $url = 'https://api.wpvar.com/wp-json/wp-shamsi/v1/validate/';
             $response = wp_safe_remote_post($url, array(
                 'method' => 'POST',
@@ -139,7 +163,7 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
                     $zip->extractTo(ABSPATH . 'wp-content/plugins');
                     $zip->close();
 
-                    $dir = glob( ABSPATH . 'wp-content/plugins/wpvar-wp-shamsi-pro-*');
+                    $dir = glob(ABSPATH . 'wp-content/plugins/wpvar-wp-shamsi-pro-*');
                     $numdirs = count($dir);
 
                     if ($numdirs == 1) {
@@ -254,13 +278,27 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
 
         $serial = !empty(get_option('wpsh_pro_license')) && get_option('wpsh_pro_license_status') == 1 ? get_option('wpsh_pro_license') : false;
         $due = !empty(get_option('wpsh_pro_license_due')) ? get_option('wpsh_pro_license_due') : false;
+
+        if (parent::pro() && !parent::vip()) {
+            $support = 'https://wpvar.com/wp-login.php?redirect_to=https://wpvar.com/forums/forum/wp-shamsi-pro/';
+        }
+
+        if (parent::pro() && parent::vip()) {
+            $support = 'https://wpvar.com/wp-login.php?redirect_to=https://wpvar.com/forums/forum/wp-shamsi-vip/';
+        } else {
+            $support = 'https://wpvar.com/forums/';
+        }
+
         if ($serial !== false) {
-            $before = '<span class="dashicons dashicons-yes-alt wpsh-verified"></span> <strong>لایسنس نسخه حرفه‌ای فعال می‌باشد</strong>';
+            $before = '<span class="dashicons dashicons-yes-alt wpsh-verified"></span> <strong>لایسنس فعال می‌باشد</strong>';
             $version = '';
             $license = '
             کد لایسنس: <strong>' . $serial . '</strong><br />
             اعتبار تا: <strong>' . wp_date('F j, Y', $due) . '</strong><br />
-            نسخه: <strong>' . apply_filters('wpsh_pro_license_version', $version) . '</strong><br />';
+            نسخه: <strong>' . apply_filters('wpsh_pro_license_version', $version) . '</strong><br />
+            <a id="wpsh-license-recheck">[بررسی‌مجدد]</a>
+            <input type="hidden" id="wpsh_license_pro" value="' . $serial . '">
+            ';
         } else {
             $before = '<span class="dashicons dashicons-admin-network"></span> <strong>فعال‌سازی نسخه حرفه‌ای</strong>';
             $license = '
@@ -273,12 +311,6 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
           ';
         }
 
-        $fields[] =
-            array(
-                'type'    => 'notice',
-                'class'   => 'success',
-                'content' => 'برای استفاده از لایسنس اورجینال و اصل متشکریم. استفاده از نسخه نال شده، اقدام به نال کردن و انتشار نسخه نال شده خلاف قوانین حقوق مولف و حرام شرعی بوده و طبق قانون جرایم رایانه‌ای <strong>جرم محسوب شده و پیگرد قانونی</strong> دارد.',
-            );
 
         $fields[] =
 
@@ -287,17 +319,45 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
                 'wrap_class' => 'no-border-bottom',
                 'title' => __('لایسنس', 'wpsh'),
                 'content' => '
-                    <div class="wpsh_license_settings">
-                        ' . $license . '
-                    </div>
-                    <p id="wpsh_license_pro_result">
-                    </p>
-                    ',
+                <div class="wpsh_license_settings">
+                ' . $license . '
+                </div>
+                <p id="wpsh_license_pro_result">
+                </p>
+                ',
                 'before' => $before,
+            );
+
+        if (parent::pro()) {
+            $fields[] =
+                array(
+                    'type'    => 'content',
+                    'title'   => 'پشتیبانی',
+                    'content' => 'برای انتقال به بخش پشتیبانی لطفا <a target="_blank" href="' . $support . '">اینجا کلیک کنید</a>.',
+                );
+        }
+
+        $fields[] =
+            array(
+                'type'    => 'notice',
+                'class'   => 'success',
+                'content' => 'برای استفاده از لایسنس اورجینال متشکریم. استفاده از نسخه نال شده، اقدام به نال کردن ویا انتشار آن خلاف قوانین حقوق مولف و حرام شرعی می‌باشد و طبق قانون جرایم رایانه‌ای <strong>جرم محسوب شده و پیگرد قانونی</strong> دارد.',
             );
 
         $options = array_merge($fields, $options);
         return $options;
+    }
+
+    public function intro($options)
+    {
+        $fields[] =
+            array(
+                'type'    => 'notice',
+                'class'   => 'primary',
+                'content' => 'محل معرفی',
+            );
+
+        return $fields;
     }
 
     public function script()

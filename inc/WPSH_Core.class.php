@@ -400,6 +400,11 @@ class WPSH_Core
     $txts = (array)$this->option('translate-group');
     foreach ($txts as $txt) {
 
+      /** Do Not allow question mark */
+      if($txt['translate-source'] == (string)'?') {
+        return $string;
+      }
+
       if (!isset($txt['translate-source']) || !isset($txt['translate-target'])) :
         return $string;
       endif;
