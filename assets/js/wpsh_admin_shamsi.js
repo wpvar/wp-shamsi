@@ -237,59 +237,59 @@ function toFa(number) {
 }
 
 function wpshTimestampTasks(change) {
-  jQuery('input[name="jj"]').attr('id', 'njj');
-  jQuery('select[name="mm"]').attr('id', 'nmm');
-  jQuery('input[name="aa"]').attr('id', 'naa');
-  jQuery('input[name="jj"]').attr('name', 'njj');
-  jQuery('select[name="mm"]').attr('name', 'nmm');
-  jQuery('input[name="aa"]').attr('name', 'naa');
+  jQuery('#timestampdiv input[name="jj"]').attr('id', 'njj');
+  jQuery('#timestampdiv select[name="mm"]').attr('id', 'nmm');
+  jQuery('#timestampdiv input[name="aa"]').attr('id', 'naa');
+  jQuery('#timestampdiv input[name="jj"]').attr('name', 'njj');
+  jQuery('#timestampdiv select[name="mm"]').attr('name', 'nmm');
+  jQuery('#timestampdiv input[name="aa"]').attr('name', 'naa');
 
-  jQuery('input[name="hidden_jj"]').attr('id', 'hidden_njj');
-  jQuery('input[name="hidden_mm"]').attr('id', 'hidden_nmm');
-  jQuery('input[name="hidden_aa"]').attr('id', 'hidden_naa');
-  jQuery('input[name="hidden_jj"]').attr('name', 'hidden_njj');
-  jQuery('input[name="hidden_mm"]').attr('name', 'hidden_nmm');
-  jQuery('input[name="hidden_aa"]').attr('name', 'hidden_naa');
+  jQuery('#timestampdiv input[name="hidden_jj"]').attr('id', 'hidden_njj');
+  jQuery('#timestampdiv input[name="hidden_mm"]').attr('id', 'hidden_nmm');
+  jQuery('#timestampdiv input[name="hidden_aa"]').attr('id', 'hidden_naa');
+  jQuery('#timestampdiv input[name="hidden_jj"]').attr('name', 'hidden_njj');
+  jQuery('#timestampdiv input[name="hidden_mm"]').attr('name', 'hidden_nmm');
+  jQuery('#timestampdiv input[name="hidden_aa"]').attr('name', 'hidden_naa');
 
-  jQuery('input[class="aa"]').attr('name', 'aa');
-  jQuery('input[class="mm"]').attr('name', 'mm');
-  jQuery('input[class="jj"]').attr('name', 'jj');
-  jQuery('input[class="hidden_aa"]').attr('name', 'hidden_aa');
-  jQuery('input[class="hidden_mm"]').attr('name', 'hidden_mm');
-  jQuery('input[class="hidden_jj"]').attr('name', 'hidden_jj');
+  jQuery('#timestampdiv input[class="aa"]').attr('name', 'aa');
+  jQuery('#timestampdiv input[class="mm"]').attr('name', 'mm');
+  jQuery('#timestampdiv input[class="jj"]').attr('name', 'jj');
+  jQuery('#timestampdiv input[class="hidden_aa"]').attr('name', 'hidden_aa');
+  jQuery('#timestampdiv input[class="hidden_mm"]').attr('name', 'hidden_mm');
+  jQuery('#timestampdiv input[class="hidden_jj"]').attr('name', 'hidden_jj');
 
-  jQuery('input[class="aa"]').attr('id', 'aa');
-  jQuery('input[class="mm"]').attr('id', 'mm');
-  jQuery('input[class="jj"]').attr('id', 'jj');
-  jQuery('input[class="hidden_aa"]').attr('id', 'hidden_aa');
-  jQuery('input[class="hidden_mm"]').attr('id', 'hidden_mm');
-  jQuery('input[class="hidden_jj"]').attr('id', 'hidden_jj');
+  jQuery('#timestampdiv input[class="aa"]').attr('id', 'aa');
+  jQuery('#timestampdiv input[class="mm"]').attr('id', 'mm');
+  jQuery('#timestampdiv input[class="jj"]').attr('id', 'jj');
+  jQuery('#timestampdiv input[class="hidden_aa"]').attr('id', 'hidden_aa');
+  jQuery('#timestampdiv input[class="hidden_mm"]').attr('id', 'hidden_mm');
+  jQuery('#timestampdiv input[class="hidden_jj"]').attr('id', 'hidden_jj');
 
-  var to_gregorian = jalali_to_gregorian(parseInt(jQuery('#naa').val()), parseInt(jQuery('#nmm').val()), parseInt(jQuery('#njj').val()));
-  var to_gregorian_hidden = jalali_to_gregorian(parseInt(jQuery('#hidden_naa').val()), parseInt(jQuery('#hidden_nmm').val()), parseInt(jQuery('#hidden_njj').val()));
+  var to_gregorian = jalali_to_gregorian(parseInt(jQuery('#timestampdiv #naa').val()), parseInt(jQuery('#timestampdiv #nmm').val()), parseInt(jQuery('#timestampdiv #njj').val()));
+  var to_gregorian_hidden = jalali_to_gregorian(parseInt(jQuery('#timestampdiv #hidden_naa').val()), parseInt(jQuery('#timestampdiv #hidden_nmm').val()), parseInt(jQuery('#timestampdiv #hidden_njj').val()));
   if (change) {
-    jQuery('#jj').val(to_gregorian[2]);
-    jQuery('#hidden_jj').val(to_gregorian_hidden[2]);
-    jQuery('#mm').val(to_gregorian[1]);
-    jQuery('#hidden_mm').val(to_gregorian_hidden[1]);
-    jQuery('#aa').val(to_gregorian[0]);
-    jQuery('#hidden_aa').val(to_gregorian_hidden[0]);
+    jQuery('#timestampdiv #jj').val(to_gregorian[2]);
+    jQuery('#timestampdiv #hidden_jj').val(to_gregorian_hidden[2]);
+    jQuery('#timestampdiv #mm').val(to_gregorian[1]);
+    jQuery('#timestampdiv #hidden_mm').val(to_gregorian_hidden[1]);
+    jQuery('#timestampdiv #aa').val(to_gregorian[0]);
+    jQuery('#timestampdiv #hidden_aa').val(to_gregorian_hidden[0]);
   } else {
-    jQuery('.timestamp-wrap').append('<input type="hidden" id="jj" name="jj" class="jj" value="' + to_gregorian[2] + '">');
-    jQuery('.timestamp-wrap').append('<input type="hidden" id="hidden_jj" name="hidden_jj" class="hidden_jj" value="' + to_gregorian_hidden[2] + '">');
-    jQuery('.timestamp-wrap').append('<input type="hidden" id="mm" name="mm" class="mm" value="' + to_gregorian[1] + '">');
-    jQuery('.timestamp-wrap').append('<input type="hidden" id="hidden_mm" name="hidden_mm" class="hidden_mm" value="' + to_gregorian_hidden[1] + '">');
-    jQuery('.timestamp-wrap').append('<input type="hidden" id="aa" name="aa" class="aa" value="' + to_gregorian[0] + '">');
-    jQuery('.timestamp-wrap').append('<input type="hidden" id="hidden_aa" name="hidden_aa" class="hidden_aa" value="' + to_gregorian_hidden[0] + '">');
+    jQuery('#timestampdiv .timestamp-wrap').append('<input type="hidden" id="jj" name="jj" class="jj" value="' + to_gregorian[2] + '">');
+    jQuery('#timestampdiv .timestamp-wrap').append('<input type="hidden" id="hidden_jj" name="hidden_jj" class="hidden_jj" value="' + to_gregorian_hidden[2] + '">');
+    jQuery('#timestampdiv .timestamp-wrap').append('<input type="hidden" id="mm" name="mm" class="mm" value="' + to_gregorian[1] + '">');
+    jQuery('#timestampdiv .timestamp-wrap').append('<input type="hidden" id="hidden_mm" name="hidden_mm" class="hidden_mm" value="' + to_gregorian_hidden[1] + '">');
+    jQuery('#timestampdiv .timestamp-wrap').append('<input type="hidden" id="aa" name="aa" class="aa" value="' + to_gregorian[0] + '">');
+    jQuery('#timestampdiv .timestamp-wrap').append('<input type="hidden" id="hidden_aa" name="hidden_aa" class="hidden_aa" value="' + to_gregorian_hidden[0] + '">');
   }
 }
 
 function wpshUpdateStamp() {
-  var aastamp = jQuery('#naa').val();
-  var mmstamp = farsiMonth(jQuery('#nmm').find(':selected').data('text'));
-  var jjstamp = jQuery('#njj').val();
-  var hhstamp = jQuery('#hh').val();
-  var mnstamp = jQuery('#mn').val();
+  var aastamp = jQuery('#timestampdiv #naa').val();
+  var mmstamp = farsiMonth(jQuery('#timestampdiv #nmm').find(':selected').data('text'));
+  var jjstamp = jQuery('#timestampdiv #njj').val();
+  var hhstamp = jQuery('#timestampdiv #hh').val();
+  var mnstamp = jQuery('#timestampdiv #mn').val();
 
   jQuery('#timestamp b').html(jjstamp + ' ' + mmstamp + ' ' + aastamp + ' ساعت ' + hhstamp + ':' + mnstamp);
 }

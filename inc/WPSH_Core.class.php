@@ -232,6 +232,7 @@ class WPSH_Core
       );
 
       wp_localize_script('wpsh', 'isShamsiInAdmin', $isShamsiInAdmin);
+
     endif;
 
     if (get_locale() == 'fa_IR' || get_locale() == 'fa_AF') :
@@ -289,12 +290,12 @@ class WPSH_Core
       return false;
     }
 
-    if ($this->pro() && $this->option('activate-fonts', true, false)) {
-      return false;
-    }
+    $css = '';
 
-    $path = WPSH_URL . 'assets/fonts/';
-    $css = '
+    if (!$this->pro() && !$this->option('activate-fonts', true, false)) {
+
+      $path = WPSH_URL . 'assets/fonts/';
+      $css .= '
         @font-face {
             font-family: Vazir;
             src: url(' . $path . 'Vazir.ttf) format("truetype");
@@ -332,6 +333,7 @@ class WPSH_Core
             font-style: normal;
         }
         ';
+    }
 
     if ($theme != 'wp-admin') {
       include WPSH_PATH . 'themes/' . $theme . '.theme.php';
@@ -340,6 +342,11 @@ class WPSH_Core
             .wp-block textarea, .wp-block {
               font-family: Vazir, tahoma, sans-serif, arial !important;
             }
+          ';
+      $css .= '
+          body.rtl, body.rtl .press-this a.wp-switch-editor {
+            font-family: Vazir, tahoma, sans-serif, arial !important;
+          }
           ';
     }
 
@@ -401,7 +408,7 @@ class WPSH_Core
     foreach ($txts as $txt) {
 
       /** Do Not allow question mark */
-      if($txt['translate-source'] == (string)'?') {
+      if ($txt['translate-source'] == (string)'?') {
         return $string;
       }
 
@@ -549,8 +556,11 @@ class WPSH_Core
       // DATE_COOKIE DATE_RFC850
       'l, d-M-Y H:i:s T',
       // DATE_ISO8601
-      'Y-m-d\TH:i:sO'
-
+      'Y-m-d\TH:i:sO',
+      // DATE_ISO8601 Variant
+      'Y-m-d\TH:i:s',
+      // DATE_ISO8601 Variant
+      'Y-m-d\TH:i'
     );
 
     /* Hook to add custom formats to be skipped */

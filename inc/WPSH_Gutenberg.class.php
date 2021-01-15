@@ -3,7 +3,7 @@
 /**
  * @package WPSH
  * @copyright Copyright (c) 2019 Alireza Dabiri Nejad released under MIT license.
- * @copyright https://github.com/alirdn/gutenberg-jalali-calendar/blob/master/LICENSE
+ * @copyright Copyright (c) 2021 Modified by Ali Faraji (mail.wpvar@gmail.com) | https://wpvar.com modifications released under GPLV3.
  */
 
 defined('ABSPATH') or die();
@@ -28,6 +28,9 @@ class WPSH_Gutenberg extends WPSH_Core
      */
     function __construct()
     {
+        if (!parent::option('activate-shamsi', true, true) || parent::no_lang_no_shamsi()) {
+            return;
+        }
         add_action('enqueue_block_editor_assets', array($this, 'gutenberg_jalali_calendar_editor_assets'));
     }
 
@@ -49,8 +52,8 @@ class WPSH_Gutenberg extends WPSH_Core
     {
         // Scripts.
         wp_enqueue_script(
-            'gutenberg_jalali_calendar_editor_scripts',
-            WPSH_URL . 'dist/gutenberg-jalali-calendar.build.js',
+            'wpsh_gjc',
+            WPSH_URL . 'assets/js/wpsh_gutenberg.js',
             array(
                 'wp-plugins',
                 'wp-i18n',
@@ -62,14 +65,16 @@ class WPSH_Gutenberg extends WPSH_Core
                 'wp-data',
                 'wp-date'
             ),
+            WPSH_VERSION,
             true
         );
 
         // Styles.
         wp_enqueue_style(
-            'gutenberg_jalali_calendar_editor_styles',
-            WPSH_URL . 'dist/gutenberg-jalali-calendar.build.css',
-            array('wp-edit-blocks')
+            'wpsh_gjc',
+            WPSH_URL . 'assets/css/wpsh_gutenberg.css',
+            array('wp-edit-blocks'),
+            WPSH_VERSION
         );
     }
 }

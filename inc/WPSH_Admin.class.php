@@ -45,26 +45,11 @@ class WPSH_Admin extends WPSH_Core
             'farsi_support'
         ));
 
-       /* add_filter('the_post', array(
-            $this,
-            'display_post_date'
-        ), 99, 1);*/
-
         if (!function_exists('wp_date')) {
             add_filter('get_the_time', array(
                 $this,
                 'post_time'
             ), 10, 3);
-        }
-
-        $base = basename($_SERVER['PHP_SELF']);
-        if (($base == 'post.php' && parent::get('post', 'bool') && parent::get('action', 'bool') && parent::get('action') == 'edit') || $base == 'post-new.php') {
-            if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false)) {
-                add_filter('gettext', array(
-                    $this,
-                    'display_post_month'
-                ), 10, 1);
-            }
         }
 
         if (get_locale() != 'fa_IR' && get_locale() != 'fa_AF') {
@@ -275,7 +260,7 @@ class WPSH_Admin extends WPSH_Core
      *
      * Converts Gutenberg Gregorian schedule to shamsi one.
      *
-     * @since 2.0.0
+     * @deprecated 3.0.0
      *
      * @param object $post post Object.
      * @return object post Object.
@@ -340,7 +325,7 @@ class WPSH_Admin extends WPSH_Core
      *
      * Filter to translate english month to farsi in gutenberg editor
      *
-     * @since 2.0.0
+     * @deprecated 3.0.0
      *
      * @param string $string Translation strings.
      * @return string Translated strings.
@@ -550,6 +535,11 @@ class WPSH_Admin extends WPSH_Core
                 'jquery'
             ), WPSH_VERSION, true);
             wp_localize_script('wpsh-admin', 'listFarsiMonth', parent::get_month());
+
+            $wpshSignature = array(
+                'signature' =>  md5('%wpsh%')
+            );
+            wp_localize_script('wpsh_gjc', 'wpshSignature', $wpshSignature);
         }
 
         if (parent::option('dashboard-font', true, true)) :
@@ -573,58 +563,5 @@ class WPSH_Admin extends WPSH_Core
 
         endif;
 
-        if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false)) :
-            $js = (string)'';
-            if (wp_script_is('wp-i18n')) {
-
-                $month = parent::get_month();
-
-                $js .= '
-            wp.i18n.setLocaleData({
-              "October": [
-                "' . $month[10] .  '"
-              ],
-              "November": [
-                "' . $month[11] .  '"
-              ],
-              "December": [
-                "' . $month[12] .  '"
-              ],
-              "January": [
-                "' . $month[1] .  '"
-              ],
-              "February": [
-                "' . $month[2] .  '"
-              ],
-              "March": [
-                "' . $month[3] .  '"
-              ],
-              "April": [
-                "' . $month[4] .  '"
-              ],
-              "May": [
-                "' . $month[5] .  '"
-              ],
-              "June": [
-                "' . $month[6] .  '"
-              ],
-              "July": [
-                "' . $month[7] .  '"
-              ],
-              "August": [
-                "' . $month[8] .  '"
-              ],
-              "September": [
-                "' . $month[9] .  '"
-              ]
-            });
-            ';
-            }
-
-            if (function_exists('wp_add_inline_script')) {
-                wp_add_inline_script('wpsh-admin', $js);
-            }
-
-        endif;
     }
 }
