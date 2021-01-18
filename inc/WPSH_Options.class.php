@@ -572,13 +572,18 @@ class WPSH_Options extends WPSH_Core
             )
         );
 
-        $pro_intro = array();
+        $pro_intro = '';
 
         $fields[] = array(
             'name' => 'wpshlicense',
             'title' => __('نسخه حرفه‌ای', 'wpsh'),
             'icon' => 'dashicons-star-filled',
-            'fields' => apply_filters('wpsh_pro_intro', $pro_intro)
+            'fields' => array(
+                array(
+                    'type'    => 'content',
+                    'content'   =>  apply_filters('wpsh_pro_intro', $pro_intro)
+                ),
+            )
         );
 
         if (parent::pro()) {

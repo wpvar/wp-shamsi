@@ -138,6 +138,8 @@ wpvar.com
         $key = md5($license);
         $site = (string)get_bloginfo('url');
 
+        delete_transient('wpsh_dashboard_site_feed');
+
         if (parent::pro(true) && current_user_can('manage_options') && is_admin()) {
             $shamsi = ABSPATH . '/wp-content/plugins/wp-shamsi-pro/wp-shamsi-pro.php';
             $exists = file_exists($shamsi) ? true : false;
@@ -333,7 +335,7 @@ wpvar.com
                 array(
                     'type'    => 'content',
                     'title'   => 'پشتیبانی',
-                    'content' => 'برای انتقال به بخش پشتیبانی لطفا <a target="_blank" href="' . $support . '">اینجا کلیک کنید</a>.',
+                    'content' => 'برای انتقال به بخش پشتیبانی لطفا <a target="_blank" href="' . $support . '">اینجا کلیک کنید</a>. ایمیل ورود شما همان ایمیلی است که با آن لایسنس را خریداری کرده‌اید. اگر کلمه عبور خود را فراموش کرده‌اید، در صفحه ورود برروی "رمز عبورتان را گم کرده‌اید؟" کلیک کنید.',
                 );
         }
 
@@ -341,7 +343,7 @@ wpvar.com
             array(
                 'type'    => 'notice',
                 'class'   => 'success',
-                'content' => 'برای استفاده از لایسنس اورجینال متشکریم. استفاده از نسخه نال شده، اقدام به نال کردن ویا انتشار آن خلاف قوانین حقوق مولف و حرام شرعی می‌باشد و طبق قانون جرایم رایانه‌ای <strong>جرم محسوب شده و پیگرد قانونی</strong> دارد.',
+                'content' => 'برای استفاده از لایسنس اورجینال و قانونی متشکریم. استفاده از نسخه نال شده، اقدام به نال کردن ویا انتشار آن خلاف قوانین حقوق مؤلف بوده و طبق قانون جرایم رایانه‌ای <strong>جرم محسوب شده و پیگرد قانونی</strong> دارد.',
             );
 
         $options = array_merge($fields, $options);
@@ -350,14 +352,41 @@ wpvar.com
 
     public function intro($options)
     {
-        $fields[] =
-            array(
-                'type'    => 'notice',
-                'class'   => 'primary',
-                'content' => 'محل معرفی',
-            );
+        $feutures = $this->feutures();
+        $i = 0;
+        $html = '';
 
-        return $fields;
+        if(!parent::pro()) {
+            $html .= '<div class="wpsh-feutures_href"><a href="https://wpvar.com/pro/" title="برای دریافت نسخه حرفه‌ای کلیک کنید" target="_blank">دریافت نسخه حرفه‌ای</a></div>';
+        }
+
+        foreach ($feutures as $key => $value) {
+            $class = ++$i % 2 ? '_odd' : '_even';
+            $id = $value['key'];
+            $icon = $this->icon($value['icon'], $value['title']);
+            $html .= '
+            <div class="wpsh-feutures__list_container">
+                <div class="wpsh-feutures__list_child" id="' . $value['key'] . '" data-tooltip="wpsh-tooltip_' . $id . '">
+                    <div class="wpsh-feutures__list_left wpsh-feutures__list_left' . $class . '">
+                        <div class="wpsh-feutures__list_left_icon">
+                            ' . $icon . '
+                        </div>
+                    </div>
+                    <div class="wpsh-feutures__list_right wpsh-feutures__list_right' . $class . '">
+                        <div class="wpsh-feutures__list_right_title">
+                            <a href="https://wpvar.com/pro/#' . $id . '" target="_blank">
+                                <h2>' . $value['title'] . '</h2>
+                            </a>
+                        </div>
+                        <div class="wpsh-feutures__list_right_desc">
+                            <p>' . $value['desc'] . '</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        ';
+        }
+        return $html;
     }
 
     public function script()
@@ -380,5 +409,164 @@ wpvar.com
         }
 
         return $content;
+    }
+
+    public function feutures()
+    {
+        $feutures = array(
+            /** SHAMSI */
+            array(
+                'title' =>  'شمسی‌سازی  و فارسی‌سازی',
+                'desc' =>  'در همه نسخه‌ها چه رایگان و چه غیررایگان، وردپرس به‌صورت 100 درصدی شمسی‌سازی می‌شود. شمسی‌ساز ارائه شده توسط این افزونه دقیق‌ترین، استانداردترین، کامل‌ترین، سریع‌ترین بوده و کاملا سازگار با سئو می‌باشد. افزونه با ده‌ها ابزار مختلف محیط وردپرس و قالب‌های پیشفرض را فارسی‌سازی می‌کند.',
+                'icon' =>  'quality',
+                'key'   => 'shamsi',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/shamsi.gif',
+                'vip'   =>  0
+            ),
+            /** TRANSLATE */
+            array(
+                'title' =>  'مترجم',
+                'desc' =>  'سیستم مترجم افزونه به شما این امکان را می‌دهد تا افزونه و قالب‌های وردپرس را بدون نیاز به برنامه جانبی به‌طور مستقیم از  پنل مدیریت وردپرس ترجمه کنید.  فقط کافی است عبارت مورد نظر را در تنظیمات وارد کرده و سپس ترجمه آن عبارت را وارد کنید تا افزونه ترجمه را انجام دهد.',
+                'icon' =>  'translate',
+                'key'   => 'translate',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/translate.gif',
+                'vip'   =>  0
+            ),
+            /** FONTS */
+            array(
+                'title' =>  'فونت دلخواه',
+                'desc' =>  'سیستم هوشمند فونت‌های دلخواه به شما این امکان را می‌دهد تا هرنوع فونتی را با هر وزنی به راحتی و بدون نیاز به دانش برنامه‌نویسی به وردپرس خود ا	ضافه کنید. با استفاده از این سیستم می‌توانید هر بخش از وردپرس را به هر فونتی که مایل بودید تغییر دهید.',
+                'icon' =>  'font',
+                'key'   => 'font',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/font.gif',
+                'vip'   =>  0
+            ),
+            /** LIVE SEARCH */
+            array(
+                'title' =>  'جستجوی زنده',
+                'desc' =>  'جستجوی زنده افزونه با استفاده از API وردپرس و به‌روزترین متدها، سیستم جستجوی پیشفرض وردپرس را به جستجوی زنده تبدیل می‌کند. کاربران با تایپ کردن داخل فیلد جستجو، نتایج آن به صورت لحظه‌ای درون فیلد نمایش داده می‌شوند و نیازی به انتقال به صفحه دیگر نیست.',
+                'icon' =>  'search',
+                'key'   => 'search',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/search.gif',
+                'vip'   =>  0
+            ),
+            /** WOOCOMMERCE */
+            array(
+                'title' =>  'شمسی‌سازی آمار ووکامرس',
+                'desc' =>  'درنسخه حرفه‌ای و VIP افزونه بخش تجزیه و تحلیل ووکامرس شمسی‌سازی شده است و می‌توانید میزان فروش و گزارش‌های مالی فروشگاه خود را به تاریخ شمسی ببینید. داشتن حساب و کتاب دقیق لازمه هر کسب و کاری است. با نسخه حرفه‌ای و  VIP آمار کسب و کار خود را به تاریخ شمسی مشاهده کنید.',
+                'icon' =>  'woo',
+                'key'   => 'woo',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/woo.gif',
+                'vip'   =>  0
+            ),
+            /** EDITOR */
+            array(
+                'title' =>  'ویرایستار خودکار',
+                'desc' =>  'رعایت اصول نگارشی برای هر وبسایت حرفه‌ای لازم است ولی اکثرا نوسینده‌ها ویا کاربران وبسایت‌تان ممکن است به این اصول توجه نکنند ویا حتی مترجم‌های افزونه و قالب‌ها به اشتباه و غیراستاندارد آن‌ها را ترجمه کرده باشند. در این مواقع نیازی به پرداخت هزینه اضافه جهت استخدام ویراستار نیست. کافی است با فعال‌کردین این گزینه ویراستاری متن‌ها و نوشته‌های وردپرس را به افزونه بسپارید. برخی از کارشناسان سئو معتقد اند که رعایت دستورزبان و نگارش صحیح می‌تواند در سئو سایتتان تاثیرگذار باشدو موجب بهبود موقعیت گوگل شود. برخی امکانات این گزینه: تبدیل حروف عربی به فارسی، تبدیل اعداد عربی به فارسی، تبدیل فاصله به نیم فاصله،  تصحیح علایم نگارشی مانند علامت سوال و تعجب. و ...',
+                'icon' =>  'editor',
+                'key'   => 'editor',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/editor.gif',
+                'vip'   =>  0
+            ),
+            /** FANUM */
+            array(
+                'title' =>  'اعداد هوشمند',
+                'desc' =>  'افزونه در نسخه رایگان به‌صورت خودکار اعداد را از انگلیسی و لاتین به فارسی تبدیل می‌کند. در نسخه‌های حرفه‌ای و VIP می توانید کلاس ویا آی دی تگ های HTML را مشخص کنید تا اعداد فقط داخل آن‌ بخش‌ها از قالب فارسی‌سازی شوند.',
+                'icon' =>  'numbers',
+                'key'   => 'number',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/number.gif',
+                'vip'   =>  0
+            ),
+            /** SHORTCODES */
+            array(
+                'title' =>  'کدهای کوتاه',
+                'desc' =>  'با استفاده از کدهای کوتاه افزونه می‌توانید درون ویرایشگر گوتنبرگ، ویرایشگر کلاسیک، نوشته‌ها، ابزارک‌ها و ... تاریخ‌های پویا تولید کنید. برخی از کدهای کوتاه: تاریخ و ساعت کنونی، تبدیل تاریخ شمسی به میلادی، تبدیل تاریخ میلادی به شمسی، تاریخ قبل و بعد (برای مثال: 1 ماه قبل، 1 ماه بعد) و ... ',
+                'icon' =>  'code',
+                'key'   => 'shortcode',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/shortcode.gif',
+                'vip'   =>  0
+            ),
+            /** EVENTS */
+            array(
+                'title' =>  'مناسبت‌ها',
+                'desc' =>  'با تعریف کردن مناسبت‌ها در افزونه، در آن تاریخ‌ها لیست مناسبت‌های آن روز و روزهای قبل و بعد نمایش داده خواهد شد. برای هر مناسبت می‌توانید عنوان، توضیحات و لینک تعریف کنید.',
+                'icon' =>  'events',
+                'key'   => 'event',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/event.gif',
+                'vip'   =>  0
+            ),
+            /** NOTIFICATION */
+            array(
+                'title' =>  'حذف اطلاعیه‌ها',
+                'desc' =>  'آیا شما هم از ده‌ها اطلاعیه ایجاد شده توسط افزونه و قالب‌ها در پنل مدیریت وردپرس خسته شده‌اید؟ تنها با فعال کردن این گزینه می‌توانید همه آن‌ها را پاک کنید.',
+                'icon' =>  'notification',
+                'key'   => 'notification',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/notification.gif',
+                'vip'   =>  0
+            ),
+            /** READABLE */
+            array(
+                'title' =>  'تاریخ‌های خوانا',
+                'desc' =>  'با فعال کردن این گزینه تاریخ نوشته‌ها و دیدگاه‌ها به صورت اختلاف زمانی نمایش داده خواهند شد. برای مثال: منتشر شده 1 ماه قبل.',
+                'icon' =>  'readable',
+                'key'   => 'readable',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/readable.gif',
+                'vip'   =>  0
+            ),
+            /** ENONCOPY */
+            array(
+                'title' =>  'اعداد انگلیسی حین کپی',
+                'desc' =>  'با فعال‌سازی این گزینه اعداد فارسی درج شده در وردپرس حین کپی کردن به‌صورت خودکار به اعداد انگلیسی تبدیل خواهند شد.',
+                'icon' =>  'enoncopy',
+                'key'   => 'enoncopy',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/enoncopy.gif',
+                'vip'   =>  0
+            ),
+            /** ADVANCED */
+            array(
+                'title' =>  'شمسی‌سازی پیشرفته',
+                'desc' =>  'با استفاده از این ابزار می‌توانید تعریف کنید تا شمسی‌سازی در لینک‌ها تعریف شده توسط شما متوقف شود.',
+                'icon' =>  'advanced',
+                'key'   => 'advanced',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/advanced.gif',
+                'vip'   =>  0
+            ),
+            /** STYLE */
+            array(
+                'title' =>  'استایل VIP مدیریت',
+                'desc' =>  'در نسخه VIP افزونه استایل پنل مدیریت وردپرس  تغییر یافته و به‌روز و مدرن می‌شود. برای مشاهده استایل روی پیش‌نمایش کلیک کنید.',
+                'icon' =>  'design',
+                'key'   => 'style',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/style.gif',
+                'vip'   =>  1
+            ),
+            /** CLOCK */
+            array(
+                'title' =>  'ساعت عقربه‌دار',
+                'desc' =>  'امکان قرار دادن ساعت عقربه‌دار داخل ویرایشگر گوتنبرگ، ویرایشگر کلاسیک، نوشته‌ها و ابزارک‌ها توسط کدکوتاه در نسخه VIP وجود دارد.',
+                'icon' =>  'clock',
+                'key'   => 'clock',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/clock.gif',
+                'vip'   =>  1
+            ),
+            /** SUPPORT */
+            array(
+                'title' =>  'پشتیبانی خصوصی و اولویت دار',
+                'desc' =>  'موضوعات پشتیبانی ایجاد شده توسط کاربران نسخه VIP خصوصی بوده و اولویت رسیدگی به درخواست‌های پشتیبانی با کاربران نسخه VIP می‌باشد.',
+                'icon' =>  'support',
+                'key' =>  'support',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/support.gif',
+                'vip'   =>  1
+            ),
+        );
+
+        return $feutures;
+    }
+
+    public function icon($name, $title = null, $ext = 'png')
+    {
+        $url = WPSH_URL . '/assets/img/pro/' . $name . '.' . $ext;
+        $html = '<img src="' . $url . '" title=" ' . $title .  ' " loading="lazy">';
+        return $html;
     }
 }

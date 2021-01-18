@@ -187,7 +187,7 @@ class WPSH_Admin extends WPSH_Core
           </ul>
         </div>';
         if (!parent::pro()) {
-            $html .= '<a target="_blank" href="https://wpvar.com/pro/?renew=1" class="wpsh-pro-widget"><div>';
+            $html .= '<a target="_blank" href="https://wpvar.com/pro/" class="wpsh-pro-widget"><div>';
             $html .= '<p><strong>ارتقا به نسخه حرفه‌ای</strong></p>';
             $html .= '</div></a>';
         }
