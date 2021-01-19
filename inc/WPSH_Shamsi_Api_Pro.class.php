@@ -356,7 +356,7 @@ wpvar.com
         $i = 0;
         $html = '';
 
-        if(!parent::pro()) {
+        if (!parent::pro()) {
             $html .= '<div class="wpsh-feutures_href"><a href="https://wpvar.com/pro/" title="برای دریافت نسخه حرفه‌ای کلیک کنید" target="_blank">دریافت نسخه حرفه‌ای</a></div>';
         }
 
@@ -384,16 +384,21 @@ wpvar.com
                     </div>
                 </div>
             </div>
-            <div class="wpsh-message_wrap">
-                <div>
-                    <i class="fa fa-quote-right"></i>
-                    <p>افزونه&zwnj;هایی با این وسعت نیازمند نیروی کار و هزینه نگهداری بالایی هستند، با تهیه نسخه&zwnj;های حرفه&zwnj;ای ویا VIP علاوه بر بهره&zwnj;مندی از ده&zwnj;ها امکانات جدید و کاربردی، به ما کمک می&zwnj;کنید تا نسخه رایگان را نیز برای همیشه به&zwnj;روز، استاندارد و رایگان نگه داریم تا هزاران وبسایت و وب&zwnj;مستر&zwnj;، سفر خود را با وردپرس به آسانی آغاز کنند.</p>
-                    <i class="fa fa-quote-left"></i>
-                    <span>مدیریت وردپرس فارسی</span>
-                </div>
-            </div>
         ';
         }
+
+        $html .= '
+        <div class="wpsh-message_wrap">
+            <div>
+                <i class="fa fa-quote-right"></i>
+                <p>افزونه‌هایی با این وسعت نیازمند نیروی کار و هزینه نگهداری بالایی هستند، با تهیه نسخه‌های حرفه‌ای ویا VIP علاوه بر بهره‌مندی از ده‌ها امکانات جدید و کاربردی، به ما کمک می‌کنید تا نسخه رایگان را نیز برای همیشه به‌روز، استاندارد و رایگان نگه داریم تا هزاران وبسایت و وب‌مستر‌، سفر خود را با وردپرس به آسانی آغاز کنند.</p>
+                <i class="fa fa-quote-left"></i>
+                <span>مدیریت وردپرس فارسی</span>
+
+            </div>
+        </div>
+        ';
+
         return $html;
     }
 
@@ -571,7 +576,7 @@ wpvar.com
         return $feutures;
     }
 
-    public function icon($name, $title = null, $ext = 'png')
+    public function icon($name, $title = null, $ext = 'svg')
     {
         $url = WPSH_URL . '/assets/img/pro/' . $name . '.' . $ext;
         $html = '<img src="' . $url . '" title=" ' . $title .  ' " loading="lazy">';

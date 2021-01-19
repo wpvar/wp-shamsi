@@ -883,11 +883,11 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 				$url  = $this->get_url( $this->dirname );
 				$base = trailingslashit( join( '/', array( $url, 'assets' ) ) );
 
-				/*if ( ! wp_style_is( 'font-awesome' ) || ! wp_style_is( 'font-awesome-470' ) || ! wp_style_is( 'FontAwesome' ) ) {
+				if ( ! wp_style_is( 'font-awesome' ) || ! wp_style_is( 'font-awesome-470' ) || ! wp_style_is( 'FontAwesome' ) ) {
 
 					wp_enqueue_style( 'font-awesome-470', $base . 'font-awesome-4.7.0/font-awesome.min.css', array(), $this->version, 'all' );
 
-				}*/
+				}
 
 				/**
 				 * jquery-ui-core is built into WordPress

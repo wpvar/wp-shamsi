@@ -385,6 +385,39 @@
   height: auto;
 }
 
+.wpsh-message_wrap {
+  width: 70%;
+  margin: 165px auto 165px auto;
+}
+
+.wpsh-message_wrap .fa-quote-right {
+  color: #ccc;
+  font-size: 35px;
+}
+
+.wpsh-message_wrap .fa-quote-left {
+  color: #ccc;
+  font-size: 35px;
+  float: left;
+}
+
+.wpsh-message_wrap p {
+  font-size: 1.6em;
+  text-align: justify;
+  line-height: 1.5;
+  margin-top: 30px;
+  padding: 0 50px;
+  color: #333333;
+}
+
+.wpsh-message_wrap span {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 0 50px;
+  color: #a0a0a0;
+}
+
 @media only screen and (max-width: 1150px) {
   .wpsh-feutures__wrap {
     margin: auto 20px;
