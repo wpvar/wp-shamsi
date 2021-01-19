@@ -28,7 +28,7 @@ class WPSH_Gutenberg extends WPSH_Core
      */
     function __construct()
     {
-        if (!parent::option('activate-shamsi', true, true) || parent::no_lang_no_shamsi()) {
+        if (!parent::option('activate-shamsi', true, true) || parent::no_lang_no_shamsi() || parent::option('activate-admin-shamsi', true, false)) {
             return;
         }
         add_action('enqueue_block_editor_assets', array($this, 'gutenberg_jalali_calendar_editor_assets'));
@@ -50,9 +50,9 @@ class WPSH_Gutenberg extends WPSH_Core
      */
     public function gutenberg_jalali_calendar_editor_assets()
     {
-        // Scripts.
+
         wp_enqueue_script(
-            'wpsh_gjc',
+            'wpsh-gjc',
             WPSH_URL . 'assets/js/wpsh_gutenberg.js',
             array(
                 'wp-plugins',
@@ -69,12 +69,21 @@ class WPSH_Gutenberg extends WPSH_Core
             true
         );
 
-        // Styles.
         wp_enqueue_style(
-            'wpsh_gjc',
+            'wpsh-gjc',
             WPSH_URL . 'assets/css/wpsh_gutenberg.css',
             array('wp-edit-blocks'),
             WPSH_VERSION
         );
+
+        $css = '
+        .edit-post-post-schedule {
+            display: none;
+          }
+        ';
+
+        wp_add_inline_style('wpsh-gjc', $css);
+
     }
+
 }

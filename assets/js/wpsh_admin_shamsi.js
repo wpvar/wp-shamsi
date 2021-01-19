@@ -187,6 +187,9 @@ jQuery(document).ready(function () {
     jQuery('#timestampdiv input').on('change', function () {
       wpshTimestampTasks(true);
     });
+    jQuery('#timestampdiv select').on('change', function () {
+      wpshTimestampTasks(true);
+    });
     jQuery('.timestamp-wrap').contents().filter(function () {
       return this.nodeType == 3;
     }).each(function () {

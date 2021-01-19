@@ -29,7 +29,7 @@ class WPSH_Archive extends WPSH_Core
             return;
         }
 
-        if (parent::option('activate-shamsi-archive', true, true)) {
+        if (parent::option('activate-shamsi', true, true) && parent::option('activate-shamsi-archive', true, true) && !parent::no_lang_no_shamsi()) {
             add_filter('get_archives_link', array(
                 $this,
                 'archive'

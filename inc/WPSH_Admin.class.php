@@ -153,7 +153,7 @@ class WPSH_Admin extends WPSH_Core
             $rss_title = '<a href="' . $rss->get_permalink() . '" target="_blank">' . strtoupper($rss->get_title()) . '</a>';
         endif;
         $html = '<div class="rss-widget">';
-        if (parent::pro_due()) {
+        if (parent::pro_due() && current_user_can('manage_options')) {
             $html .= '<div class="wpsh-pro-due-widget">';
             $html .= '<p>اعتبار لایسنس نسخه حرفه‌ای تاریخ شمسی و فارسی ساز وردپرس رو به <strong>اتمام</strong> است. برای تمدید لایسنس لطفا <strong><a target="_blank" href="https://wpvar.com/pro/?renew=1">اینجا کلیک کنید</a></strong>.</p>';
             $html .= '</div>';
@@ -186,7 +186,7 @@ class WPSH_Admin extends WPSH_Core
             <li><a href="https://wpvar.com/edu/" target="_blank" title="آموزش وردپرس"><span class="dashicons dashicons-welcome-learn-more"></a></span></li>
           </ul>
         </div>';
-        if (!parent::pro()) {
+        if (!parent::pro() && current_user_can('manage_options')) {
             $html .= '<a target="_blank" href="https://wpvar.com/pro/" class="wpsh-pro-widget"><div>';
             $html .= '<p><strong>ارتقا به نسخه حرفه‌ای</strong></p>';
             $html .= '</div></a>';
@@ -539,7 +539,7 @@ class WPSH_Admin extends WPSH_Core
             $wpshSignature = array(
                 'signature' =>  md5('%wpsh%')
             );
-            wp_localize_script('wpsh_gjc', 'wpshSignature', $wpshSignature);
+            wp_localize_script('wpsh-gjc', 'wpshSignature', $wpshSignature);
         }
 
         if (parent::option('dashboard-font', true, true)) :
