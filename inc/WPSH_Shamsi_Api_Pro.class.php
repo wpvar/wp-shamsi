@@ -34,6 +34,13 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
 
     public function init($bypass = false, $key = null)
     {
+
+        if(!$bypass) {
+            if (!$this->is_active('wp-shamsi-pro/wp-shamsi-pro.php')) {
+                return;
+            }
+        }
+
         if ($key !== null) {
             $serial = $key;
         } else {
@@ -52,7 +59,7 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
         if ($check || $bypass) {
 
             $due = get_option('wpsh_pro_license_due');
-            if (!empty($due)) {
+            if (!empty($due) && !$bypass) {
                 $current = current_time('timestamp', false);
                 $datediff = $due - $current;
                 $days = round($datediff / (60 * 60 * 24));
@@ -70,6 +77,24 @@ wpvar.com
 ', 'wpsh');
 
                     wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
+                }
+                if ($days < 0) {
+                    $mail_msg = __('
+با عرض سلام
+        
+به دلیل اتمام تاریخ اشتراک لایسنس افزونه تاریخ شمسی و فارسی‌ساز وردپرس، لایسنس این افزونه غیرفعال شد. اگر مایل به ادامه استفاده از افزونه هستید، لطفا از لینک زیر لایسنس جدیدی تهیه فرمایید:
+https://wpvar.com/pro/
+        
+با تشکر
+وردپرس فارسی
+wpvar.com
+', 'wpsh');
+
+                    wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
+                    update_option('wpsh_pro_license_status', 0);
+                    deactivate_plugins('wp-shamsi-pro/wp-shamsi-pro.php');
+
+                    return;
                 }
             }
 
@@ -114,7 +139,10 @@ wpvar.com
                     update_option('wpsh_pro_license_status', 1);
                     update_option('wpsh_pro_license_failed', 0);
                     update_option('wpsh_pro_license_due', $due);
-                    update_option('wpsh_pro_license_lastcontact', current_time('timestamp', false));
+
+                    if(empty(get_option('wpsh_pro_license_lastcontact'))) {
+                        update_option('wpsh_pro_license_lastcontact', current_time('timestamp', false));
+                    }
 
                     if ($data->type == 2) {
                         update_option('wpsh_pro_is_vip', 1);
