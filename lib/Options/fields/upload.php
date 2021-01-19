@@ -192,43 +192,6 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework_Field_upload' ) ) {
 
 		public static function enqueue( $args ) {
 
-			if ( ! wp_script_is( 'fine-uploader' ) ) {
-
-				/**
-				 * https://fineuploader.com/
-				 */
-
-				$resources = array(
-					array(
-						'name'       => 'fine-uploader',
-						'fn'         => 'fine-uploader-new.min.css',
-						'type'       => 'style',
-						'dependency' => array(),
-						'version'    => '5.15.5',
-						'attr'       => 'all',
-					),
-					array(
-						'name'       => 'fine-uploader',
-						'fn'         => 'jquery.fine-uploader.min.js',
-						'type'       => 'script',
-						'dependency' => array(),
-						'version'    => '5.15.5',
-						'attr'       => true,
-					),
-					array(
-						'name'       => 'exopite-sof-fine-uploader-loader',
-						'fn'         => 'loader-fine-uploader.min.js',
-						'type'       => 'script',
-						'dependency' => array( 'fine-uploader' ),
-						'version'    => '',
-						'attr'       => true,
-					),
-				);
-
-				parent::do_enqueue( $resources, $args );
-
-			}
-
 		}
 
 	}
