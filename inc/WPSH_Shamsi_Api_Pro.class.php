@@ -53,7 +53,7 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
         if ($check || $bypass) {
 
             $due = get_option('wpsh_pro_license_due');
-            if (!empty($due) && !$bypass) {
+            if (!empty($due)) {
                 $current = current_time('timestamp', false);
                 $datediff = $due - $current;
                 $days = round($datediff / (60 * 60 * 24));
@@ -135,6 +135,7 @@ wpvar.com
                     update_option('wpsh_pro_license_status', 1);
                     update_option('wpsh_pro_license_failed', 0);
                     update_option('wpsh_pro_license_due', $due);
+                    update_option('wpsh_pro_license', $serial);
 
                     if (empty(get_option('wpsh_pro_license_lastcontact'))) {
                         update_option('wpsh_pro_license_lastcontact', current_time('timestamp', false));
@@ -147,7 +148,6 @@ wpvar.com
                     $this->tasks();
 
                     if ($bypass) {
-                        update_option('wpsh_pro_license', $serial);
                         wp_die(1);
                     }
                 }
