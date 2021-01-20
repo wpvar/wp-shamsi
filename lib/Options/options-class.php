@@ -228,7 +228,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 
 					if ( ! array_key_exists( $key, $this->config ) ) {
 						// Add error message to the WP_Error object
-						$this->errors->add( "missing_config_key_{$key}", sprintf( eac_attr__( "%s is missing in the configuration array", 'exopite-sof' ), $key ) );
+						$this->errors->add( "missing_config_key_{$key}", sprintf( esc_attr__( "%s is missing in the configuration array", 'exopite-sof' ), $key ) );
 					}
 
 				endforeach;
@@ -311,7 +311,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 				$message .= esc_html( implode( ', ', $errors_array ) );
 			} else {
 				// if no message is set, throw generic error message
-				$message .= eac_attr__( 'Irks! An un-known error has occurred.', 'exopite-sof' );
+				$message .= esc_attr__( 'Irks! An un-known error has occurred.', 'exopite-sof' );
 			}
 
 			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
@@ -885,7 +885,6 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 
 				if ( ! wp_style_is( 'font-awesome' ) || ! wp_style_is( 'font-awesome-470' ) || ! wp_style_is( 'FontAwesome' ) ) {
 
-					/* Get font awsome */
 					wp_enqueue_style( 'font-awesome-470', $base . 'font-awesome-4.7.0/font-awesome.min.css', array(), $this->version, 'all' );
 
 				}
@@ -1550,15 +1549,8 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 		 */
 		public function display_options_page_footer() {
 
-			echo '<footer class="exopite-sof-footer-js exopite-sof-footer">';
-
-			echo '<fieldset><span class="exopite-sof-ajax-message"></span>';
-			submit_button( esc_attr__( 'Save Settings', 'exopite-sof' ), 'primary ' . 'exopite-sof-submit-button-js', '', false, array() );
-			echo '</fieldset>';
-
-			echo '</footer>';
-
 			echo '</form>';
+			
 
 		}
 
@@ -1885,7 +1877,16 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 			$this->loop_fields( $callbacks );
 
 			echo '</div>'; // sections
+			echo '<footer class="exopite-sof-footer-js exopite-sof-footer">';
+
+			echo '<fieldset><span class="exopite-sof-ajax-message"></span>';
+			submit_button( esc_attr__( 'Save Settings', 'exopite-sof' ), 'primary ' . 'exopite-sof-submit-button-js wpsh-form-footer', '', false, array() );
+			echo '</fieldset>';
+
+			echo '</footer>';
+			
 			echo '</div>'; // content
+
 			if ( $this->config['type'] == 'menu' ) {
 
 				add_action( 'exopite_sof_display_page_footer', array(

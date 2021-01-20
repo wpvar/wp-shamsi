@@ -25,7 +25,11 @@ class WPSH_Archive extends WPSH_Core
      */
     function __construct()
     {
-        if (parent::option('activate-shamsi-archive', true, true)) {
+        if (!parent::can_continue()) {
+            return;
+        }
+
+        if (parent::option('activate-shamsi', true, true) && parent::option('activate-shamsi-archive', true, true) && !parent::no_lang_no_shamsi()) {
             add_filter('get_archives_link', array(
                 $this,
                 'archive'
@@ -56,22 +60,40 @@ class WPSH_Archive extends WPSH_Core
         $url = esc_url($url);
         $aria_current = $selected ? ' aria-current="page"' : '';
         $month = parent::get_month();
-
         $year = (int)filter_var($text, FILTER_SANITIZE_NUMBER_INT);
-        $patterns = array(
-            'ژانویه',
-            'فوریه',
-            'مارس',
-            'آوریل',
-            'می',
-            'ژوئن',
-            'جولای',
-            'آگوست',
-            'سپتامبر',
-            'اکتبر',
-            'نوامبر',
-            'دسامبر'
-        );
+
+        if (get_locale() != 'fa_IR' && get_locale() != 'fa_AF') {
+            $patterns = array(
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December'
+            );
+        } else {
+            $patterns = array(
+                'ژانویه',
+                'فوریه',
+                'مارس',
+                'آوریل',
+                'می',
+                'ژوئن',
+                'جولای',
+                'آگوست',
+                'سپتامبر',
+                'اکتبر',
+                'نوامبر',
+                'دسامبر'
+            );
+        }
+
         $month = array(
             $month[10] .  ' و '  . $month[11],
             $month[11] .  ' و '  . $month[12],
@@ -85,15 +107,15 @@ class WPSH_Archive extends WPSH_Core
             $month[7] .  ' و '  . $month[8],
             $month[8] .  ' و '  . $month[9],
             $month[9] .  ' و '  . $month[10]
-
         );
+
         $farsi_month = '';
         foreach ($patterns as $key => $value) {
             if (strpos($text, $value) !== false) {
                 $farsi_month .= $key;
             }
         }
-        $stamp = strtotime($year . '/' . ($farsi_month + 1) . '/1', time());
+        $stamp = strtotime($year . '/' . ((int)$farsi_month + 1) . '/1', time());
         $shamsi_year = parent::wp_shamsi(null, 'Y', $stamp);
         $text = $month[$farsi_month] . ' ' . $shamsi_year;
 

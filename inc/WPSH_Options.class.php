@@ -67,13 +67,13 @@ class WPSH_Options extends WPSH_Core
      * @param string $title Title of link.
      * @return string HTML generated download links.
      */
-    public function makhzan_download($slug, $title = 'دانلود') {
+    public function makhzan_download($slug, $title = 'دانلود')
+    {
 
         $url = 'https://wpvar.com/downloads/' . $slug . '/';
         $html = '<a href="' . $url . '" class="button button-primary" id="wpsh_downloads" target="_blank">' . $title . '</a>';
 
         return $html;
-
     }
     /**
      * Register settings menu
@@ -117,49 +117,65 @@ class WPSH_Options extends WPSH_Core
           ';
         }
 
+
+        $pro = !parent::pro() ? '<strong class="wpsh-pro-intro"><a target="_blank" href="https://wpvar.com/pro/">ارتقا به نسخه حرفه‌ای</a></strong>' : (!parent::vip() ? '<strong class="wpsh-pro-intro">نسخه حرفه‌ای</strong>' : '<strong class="wpsh-pro-intro">نسخه VIP</strong>');
+        $version = WPSH_VERSION . $pro;
+        $license_pro = array();
+        $license_pro = apply_filters('wpsh_pro_license', $license_pro);
+
+        $general = array(
+            array(
+                'type' => 'content',
+                'wrap_class' => 'no-border-bottom',
+                'title' => __('نسخه افزونه', 'wpsh'),
+                'content' => __('برای عملکرد بهتر افزونه، همیشه آن را به آخرین نسخه موجود به‌روزرسانی‌‌ کنید. <a href="' . get_admin_url() . 'plugins.php" target="_blank">فعال‌سازی به‌روزرسانی‌‌ خودکار</a>.', 'wpsh'),
+                'before' => '<strong>' . $version . '</strong>',
+            ),
+            array(
+                'type' => 'content',
+                'wrap_class' => 'no-border-bottom',
+                'title' => __('وردپرس', 'wpsh'),
+                'content' => __('این افزونه توسط <a href="https://wpvar.com" target="_blank">wpvar.com</a> برنامه‌نویسی شده است. <br />اگر مشکلی در راه اندازی و استفاده از وردپرس ویا این افزونه دارید، برای دریافت پشتیبانی رایگان می‌توانید به <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن پشتیبانی وردپرس فارسی</a></strong> مراجعه کنید.', 'wpsh'),
+                'before' => '<img style="margin: 0 0 -7px 3px;" src=' . WPSH_URL . 'assets/img/logo.png /><strong>وردپرس فارسی</strong>',
+            ),
+            array(
+                'type' => 'notice',
+                'class' => 'primary',
+                'content' => __('برای <strong>حمایت و کمک به توسعه</strong> این افزونه لطفا گزینه‌های زیر را تکمیل و فعال‌سازی کنید.', 'wpsh'),
+            ),
+            array(
+                'type' => 'content',
+                'wrap_class' => 'no-border-bottom',
+                'title' => __('خبرنامه', 'wpsh'),
+                'content' => '
+                <div class="wpsh_newsletter_settings">
+                      ' . $newsletter . '
+                      <input type="hidden" id="wpsh_newsletter_settings" name="wpsh_newsletter_settings" value="' . get_admin_url() . 'admin.php?page=wpsh&wpsh_newsletter=send">
+                </div>
+                ',
+                'before' => '<span class="dashicons dashicons-email"></span> <strong>خبرنامه وردپرس فارسی</strong>',
+            ),
+            array(
+                'id' => 'activate-stats',
+                'type' => 'switcher',
+                'title' => __('ارسال آمار', 'wpsh'),
+                'default' => 'no',
+                'after' => '<p>با فعال کردن این گزینه اطلاعات وردپرس شما در دسترس ما قرار می‌گیرد. با ارسال این اطلاعات و داده‌ها به ما کمک فراوانی می‌کنید تا افزونه را بهتر و دقیق‌تر توسعه بدهیم تا بیشترین سازگاری را با خواسته‌های جامعه وردپرس فارسی داشته باشد. برای دریافت جزئیات و مطالعه حریم‌ خصوصی به قسمت "درباره و قوانین" در تنظیمات افزونه مراجعه کنید. این گزینه به صورت پیشفرض غیرفعال می‌باشد و فقط مدیران این سایت می‌توانند آن را فعال کنند.</p>',
+            ),
+        );
+
+        $fields[] = array(
+            'name' => 'general',
+            'title' => __('عمومی', 'wpsh'),
+            'icon' => 'dashicons-dashboard',
+            'fields' => array_merge($license_pro, $general)
+        );
+
         $fields[] = array(
             'name' => 'shamsi',
             'title' => __('شمسی‌ساز', 'wpsh'),
             'icon' => 'dashicons-calendar-alt',
             'fields' => array(
-                array(
-                    'type' => 'content',
-                    'wrap_class' => 'no-border-bottom',
-                    'title' => __('نسخه افزونه', 'wpsh'),
-                    'content' => __('برای عملکرد بهتر افزونه، همیشه آن را به آخرین نسخه موجود به‌روزرسانی‌‌ کنید. <a href="' . get_admin_url() . 'plugins.php" target="_blank">فعال‌سازی به‌روزرسانی‌‌ خودکار</a>.', 'wpsh'),
-                    'before' => '<strong>' . WPSH_VERSION . '</strong>',
-                ),
-                array(
-                    'type' => 'content',
-                    'wrap_class' => 'no-border-bottom',
-                    'title' => __('وردپرس', 'wpsh'),
-                    'content' => __('این افزونه توسط <a href="https://wpvar.com" target="_blank">wpvar.com</a> برنامه‌نویسی شده است. <br />اگر مشکلی در راه اندازی و استفاده از وردپرس ویا این افزونه دارید، برای دریافت پشتیبانی رایگان می‌توانید به <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن پشتیبانی وردپرس فارسی</a></strong> مراجعه کنید.', 'wpsh'),
-                    'before' => '<img style="margin: 0 0 -7px 3px;" src=' . WPSH_URL . 'assets/img/logo.png /><strong>وردپرس فارسی</strong>',
-                ),
-                array(
-                    'type' => 'notice',
-                    'class' => 'primary',
-                    'content' => __('برای <strong>حمایت و کمک به توسعه</strong> این افزونه لطفا گزینه‌های زیر را تکمیل و فعال‌سازی کنید.', 'wpsh'),
-                ),
-                array(
-                    'type' => 'content',
-                    'wrap_class' => 'no-border-bottom',
-                    'title' => __('خبرنامه', 'wpsh'),
-                    'content' => '
-                    <div class="wpsh_newsletter_settings">
-                          ' . $newsletter . '
-                          <input type="hidden" id="wpsh_newsletter_settings" name="wpsh_newsletter_settings" value="' . get_admin_url() . 'admin.php?page=wpsh&wpsh_newsletter=send">
-                    </div>
-                    ',
-                    'before' => '<span class="dashicons dashicons-email"></span> <strong>خبرنامه وردپرس فارسی</strong>',
-                ),
-                array(
-                    'id' => 'activate-stats',
-                    'type' => 'switcher',
-                    'title' => __('ارسال آمار', 'wpsh'),
-                    'default' => 'no',
-                    'after' => '<p>با فعال کردن این گزینه اطلاعات وردپرس شما در دسترس ما قرار می‌گیرد. با ارسال این اطلاعات و داده‌ها به ما کمک فراوانی می‌کنید تا افزونه را بهتر و دقیق‌تر توسعه بدهیم تا بیشترین سازگاری را با خواسته‌های جامعه وردپرس فارسی داشته باشد. برای دریافت جزئیات و مطالعه حریم‌ خصوصی به قسمت "درباره و قوانین" در تنظیمات افزونه مراجعه کنید. این گزینه به صورت پیشفرض غیرفعال می‌باشد و فقط مدیران این سایت می‌توانند آن را فعال کنند.</p>',
-                ),
                 array(
                     'type' => 'notice',
                     'class' => 'primary',
@@ -425,6 +441,7 @@ class WPSH_Options extends WPSH_Core
                             'attributes' => array(
                                 'data-title' => 'title',
                                 'placeholder' => __('متن به زبان اصلی', 'wpsh'),
+                                'class' =>  'wpsh-ltr'
                             ),
                         ),
                         array(
@@ -554,30 +571,41 @@ class WPSH_Options extends WPSH_Core
                 ),
             )
         );
-        $fields[] = array(
-            'name' => 'donate',
-            'title' => __('حمایت', 'wpsh'),
-            'icon' => 'dashicons-heart',
-            'fields' => array(
 
+        $pro_intro = '';
+
+        $fields[] = array(
+            'name' => 'wpshlicense',
+            'title' => __('نسخه حرفه‌ای', 'wpsh'),
+            'icon' => 'dashicons-star-filled',
+            'fields' => array(
                 array(
-                    'type' => 'content',
-                    'class' => 'class-name',
-                    'content' => __('
-                  <h2>حمایت از ما</h2>
-                  <p>با معرفی افزونه ما در وبسایت/وبلاگ خود می‌توانید از ما حمایت کنید. همچنین با دنبال کردن ما در شبکه اینستاگرام از آخرین اخبار و مطالب وبسایت وردپرس فارسی و افزونه‌ها مطلع شوید.
- 	                <br /><br /> <strong>اینستاگرام</strong> <a href="https://instagram.com/wpvar" target="_blank">@wpvar</a> <br />
-                  <strong>وبسایت:</strong> <a href="https://wpvar.com" target="_blank">وردپرس فارسی</a>
-                  </p>
-                  <h2>حمایت مالی</h2>
-                  <p>صدها ساعت زمان و انرژی صرف برنامه‌نویسی این افزونه شده. اگه ازش خوشت اومده می‌تونی برامون یه قهوه بخری! :) <br /><br />
-	                <div style="text-align: center;"><span style="color:#ca4a1f;" class="exopite-sof-nav-icon dashicons-before dashicons-heart"></span><strong><a href="https://payping.ir/@wpvar" target="_blank" rel="nofollow" style="font-size: 18px; display: block; height: 40px;">حمایت مالی از ما</a></strong><br />
-                  <a href="https://payping.ir/@wpvar" target="_blank" rel="nofollow"><img src="' . WPSH_URL . 'assets/img/qr.png" /></a></div>
-	                </p>
-                  ', 'wpsh'),
+                    'type'    => 'content',
+                    'content'   =>  apply_filters('wpsh_pro_intro', $pro_intro)
                 ),
             )
         );
+
+        if (parent::pro()) {
+            $settings_pro = array();
+            $settings_pro = apply_filters('wpsh_settings_pro', $settings_pro);
+
+            foreach ($settings_pro as $key => $value) {
+                $fields[] = $value;
+            }
+
+
+            $options_pro = array();
+
+            $fields[] = array(
+                'name' => 'wpshpro',
+                'title' => __('بیشتر', 'wpsh'),
+                'icon' => 'dashicons-ellipsis',
+                'fields' => apply_filters('wpsh_pro_options', $options_pro)
+            );
+        }
+        $fields = apply_filters('wpsh_options_array', $fields);
+
         $options_panel = new Exopite_Simple_Options_Framework($config_submenu, $fields);
     }
 }

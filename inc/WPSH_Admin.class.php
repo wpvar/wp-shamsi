@@ -45,26 +45,11 @@ class WPSH_Admin extends WPSH_Core
             'farsi_support'
         ));
 
-        add_filter('the_post', array(
-            $this,
-            'display_post_date'
-        ), 99, 1);
-
         if (!function_exists('wp_date')) {
             add_filter('get_the_time', array(
                 $this,
                 'post_time'
             ), 10, 3);
-        }
-
-        $base = basename($_SERVER['PHP_SELF']);
-        if (($base == 'post.php' && parent::get('post', 'bool') && parent::get('action', 'bool') && parent::get('action') == 'edit') || $base == 'post-new.php') {
-            if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false)) {
-                add_filter('gettext', array(
-                    $this,
-                    'display_post_month'
-                ), 10, 1);
-            }
         }
 
         if (get_locale() != 'fa_IR' && get_locale() != 'fa_AF') {
@@ -90,6 +75,11 @@ class WPSH_Admin extends WPSH_Core
             $this,
             'add_settings_link'
         ));
+
+        add_filter('plugin_row_meta', array(
+            $this,
+            'add_settings_meta'
+        ), 10, 4);
 
         add_action('admin_enqueue_scripts', array(
             $this,
@@ -162,8 +152,12 @@ class WPSH_Admin extends WPSH_Core
             $rss_items = $rss->get_items(0, $maxitems);
             $rss_title = '<a href="' . $rss->get_permalink() . '" target="_blank">' . strtoupper($rss->get_title()) . '</a>';
         endif;
-
         $html = '<div class="rss-widget">';
+        if (parent::pro_due() && current_user_can('manage_options')) {
+            $html .= '<div class="wpsh-pro-due-widget">';
+            $html .= '<p>اعتبار لایسنس نسخه حرفه‌ای تاریخ شمسی و فارسی ساز وردپرس رو به <strong>اتمام</strong> است. برای تمدید لایسنس لطفا <strong><a target="_blank" href="https://wpvar.com/pro/?renew=1">اینجا کلیک کنید</a></strong>.</p>';
+            $html .= '</div>';
+        }
         $html .= '<ul>';
 
         if ($maxitems == 0) {
@@ -192,6 +186,11 @@ class WPSH_Admin extends WPSH_Core
             <li><a href="https://wpvar.com/edu/" target="_blank" title="آموزش وردپرس"><span class="dashicons dashicons-welcome-learn-more"></a></span></li>
           </ul>
         </div>';
+        if (!parent::pro() && current_user_can('manage_options')) {
+            $html .= '<a target="_blank" href="https://wpvar.com/pro/" class="wpsh-pro-widget"><div>';
+            $html .= '<p><strong>ارتقا به نسخه حرفه‌ای</strong></p>';
+            $html .= '</div></a>';
+        }
         echo $html;
         set_transient('wpsh_dashboard_site_feed', $html, 12 * HOUR_IN_SECONDS);
     }
@@ -261,7 +260,7 @@ class WPSH_Admin extends WPSH_Core
      *
      * Converts Gutenberg Gregorian schedule to shamsi one.
      *
-     * @since 2.0.0
+     * @deprecated 3.0.0
      *
      * @param object $post post Object.
      * @return object post Object.
@@ -326,7 +325,7 @@ class WPSH_Admin extends WPSH_Core
      *
      * Filter to translate english month to farsi in gutenberg editor
      *
-     * @since 2.0.0
+     * @deprecated 3.0.0
      *
      * @param string $string Translation strings.
      * @return string Translated strings.
@@ -467,7 +466,7 @@ class WPSH_Admin extends WPSH_Core
     /**
      * Settings shortcut
      *
-     * Adds settings page shortcit link to plugins page.
+     * Adds settings page shortcut link to plugins page.
      *
      * @since 1.2.0
      *
@@ -477,12 +476,41 @@ class WPSH_Admin extends WPSH_Core
     public function add_settings_link($links)
     {
 
+        $pro = '<a href="https://wpvar.com/pro/" target="_blank" class="wpsh-color wpsh-bold wpsh-star">' . __('نسخه حرفه‌ای', 'wpsh') . '</a>';
         $settings_link = '<a href="' . get_admin_url() . 'admin.php?page=wpsh">' . __('تنظیمات', 'wpsh') . '</a>';
-        $wpvar = '<a href="https://wpvar.com/edu/" target="_blank">' . __('آموزش وردپرس', 'wpsh') . '</a>';
         $forum_link = '<a href="https://wpvar.com/forums/" target="_blank">' . __('انجمن پشتیبانی', 'wpsh') . '</a>';
 
-        array_push($links, $settings_link, $forum_link, $wpvar);
+
+        if (!parent::pro()) {
+            array_push($links, $pro, $settings_link, $forum_link);
+        } else {
+            array_push($links, $settings_link, $forum_link);
+        }
+
         return $links;
+    }
+
+    /**
+     * Settings meta
+     *
+     * Adds meta to plugins setting row.
+     *
+     * @since 3.0.0
+     *
+     * @param array $plugin_meta An array of the plugin's metadata
+     * @param string $plugin_file Path to the plugin file
+     * @param array $plugin_data An array of plugin data
+     * @param string $status Status of the plugin
+     * @return array Modified meta.
+     */
+    public function add_settings_meta($plugin_meta, $plugin_file, $plugin_data, $status)
+    {
+        if ($plugin_file == WPSH_BASE) {
+            $plugin_meta[] = '<a href="https://wpvar.com/" target="_blank">' . __('وردپرس فارسی', 'wpsh') . '</a>';
+            $plugin_meta[] = '<a href="https://wpvar.com/edu/" target="_blank">' . __('آموزش وردپرس', 'wpsh') . '</a>';
+        }
+
+        return $plugin_meta;
     }
 
     /**
@@ -507,6 +535,11 @@ class WPSH_Admin extends WPSH_Core
                 'jquery'
             ), WPSH_VERSION, true);
             wp_localize_script('wpsh-admin', 'listFarsiMonth', parent::get_month());
+
+            $wpshSignature = array(
+                'signature' =>  md5('%wpsh%')
+            );
+            wp_localize_script('wpsh-gjc', 'wpshSignature', $wpshSignature);
         }
 
         if (parent::option('dashboard-font', true, true)) :
@@ -530,58 +563,5 @@ class WPSH_Admin extends WPSH_Core
 
         endif;
 
-        if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false)) :
-            $js = (string)'';
-            if (wp_script_is('wp-i18n')) {
-
-                $month = parent::get_month();
-
-                $js .= '
-            wp.i18n.setLocaleData({
-              "October": [
-                "' . $month[10] .  '"
-              ],
-              "November": [
-                "' . $month[11] .  '"
-              ],
-              "December": [
-                "' . $month[12] .  '"
-              ],
-              "January": [
-                "' . $month[1] .  '"
-              ],
-              "February": [
-                "' . $month[2] .  '"
-              ],
-              "March": [
-                "' . $month[3] .  '"
-              ],
-              "April": [
-                "' . $month[4] .  '"
-              ],
-              "May": [
-                "' . $month[5] .  '"
-              ],
-              "June": [
-                "' . $month[6] .  '"
-              ],
-              "July": [
-                "' . $month[7] .  '"
-              ],
-              "August": [
-                "' . $month[8] .  '"
-              ],
-              "September": [
-                "' . $month[9] .  '"
-              ]
-            });
-            ';
-            }
-
-            if (function_exists('wp_add_inline_script')) {
-                wp_add_inline_script('wpsh-admin', $js);
-            }
-
-        endif;
     }
 }

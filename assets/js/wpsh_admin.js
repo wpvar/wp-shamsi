@@ -58,4 +58,17 @@ jQuery(document).ready(function () {
     }
   });
 
+  jQuery('.notice-wpsh-pro .notice-dismiss').on('click', function () {
+    var check = confirm('آیا مطمئن هستید؟');
+    if (check === false) {
+      return;
+    }
+    jQuery.ajax({
+      url: ajaxurl,
+      type: 'POST',
+      data: { action: 'wpsh_notice_pro', wpsh_notice_pro: 1 },
+      success: function (response) {
+      }
+    });
+  });
 });

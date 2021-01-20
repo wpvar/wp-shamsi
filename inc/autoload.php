@@ -22,6 +22,8 @@ new WPSH_Core();
 if (is_admin()) {
     new WPSH_Options('wpsh');
     new WPSH_Admin();
+    new WPSH_Gutenberg();
+
 }
 
 new WPSH_Api();
@@ -30,3 +32,4 @@ new WPSH_Archive();
 new WPSH_Addons();
 new WPSH_Calendar();
 new WPSH_Compatibility();
+new WPSH_Shamsi_Api_Pro();

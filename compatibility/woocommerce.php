@@ -33,9 +33,20 @@ class WPSH_Woo extends WPSH_Core
                 $this,
                 "woocommerce_filter"
             ), 1000, 2);
+
+            add_filter("get_post_metadata", array(
+                $this,
+                "meta"
+            ), 10, 4);
+
             add_action('admin_init', array(
                 $this,
                 'woocommerce_action'
+            ), 1000);
+
+            add_action('admin_init', array(
+                $this,
+                'dates'
             ), 1000);
         }
     }
@@ -83,6 +94,31 @@ class WPSH_Woo extends WPSH_Core
         $screen = get_current_screen();
 
         return (string)$screen->post_type;
+    }
+
+    public function dates()
+    {
+        $type = isset($_POST['post_type']) && $_POST['post_type'] == 'shop_coupon' ? true : false;
+        if (!empty($_POST["expiry_date"]) && $type) {
+            $_POST["expiry_date"] = parent::gregorian(esc_attr($_POST["expiry_date"]), 'Y-m-d');
+        }
+    }
+
+    function meta($metadata, $object_id, $meta_key, $single)
+    {
+        $action = isset($_GET['action']) && $_GET['action'] == 'edit' ? true : false;
+        $post = isset($_GET['action']) ? true : false;
+        if ($meta_key == 'date_expires' && !empty($meta_key) && $action && $post) {
+
+            global $wpdb;
+            $value = $wpdb->get_var($wpdb->prepare("SELECT meta_value FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = 'date_expires'", esc_attr($_GET['post'])));
+
+            if (!empty($value)) {
+                $shamsi = parent::wp_shamsi(null, 'Y-m-d', $value);
+
+                return $shamsi;
+            }
+        }
     }
 }
 

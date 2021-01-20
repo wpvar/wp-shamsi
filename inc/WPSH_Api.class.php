@@ -31,12 +31,12 @@ class WPSH_Api extends WPSH_Core
             add_action('admin_notices', array(
                 $this,
                 'newsletter'
-            ));
+            ), 11);
 
             add_action('admin_notices', array(
                 $this,
                 'stats'
-            ));
+            ), 11);
             add_action('admin_init', array(
                 $this,
                 'newsletter_core'
