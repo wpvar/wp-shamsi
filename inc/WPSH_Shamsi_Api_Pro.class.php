@@ -89,6 +89,7 @@ wpvar.com
                         wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
                         update_option('wpsh_pro_license_status', 0);
                         deactivate_plugins('wp-shamsi-pro/wp-shamsi-pro.php');
+                        return;
 
                     }
                 }
