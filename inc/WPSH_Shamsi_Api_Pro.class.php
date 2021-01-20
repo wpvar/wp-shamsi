@@ -2,7 +2,7 @@
 
 /**
  * @package WPSH
- */
+                                                 */
 defined('ABSPATH') or die();
 
 class WPSH_Shamsi_Api_Pro extends WPSH_Core
@@ -35,6 +35,8 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
     public function init($bypass = false, $key = null)
     {
 
+        $current = current_time('timestamp', false);
+
         if ($key !== null) {
             $serial = $key;
         } else {
@@ -54,7 +56,6 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
 
             $due = get_option('wpsh_pro_license_due');
             if (!empty($due)) {
-                $current = current_time('timestamp', false);
                 $datediff = $due - $current;
                 $days = round($datediff / (60 * 60 * 24));
 
@@ -75,7 +76,7 @@ wpvar.com
                 if ($days < 0) {
 
                     if ($this->is_active('wp-shamsi-pro/wp-shamsi-pro.php')) {
-                        
+
                         $mail_msg = __('
 با عرض سلام
 
@@ -89,8 +90,6 @@ wpvar.com
                         wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
                         update_option('wpsh_pro_license_status', 0);
                         deactivate_plugins('wp-shamsi-pro/wp-shamsi-pro.php');
-                        return;
-
                     }
                 }
             }
@@ -132,14 +131,14 @@ wpvar.com
                 $due = !empty($data->due) ? $data->due : false;
                 if (empty($license)) {
                     update_option('wpsh_pro_license_status', 0);
-                } elseif ($license === $serial) {
+                } elseif ($license === $serial && $data->due > $current) {
                     update_option('wpsh_pro_license_status', 1);
                     update_option('wpsh_pro_license_failed', 0);
                     update_option('wpsh_pro_license_due', $due);
                     update_option('wpsh_pro_license', $serial);
 
                     if (empty(get_option('wpsh_pro_license_lastcontact'))) {
-                        update_option('wpsh_pro_license_lastcontact', current_time('timestamp', false));
+                        update_option('wpsh_pro_license_lastcontact', $current);
                     }
 
                     if ($data->type == 2) {
@@ -148,6 +147,11 @@ wpvar.com
 
                     $this->tasks();
 
+                    if ($bypass) {
+                        wp_die(1);
+                    }
+                } else {
+                    update_option('wpsh_pro_license_status', 0);
                     if ($bypass) {
                         wp_die(1);
                     }
