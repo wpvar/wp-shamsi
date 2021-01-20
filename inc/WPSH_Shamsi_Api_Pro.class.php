@@ -74,26 +74,23 @@ wpvar.com
                 }
                 if ($days < 0) {
 
-                    if (!$this->is_active('wp-shamsi-pro/wp-shamsi-pro.php')) {
-                        return;
-                    }
-
-                    $mail_msg = __('
+                    if ($this->is_active('wp-shamsi-pro/wp-shamsi-pro.php')) {
+                        
+                        $mail_msg = __('
 با عرض سلام
-        
+
 به دلیل اتمام تاریخ اشتراک لایسنس افزونه تاریخ شمسی و فارسی‌ساز وردپرس، لایسنس این افزونه غیرفعال شد. اگر مایل به ادامه استفاده از افزونه هستید، لطفا از لینک زیر لایسنس جدیدی تهیه فرمایید:
 https://wpvar.com/pro/
-        
+
 با تشکر
 وردپرس فارسی
 wpvar.com
 ', 'wpsh');
+                        wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
+                        update_option('wpsh_pro_license_status', 0);
+                        deactivate_plugins('wp-shamsi-pro/wp-shamsi-pro.php');
 
-                    wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
-                    update_option('wpsh_pro_license_status', 0);
-                    deactivate_plugins('wp-shamsi-pro/wp-shamsi-pro.php');
-
-                    return;
+                    }
                 }
             }
 
