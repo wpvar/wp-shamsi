@@ -35,12 +35,6 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
     public function init($bypass = false, $key = null)
     {
 
-        if(!$bypass) {
-            if (!$this->is_active('wp-shamsi-pro/wp-shamsi-pro.php')) {
-                return;
-            }
-        }
-
         if ($key !== null) {
             $serial = $key;
         } else {
@@ -79,6 +73,11 @@ wpvar.com
                     wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
                 }
                 if ($days < 0) {
+
+                    if (!$this->is_active('wp-shamsi-pro/wp-shamsi-pro.php')) {
+                        return;
+                    }
+
                     $mail_msg = __('
 با عرض سلام
         
@@ -140,7 +139,7 @@ wpvar.com
                     update_option('wpsh_pro_license_failed', 0);
                     update_option('wpsh_pro_license_due', $due);
 
-                    if(empty(get_option('wpsh_pro_license_lastcontact'))) {
+                    if (empty(get_option('wpsh_pro_license_lastcontact'))) {
                         update_option('wpsh_pro_license_lastcontact', current_time('timestamp', false));
                     }
 
