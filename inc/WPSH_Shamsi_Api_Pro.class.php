@@ -200,7 +200,6 @@ wpvar.com
                     if (!$this->is_active('wp-shamsi-pro/wp-shamsi-pro.php')) {
                         activate_plugin('wp-shamsi-pro/wp-shamsi-pro.php');
                     }
-                    wp_redirect(get_admin_url() . 'admin.php?page=wpsh');
                 } else {
                     add_action('admin_notices', array($this, 'download_error'), 10);
                 }
