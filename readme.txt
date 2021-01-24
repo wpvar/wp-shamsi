@@ -1,7 +1,7 @@
 === WP Shamsi - افزونه تاریخ شمسی و فارسی ساز وردپرس ===
 Contributors: wpvar, farajiali
 Tags: date, shamsi, jalali, iran, persian, farsi, parsi, hijri, شمسی, تاریخ, فارسی, پارسی, ایران
-Donate link: https://payping.ir/@wpvar
+Donate link: https://wpvar.com/pro/
 Requires at least: 4.0
 Tested up to: 5.6
 Requires PHP: 5.5
