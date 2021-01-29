@@ -143,6 +143,8 @@ wpvar.com
 
                     if ($data->type == 2) {
                         update_option('wpsh_pro_is_vip', 1);
+                    } else {
+                        update_option('wpsh_pro_is_vip', 0);
                     }
 
                     $this->tasks();
