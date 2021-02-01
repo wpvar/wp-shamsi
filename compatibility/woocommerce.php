@@ -48,6 +48,11 @@ class WPSH_Woo extends WPSH_Core
                 $this,
                 'dates'
             ), 1000);
+
+            add_action('woocommerce_admin_process_variation_object', array(
+                $this,
+                'save_variations'
+            ), 1000, 2);
         }
     }
 
@@ -65,6 +70,7 @@ class WPSH_Woo extends WPSH_Core
         if (!empty($_POST["expiry_date"]) && $post['post_type'] == 'expiry_date') {
             $_POST["expiry_date"] = esc_attr(parent::gregorian($_POST["expiry_date"], 'Y-m-d'));
         }
+
         return $post;
     }
 
@@ -77,6 +83,37 @@ class WPSH_Woo extends WPSH_Core
         if (isset($_GET["end_date"]) && esc_attr($_GET["page"]) == 'wc-reports') {
             $_GET["end_date"] = esc_attr(parent::gregorian($_GET["end_date"], 'Y-m-d'));
         }
+    }
+
+    public function save_variations($variation, $i)
+    {
+
+        $date_on_sale_from = '';
+        $date_on_sale_to   = '';
+
+        if (isset($_POST['variable_sale_price_dates_from'][$i])) {
+            $date_on_sale_from = wc_clean(wp_unslash($_POST['variable_sale_price_dates_from'][$i]));
+
+            if (!empty($date_on_sale_from)) {
+                $date_on_sale_from = parent::gregorian($date_on_sale_from, 'Y-m-d 00:00:00');
+            }
+        }
+
+        if (isset($_POST['variable_sale_price_dates_to'][$i])) {
+            $date_on_sale_to = wc_clean(wp_unslash($_POST['variable_sale_price_dates_to'][$i]));
+
+            if (!empty($date_on_sale_to)) {
+                $date_on_sale_to = parent::gregorian($date_on_sale_to, 'Y-m-d 23:59:59');
+            }
+        }
+        $variation->set_props(
+            array(
+                'date_on_sale_from' => $date_on_sale_from,
+                'date_on_sale_to'   => $date_on_sale_to,
+            )
+        );
+
+        $variation->save();
     }
 
     public function datepicker_script()
