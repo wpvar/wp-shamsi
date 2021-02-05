@@ -418,6 +418,10 @@
   color: #a0a0a0;
 }
 
+.star-rating .star {
+  font-family: dashicons !important;
+}
+
 @media only screen and (max-width: 1150px) {
   .wpsh-feutures__wrap {
     margin: auto 20px;

@@ -560,7 +560,9 @@ class WPSH_Core
       // DATE_ISO8601 Variant
       'Y-m-d\TH:i:s',
       // DATE_ISO8601 Variant
-      'Y-m-d\TH:i'
+      'Y-m-d\TH:i',
+      // DATE_W3C DATE_ATOM DATE_RFC3339 Variant
+      'Y-m-dTH:i:sP'
     );
 
     /* Hook to add custom formats to be skipped */
