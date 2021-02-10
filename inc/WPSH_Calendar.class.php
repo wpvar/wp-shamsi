@@ -67,7 +67,7 @@ class WPSH_Calendar extends WPSH_Core
      * @param int $timestamp Timestamp.
      * @return mixed Shamsi dates.
      */
-    public function shamsi($date = null, $format, $timestamp = null)
+    public function shamsi($date = null, $format = null, $timestamp = null)
     {
 
         if ($timestamp != null) {

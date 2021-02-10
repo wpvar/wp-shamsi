@@ -434,10 +434,11 @@ class WPSH_Core
   public function email($args)
   {
 
-    $args['message'] = str_replace('http://wp-persian.com/', 'https://wpvar.com/', $args['message']);
-    $args['message'] = str_replace('WP-Persian.com', 'wpvar.com', $args['message']);
-    $args['message'] = str_replace('https://wordpress.org/support/forums/', 'https://wpvar.com/forums/', $args['message']);
-
+    if(!empty($args['message'])) {
+      $args['message'] = str_replace('http://wp-persian.com/', 'https://wpvar.com/', $args['message']);
+      $args['message'] = str_replace('WP-Persian.com', 'wpvar.com', $args['message']);
+      $args['message'] = str_replace('https://wordpress.org/support/forums/', 'https://wpvar.com/forums/', $args['message']);
+    }
 
     return $args;
   }
