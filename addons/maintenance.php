@@ -84,7 +84,12 @@ class WPSH_Maintenance_Addon extends WPSH_Addons
                 }
                 ';
 
-            wp_die(__('<style>' . $css . '</style><h1>در دست تعمیر</h1> <br /> سایت در دست تعمیر می باشد، به زودی برمیگردیم. لطفا دقایقی دیگر مجددا مراجعه فرمایید.', 'wpsh'), get_bloginfo('name') . ' - ' . __('در دست تعمیر', 'wpsh'), array(
+            if (parent::pro()) {
+                $text = parent::option('maintenance_text', false, 'سایت در دست تعمیر می‌باشد، به‌زودی برمی‌گردیم. لطفا دقایقی دیگر مجددا مراجعه فرمایید.');
+            } else {
+                $text = 'سایت در دست تعمیر می‌باشد، به‌زودی برمی‌گردیم. لطفا دقایقی دیگر مجددا مراجعه فرمایید.';
+            }
+            wp_die(__('<style>' . $css . '</style><h1>در دست تعمیر</h1> <br />' . $text, 'wpsh'), get_bloginfo('name') . ' - ' . __('در دست تعمیر', 'wpsh'), array(
                 'response' => '503'
             ));
         }

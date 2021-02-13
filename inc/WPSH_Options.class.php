@@ -298,21 +298,41 @@ class WPSH_Options extends WPSH_Core
 
         foreach ($addons as $addon => $value) {
 
+            $extra = ($value['slug'] == 'maintenance') ? true : false;
+            $wrap = ($value['slug'] == 'maintenance') ? 'no-border-bottom' : '';
+
             $addons_settings[] = array(
                 'id' => $value['slug'],
+                'wrap_class' => $wrap,
                 'type' => 'switcher',
                 'title' => $value['name'],
-                'description' => $value['desc'] . '<br /><div class="plugin-version-author-uri">نسخه ' . $value['version'] . ' | نویسنده: ' . $value['author'] . ' | <a href="' . $value['website'] . '" target="_blank" style="text-decoration:none;">وبسایت</a>
-                         | <a href="' . $value['addon_home'] . '" target="_blank" style="text-decoration:none;">جزئیات</a></div>',
+                'after' => ' <br /> ' . $value['desc'],
                 'default' => ($value['is_active'] == true) ? 'yes' : 'no',
-
             );
+
+            if ($extra) {
+                if (!parent::pro()) {
+                    $addons_settings[] = array(
+                        'id'     => 'maintenance_text',
+                        'type'   => 'text',
+                        'title'  => 'متن در دست تعمیر',
+                        'after' => ' <br /> متن حالت "در دست تعمیر" فقط برای نسخه‌های حرفه‌ای و VIP قابل ویرایش است.',
+                        'attributes'     => array(
+                            'placeholder' => 'سایت در دست تعمیر می‌باشد، به‌زودی برمی‌گردیم. لطفا دقایقی دیگر مجددا مراجعه فرمایید.',
+                            'disabled'    => 'disabled',
+                        )
+                    );
+                } else {
+                    $addons_settings[] = array(
+                        'id'     => 'maintenance_text',
+                        'type'   => 'text',
+                        'title'  => 'متن در دست تعمیر',
+                        'after' => ' <br /> متن سفارشی برای نمایش به کاربران در حالت "در دست تعمیر".',
+                        'default'   =>  'سایت در دست تعمیر می‌باشد، به‌زودی برمی‌گردیم. لطفا دقایقی دیگر مجددا مراجعه فرمایید.'
+                    );
+                }
+            }
         }
-        $addons_settings[] = array(
-            'type' => 'notice',
-            'class' => 'info',
-            'content' => __('اگر برنامه‌نویس وردپرس هستید، می‌توانید با برنامه‌نویسی افزودنی‌ها، آن‌ها را با نام خود و لینک به وبسایتتان منتشر کنید. <a href="https://wpvar.com/wp-shamsi-docs/" target="_blank">اطلاعات بیشتر و نمونه کد.</a>', 'wpsh'),
-        );
 
         $fields[] = array(
             'name' => 'addons',
@@ -542,9 +562,6 @@ class WPSH_Options extends WPSH_Core
                 </ul>
                 <h2>مستندات</h2>
                 <p>مستندات فنی افزونه را می‌توانید <a href="https://wpvar.com/wp-shamsi-docs/" target="_blank">از طریق این صفحه</a> مطالعه کنید.</p>
-                <h2>ثبت افزودنی</h2>
-                <p>"افزونه تاریخ شمسی و فارسی‌ساز وردپرس" از سیستم ماژولار جهت ثبت افزودنی‌ها استفاده می‌کند. اگر برنامه‌نویس وردپرس هستید، می‌توانید با برنامه‌نویسی افزودنی‌ها برای این افزونه، آن‌ها را با نام خود و لینک به وبسایتتان منتشر کنید.</p>
-                <p><a href="https://wpvar.com/wp-shamsi-docs/" target="_blank">اطلاعات بیشتر و نمونه کد</a></p>
                 <h2>قوانین</h2>
                 <p>با ادامه استفاده از این افزونه <a href="https://wpvar.com/policy/" target="_blank">قوانین مندرج در این صفحه</a> را می‌پذیرید.</p>
                 <h2>حریم خصوصی</h2>
