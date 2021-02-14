@@ -121,7 +121,7 @@ class WPSH_Woo extends WPSH_Core
         $page = (isset($_GET["page"])) ? esc_attr($_GET["page"]) : null;
         if (wp_script_is('jquery-ui-datepicker', 'enqueued') && ($this->screen() == 'product' || $this->screen() == 'shop_order' || $this->screen() == 'shop_coupon' || $page == 'wc-reports')) {
             wp_deregister_script('jquery-ui-datepicker');
-            wp_enqueue_script('jquery-ui-datepicker', WPSH_URL . 'assets/js/wpsh_datepicker.js', array(), false, true);
+            wp_enqueue_script('jquery-ui-datepicker', WPSH_URL . 'assets/js/wpsh_datepicker.js', array(), WPSH_VERSION);
             wp_localize_script('jquery-ui-datepicker', 'listFarsiMonth', parent::get_month());
         }
     }

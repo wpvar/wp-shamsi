@@ -434,7 +434,7 @@ wpvar.com
 
     public function script()
     {
-        wp_enqueue_script('wpsh-license', WPSH_URL . 'assets/js/wpsh_license.js', array('jquery'), WPSH_VERSION, true);
+        wp_enqueue_script('wpsh-license', WPSH_URL . 'assets/js/wpsh_license.js', array('jquery'), WPSH_VERSION);
         wp_localize_script('wpsh-license', 'wpshLicense', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'redirect'  => get_admin_url() . 'admin.php?page=wpsh'

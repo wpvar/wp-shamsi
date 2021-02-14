@@ -526,14 +526,14 @@ class WPSH_Admin extends WPSH_Core
 
         wp_enqueue_script('wpsh-admin-core', WPSH_URL . 'assets/js/wpsh_admin.js', array(
             'jquery'
-        ), WPSH_VERSION, true);
+        ), WPSH_VERSION);
 
         wp_enqueue_style('wpsh-admin-css-core', WPSH_URL . 'assets/css/wpsh_admin.css', array(), WPSH_VERSION);
 
         if (parent::option('activate-shamsi', true, true) && !parent::option('activate-admin-shamsi', true, false) && !parent::no_lang_no_shamsi()) {
             wp_enqueue_script('wpsh-admin', WPSH_URL . 'assets/js/wpsh_admin_shamsi.js', array(
                 'jquery'
-            ), WPSH_VERSION, true);
+            ), WPSH_VERSION);
             wp_localize_script('wpsh-admin', 'listFarsiMonth', parent::get_month());
 
             $wpshSignature = array(
