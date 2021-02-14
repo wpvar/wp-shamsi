@@ -224,7 +224,7 @@ class WPSH_Core
     if ($this->option('persian-num', true, true) && (get_locale() == 'fa_IR' || get_locale() == 'fa_AF')) :
       wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array(
         'jquery'
-      ), WPSH_VERSION);
+      ), WPSH_VERSION, true);
 
       $isShamsiInAdmin = array(
         'in_admin' => (is_admin()) ? 1 : 0,

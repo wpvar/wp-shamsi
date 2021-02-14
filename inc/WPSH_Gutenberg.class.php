@@ -65,7 +65,8 @@ class WPSH_Gutenberg extends WPSH_Core
                 'wp-data',
                 'wp-date'
             ),
-            WPSH_VERSION
+            WPSH_VERSION,
+            true
         );
 
         wp_enqueue_style(
