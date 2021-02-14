@@ -814,7 +814,7 @@ class WPSH_Core
     $serial = !empty(get_option('wpsh_pro_license')) ? get_option('wpsh_pro_license') : false;
     $status = !empty(get_option('wpsh_pro_license_status')) && get_option('wpsh_pro_license_status') == 1 ? true : false;
     $due = !empty(get_option('wpsh_pro_license_due')) && get_option('wpsh_pro_license_due') > current_time('timestamp', false) ? true : false;
-    $shamsi = ABSPATH . '/wp-content/plugins/wp-shamsi-pro/wp-shamsi-pro.php';
+    $shamsi = WP_PLUGIN_DIR . '/wp-shamsi-pro/wp-shamsi-pro.php';
     $exists = file_exists($shamsi) ? true : false;
 
     if ($soft) {
