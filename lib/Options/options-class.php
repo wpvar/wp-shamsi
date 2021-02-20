@@ -943,7 +943,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 				);
 
 				foreach ( $scripts_styles as $item ) {
-					wp_enqueue_script( $item['name'], $base . $item['fn'], $item['dep'], $this->version);
+					wp_enqueue_script( $item['name'], $base . $item['fn'], $item['dep'], $this->version, true);
 				}
 
 				/**
