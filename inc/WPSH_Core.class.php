@@ -286,13 +286,10 @@ class WPSH_Core
    */
   public function themes($theme)
   {
-    if (!$this->option('fa-theme', true, true)) {
-      return false;
-    }
 
     $css = '';
 
-    if (!$this->pro() && !$this->option('activate-fonts', true, false)) {
+    if (!$this->pro() || !$this->option('activate-fonts', true, false)) {
 
       $path = WPSH_URL . 'assets/fonts/';
       $css .= '
@@ -336,6 +333,9 @@ class WPSH_Core
     }
 
     if ($theme != 'wp-admin') {
+      if (!$this->option('fa-theme', true, true)) {
+        return false;
+      }
       include WPSH_PATH . 'themes/' . $theme . '.theme.php';
     } else {
       $css .= '
@@ -434,7 +434,7 @@ class WPSH_Core
   public function email($args)
   {
 
-    if(!empty($args['message'])) {
+    if (!empty($args['message'])) {
       $args['message'] = str_replace('http://wp-persian.com/', 'https://wpvar.com/', $args['message']);
       $args['message'] = str_replace('WP-Persian.com', 'wpvar.com', $args['message']);
       $args['message'] = str_replace('https://wordpress.org/support/forums/', 'https://wpvar.com/forums/', $args['message']);

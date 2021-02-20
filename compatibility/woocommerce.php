@@ -19,7 +19,6 @@ class WPSH_Woo extends WPSH_Core
 
     function __construct()
     {
-
         if (!parent::option('activate-woocommerce', true, true)) {
             return;
         }
@@ -76,7 +75,6 @@ class WPSH_Woo extends WPSH_Core
 
     public function woocommerce_action()
     {
-
         if (isset($_GET["start_date"]) && esc_attr($_GET["page"]) == 'wc-reports') {
             $_GET["start_date"] = esc_attr(parent::gregorian($_GET["start_date"], 'Y-m-d'));
         }
@@ -157,6 +155,7 @@ class WPSH_Woo extends WPSH_Core
             }
         }
     }
+
 }
 
 new WPSH_Woo();

@@ -422,6 +422,10 @@
   font-family: dashicons !important;
 }
 
+.ui-datepicker {
+  z-index: 99999;
+}
+
 @media only screen and (max-width: 1150px) {
   .wpsh-feutures__wrap {
     margin: auto 20px;
