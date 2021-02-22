@@ -543,9 +543,15 @@ class WPSH_Core
     if ($timestamp < 0) {
       return $date;
     }
-
+  
     $date = $this->normalize_date($date);
 
+    $go = apply_filters('wpsh_date_before', true);
+  
+    if($go !== true) {
+      return $date;
+    }
+  
     /* Hook to add modify formats*/
     $format = apply_filters('wpsh_date_replace_formats', $format);
 
