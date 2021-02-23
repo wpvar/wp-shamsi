@@ -64,25 +64,20 @@ class WPSH_Maintenance_Addon extends WPSH_Addons
     public function maintenance()
     {
         if (!current_user_can('activate_plugins') || !is_user_logged_in()) {
-            $path = WPSH_URL . 'assets/fonts/';
 
-            $css = '
-                @font-face {
-                    font-family: Vazir;
-                    src: url(' . $path . 'Vazir.ttf) format("truetype");
-                    font-weight: normal;
-                    font-style: normal;
-                }
-                @font-face {
-                    font-family: Vazir;
-                    src: url(' . $path . 'Vazir-Bold.ttf) format("truetype");
-                    font-weight: bold;
-                    font-style: normal;
-                }
+            $font = parent::option('dashboard-font-default', false, 'IRANSansWeb');
+
+            if($font != 'none') {
+                $css = parent::font($font);
+            } else {
+                $css = '';
+            }
+
+            $css .= '
                 body {
-                  font-family: Vazir, sans-serif, tahoma, arial;
+                    font-family: ' . $font . ', tahoma, arial;
                 }
-                ';
+            ';
 
             if (parent::pro()) {
                 $text = parent::option('maintenance_text', false, 'سایت در دست تعمیر می‌باشد، به‌زودی برمی‌گردیم. لطفا دقایقی دیگر مجددا مراجعه فرمایید.');

@@ -541,8 +541,7 @@ class WPSH_Admin extends WPSH_Core
             );
             wp_localize_script('wpsh-gjc', 'wpshSignature', $wpshSignature);
         }
-
-        if (parent::option('dashboard-font', true, true)) :
+        if (parent::option('dashboard-font-default', false, 'IRANSansWeb') != 'none') :
             parent::themes('wp-admin'); // Since 1.2.0
             wp_enqueue_style('wpsh-admin-css', WPSH_URL . 'assets/css/wpsh_admin_shamsi.css', array(), WPSH_VERSION);
         endif;

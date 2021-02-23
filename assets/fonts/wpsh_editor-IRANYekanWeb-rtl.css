@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'IRANYekanWeb';
+    src: url('IRANSansWeb.woff2') format("woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'IRANYekanWeb';
+    src: url('IRANYekanWebBold.woff2') format("woff2");
+    font-weight: bold;
+    font-style: normal;
+}
+body#tinymce.wp-editor {
+    font-family: IRANYekanWeb, tahoma, arial !important;
+}

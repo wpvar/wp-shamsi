@@ -60,10 +60,10 @@ class WPSH_Core
       'login_themes'
     ));
 
-    add_filter('tiny_mce_before_init', array(
+    add_filter('mce_css', array(
       $this,
       'tinymce_style'
-    ), 10, 1);
+    ), 10);
 
     if (!empty($this->option('translate-group')[0]['translate-target'])) {
       add_filter('gettext', array(
@@ -289,70 +289,92 @@ class WPSH_Core
 
     $css = '';
 
-    if (!$this->pro() || !$this->option('activate-fonts', true, false)) {
+    if ($theme != 'wp-admin') {
 
-      $path = WPSH_URL . 'assets/fonts/';
-      $css .= '
-        @font-face {
-            font-family: Vazir;
-            src: url(' . $path . 'Vazir.ttf) format("truetype");
-            font-weight: normal;
-            font-style: normal;
+      if (!$this->pro() || !$this->option('activate-fonts', true, false)) {
+        $css .= $this->font('Vazir');
+      }
+
+      if ($this->option('fa-theme', true, true)) {
+        include WPSH_PATH . 'themes/' . $theme . '.theme.php';
+      }
+    } else {
+      if (!$this->pro() || !$this->option('activate-fonts', true, false) || !$this->option('activate-font-admin', true, true)) {
+        $font = $this->option('dashboard-font-default', false, 'IRANSansWeb');
+        if (!$this->pro() && ($font == 'IRANSansDn' || $font == 'IRANYekanWeb')) {
+          $css .= $this->font('IRANSansWeb');
+        } else {
+          $css .= $this->font($font);
         }
-        @font-face {
-            font-family: Vazir;
-            src: url(' . $path . 'Vazir-Bold.ttf) format("truetype");
-            font-weight: bold;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: Vazir;
-            src: url(' . $path . 'Vazir-Black.ttf) format("truetype");
-            font-weight: 900;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: Vazir;
-            src: url(' . $path . 'Vazir-Medium.ttf) format("truetype");
-            font-weight: 500;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: Vazir;
-            src: url(' . $path . 'Vazir-Light.ttf) format("truetype");
-            font-weight: 300;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: Vazir;
-            src: url(' . $path . 'Vazir-Thin.ttf) format("truetype");
-            font-weight: 100;
-            font-style: normal;
+        $css .= '
+          .wp-block textarea, .wp-block, .components-menu-item__item, .components-notice__content, .components-base-control__field, .components-base-control__help, .components-dropdown-menu__menu, #plugin-information-title.with-banner h2, .block-editor-inserter__search-input {
+            font-family: ' . $font . ', tahoma, sans-serif, arial !important;
+            letter-spacing: 0;
+          }
+        ';
+        $css .= '
+        h1, h12, h3, h4, h5, h6, p, div, a, span, code, li, ul, strong, select, option, button, input, body {
+          font-family: ' . $font . ', tahoma, sans-serif, arial;
+          letter-spacing: 0;
         }
         ';
+        $css .= '
+        .rtl .media-frame, .rtl .media-frame .search, .rtl .media-frame input[type=email], .rtl .media-frame input[type=number], .rtl .media-frame input[type=password], .rtl .media-frame input[type=search], .rtl .media-frame input[type=tel], .rtl .media-frame input[type=text], .rtl .media-frame input[type=url], .rtl .media-frame select, .rtl .media-frame textarea, .rtl .media-modal {
+          font-family: ' . $font . ', tahoma, sans-serif, arial !important;
+          letter-spacing: 0;
+        }
+        ';
+        $css .= '
+          body.rtl, body.rtl .press-this a.wp-switch-editor {
+            font-family: ' . $font . ', tahoma, sans-serif, arial !important;
+            letter-spacing: 0;
+          }
+        ';
+        $css .= '
+          .rtl #wpadminbar * {
+            font-family: ' . $font . ', tahoma, sans-serif, arial;
+            letter-spacing: 0;
+          }    
+        ';
+      }
     }
 
-    if ($theme != 'wp-admin') {
-      if (!$this->option('fa-theme', true, true)) {
-        return false;
-      }
-      include WPSH_PATH . 'themes/' . $theme . '.theme.php';
-    } else {
-      $css .= '
-            .wp-block textarea, .wp-block {
-              font-family: Vazir, tahoma, sans-serif, arial !important;
-            }
-          ';
-      $css .= '
-          body.rtl, body.rtl .press-this a.wp-switch-editor {
-            font-family: Vazir, tahoma, sans-serif, arial !important;
-          }
-          ';
-    }
 
     wp_enqueue_style('wpsh-theme', WPSH_URL . 'assets/css/wpsh_theme.css', array(), WPSH_VERSION);
 
     wp_add_inline_style('wpsh-theme', (string)$css);
+  }
+
+  /**
+   * Generate fonts
+   *
+   * Generate farsi fonts.
+   *
+   * @since 3.0.1
+   *
+   * @param string $name font name.
+   * @return string Fonts CSS code.
+   */
+  protected function font($name)
+  {
+    $path = WPSH_URL . 'assets/fonts/';
+
+    $css = '
+    @font-face {
+        font-family: ' . $name . ';
+        src: url(' . $path . $name . '.woff2) format("woff2");
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: ' . $name . ';
+        src: url(' . $path . $name . 'Bold.woff2) format("woff2");
+        font-weight: bold;
+        font-style: normal;
+    }
+    ';
+
+    return (string) $css;
   }
 
   /**
@@ -378,17 +400,21 @@ class WPSH_Core
    *
    * @since 2.1.0
    *
-   * @return array array of tinymce configurations.
    */
-  public function tinymce_style($tinymce)
+  public function tinymce_style($mce_css)
   {
-    if (!$this->option('fa-theme', true, true)) {
-      return $tinymce;
+    if (is_rtl()) {
+      $font = $this->option('dashboard-font-default', false, 'IRANSansWeb');
+      if (!empty($mce_css))
+        $mce_css .= ',';
+      if (is_admin()) {
+        $mce_css .= WPSH_URL . 'assets/fonts/wpsh_editor-' . $font . '-rtl.css';
+      } else {
+        $mce_css .= WPSH_URL . 'assets/fonts/wpsh_editor-Vazir-rtl.css';
+      }
     }
 
-    $tinymce['content_style'] = 'body#tinymce.wp-editor.content,body#tinymce.wp-editor.content p, body#tinymce.wp-editor.content ol, body#tinymce.wp-editor.content ul, body#tinymce.wp-editor.content dl, body#tinymce.wp-editor.content dt {font-family: Vazir, tahoma, sans-serif, arial !important;}';
-
-    return $tinymce;
+    return $mce_css;
   }
 
   /**
@@ -543,15 +569,15 @@ class WPSH_Core
     if ($timestamp < 0) {
       return $date;
     }
-  
+
     $date = $this->normalize_date($date);
 
     $go = apply_filters('wpsh_date_before', true);
-  
-    if($go !== true) {
+
+    if ($go !== true) {
       return $date;
     }
-  
+
     /* Hook to add modify formats*/
     $format = apply_filters('wpsh_date_replace_formats', $format);
 
