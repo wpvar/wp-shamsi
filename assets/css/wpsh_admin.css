@@ -183,8 +183,16 @@
 .wpsh-verified {
   font-size: 25px !important;
   margin-left: 8px;
-  margin-top: -1px;
+  margin-top: 4px;
   color: #398400 !important;
+}
+
+.exopite-sof-before .dashicons-admin-network {
+  margin-top: 3px;
+}
+
+.exopite-sof-before .dashicons-email {
+  margin-top: 2px;
 }
 
 .wpsh-pro-intro {
