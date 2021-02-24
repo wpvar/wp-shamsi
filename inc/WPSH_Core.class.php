@@ -307,14 +307,14 @@ class WPSH_Core
           $css .= $this->font($font);
         }
         $css .= '
-          .wp-block textarea, .wp-block, .components-menu-item__item, .components-notice__content, .components-base-control__field, .components-base-control__help, .components-dropdown-menu__menu, #plugin-information-title.with-banner h2, .block-editor-inserter__search-input {
+          .wp-block textarea, .wp-block, .components-menu-item__item, .components-notice__content, .components-panel__body-title p, .components-card__header p, .woocommerce-order-data__heading, .woocommerce-order-data__meta, .components-base-control__field, .components-base-control__help, .components-dropdown-menu__menu, #plugin-information-title.with-banner h2, .block-editor-inserter__search-input {
             font-family: ' . $font . ', tahoma, sans-serif, arial !important;
             letter-spacing: 0;
           }
         ';
         $css .= '
-        h1, h12, h3, h4, h5, h6, p, div, a, span, code, li, ul, strong, select, option, button, input, body {
-          font-family: ' . $font . ', tahoma, sans-serif, arial;
+        #wpwrap h1, #wpwrap h2, #wpwrap h3, #wpwrap h4, #wpwrap h5, #wpwrap h6, #wpwrap p, #wpwrap div, #wpwrap a, #wpwrap span, #wpwrap code, #wpwrap li, #wpwrap ul, #wpwrap strong, #wpwrap select, #wpwrap option, #wpwrap button, p, #wpwrap input, #wpwrap body {
+          font-family: ' . $font . ', tahoma, sans-serif, arial, dashicons;
           letter-spacing: 0;
         }
         ';
