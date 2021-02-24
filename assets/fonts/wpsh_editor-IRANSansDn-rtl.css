@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'IRANSansDn';
+    src: url('IRANSansDn.woff2') format("woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'IRANSansDn';
+    src: url('IRANSansDnBold.woff2') format("woff2");
+    font-weight: bold;
+    font-style: normal;
+}
+body#tinymce.wp-editor {
+    font-family: IRANSansDn, tahoma, arial !important;
+}

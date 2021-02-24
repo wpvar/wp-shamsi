@@ -19,7 +19,6 @@ class WPSH_Woo extends WPSH_Core
 
     function __construct()
     {
-
         if (!parent::option('activate-woocommerce', true, true)) {
             return;
         }
@@ -27,7 +26,7 @@ class WPSH_Woo extends WPSH_Core
             add_action('admin_enqueue_scripts', array(
                 $this,
                 'datepicker_script'
-            ), 1000);
+            ), 999999);
 
             add_filter("wp_insert_post_data", array(
                 $this,
@@ -48,6 +47,11 @@ class WPSH_Woo extends WPSH_Core
                 $this,
                 'dates'
             ), 1000);
+
+            add_action('woocommerce_admin_process_variation_object', array(
+                $this,
+                'save_variations'
+            ), 1000, 2);
         }
     }
 
@@ -65,12 +69,12 @@ class WPSH_Woo extends WPSH_Core
         if (!empty($_POST["expiry_date"]) && $post['post_type'] == 'expiry_date') {
             $_POST["expiry_date"] = esc_attr(parent::gregorian($_POST["expiry_date"], 'Y-m-d'));
         }
+
         return $post;
     }
 
     public function woocommerce_action()
     {
-
         if (isset($_GET["start_date"]) && esc_attr($_GET["page"]) == 'wc-reports') {
             $_GET["start_date"] = esc_attr(parent::gregorian($_GET["start_date"], 'Y-m-d'));
         }
@@ -79,12 +83,43 @@ class WPSH_Woo extends WPSH_Core
         }
     }
 
+    public function save_variations($variation, $i)
+    {
+
+        $date_on_sale_from = '';
+        $date_on_sale_to   = '';
+
+        if (isset($_POST['variable_sale_price_dates_from'][$i])) {
+            $date_on_sale_from = wc_clean(wp_unslash($_POST['variable_sale_price_dates_from'][$i]));
+
+            if (!empty($date_on_sale_from)) {
+                $date_on_sale_from = parent::gregorian($date_on_sale_from, 'Y-m-d 00:00:00');
+            }
+        }
+
+        if (isset($_POST['variable_sale_price_dates_to'][$i])) {
+            $date_on_sale_to = wc_clean(wp_unslash($_POST['variable_sale_price_dates_to'][$i]));
+
+            if (!empty($date_on_sale_to)) {
+                $date_on_sale_to = parent::gregorian($date_on_sale_to, 'Y-m-d 23:59:59');
+            }
+        }
+        $variation->set_props(
+            array(
+                'date_on_sale_from' => $date_on_sale_from,
+                'date_on_sale_to'   => $date_on_sale_to,
+            )
+        );
+
+        $variation->save();
+    }
+
     public function datepicker_script()
     {
         $page = (isset($_GET["page"])) ? esc_attr($_GET["page"]) : null;
         if (wp_script_is('jquery-ui-datepicker', 'enqueued') && ($this->screen() == 'product' || $this->screen() == 'shop_order' || $this->screen() == 'shop_coupon' || $page == 'wc-reports')) {
             wp_deregister_script('jquery-ui-datepicker');
-            wp_enqueue_script('jquery-ui-datepicker', WPSH_URL . 'assets/js/wpsh_datepicker.js', array(), false, true);
+            wp_enqueue_script('jquery-ui-datepicker', WPSH_URL . 'assets/js/wpsh_datepicker.js', array(), WPSH_VERSION, true);
             wp_localize_script('jquery-ui-datepicker', 'listFarsiMonth', parent::get_month());
         }
     }
@@ -120,6 +155,7 @@ class WPSH_Woo extends WPSH_Core
             }
         }
     }
+
 }
 
 new WPSH_Woo();

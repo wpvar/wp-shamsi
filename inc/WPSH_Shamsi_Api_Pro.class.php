@@ -143,6 +143,8 @@ wpvar.com
 
                     if ($data->type == 2) {
                         update_option('wpsh_pro_is_vip', 1);
+                    } else {
+                        update_option('wpsh_pro_is_vip', 0);
                     }
 
                     $this->tasks();
@@ -571,6 +573,24 @@ wpvar.com
                 'key'   => 'advanced',
                 'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/advanced.gif',
                 'vip'   =>  0
+            ),
+            /** SLIDER */
+            array(
+                'title' =>  'اسلایدر حرفه‌ای',
+                'desc' =>  'با استفاده از سیستم اسلایدر حرفه‌ای می‌توانید نوشته‌ها و دیگاه‌های وبسایت خود را به صورت اسلایدر به نمایش بگذارید. ظاهر حرفه‌ای، لازمه هر وب‌سایتی است. این سیستم از Custom Post Types نیز پشتیبانی می‌کند.',
+                'icon' =>  'slider',
+                'key'   => 'slider',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/slider.gif',
+                'vip'   =>  1
+            ),
+            /** CLASSIC */
+            array(
+                'title' =>  'ویرایشگر کلاسیک',
+                'desc' =>  'بدون نیاز به افزونه دیگری از داخل تنظیمات افزونه می‌توانید ویرایشگر بلوک یا همان گوتنبرگ را تنها با یک کلیک به ویرایشگر کلاسیک تبدیل کنید. کاهش تعداد افزونه سرعت و درنتیجه سئو وب‌سایت شما را بالا خواهد برد.',
+                'icon' =>  'classic',
+                'key'   => 'classic',
+                'demo' =>  'https://wpvar.com/wp-content/themes/wpvar/pro/img/gif/classic.gif',
+                'vip'   =>  1
             ),
             /** STYLE */
             array(

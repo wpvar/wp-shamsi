@@ -29,7 +29,7 @@ class WPSH_Addon_Disable_Copy extends WPSH_Addons
         // نام افزودنی
         $name = __('غیرفعال کردن کلیک راست', 'wpsh');
         // توضیحات افزودنی
-        $desc = __('درصورت فعال کردن این گزینه، کلیک راست و امکان کپی کردن محتوا از محیط کاربری وردپرس حذف خواهد شد', 'wpsh');
+        $desc = __('درصورت فعال کردن این گزینه، کلیک راست و امکان کپی کردن محتوا از محیط کاربری وردپرس حذف خواهد شد.', 'wpsh');
         // نام نویسنده افزودنی
         $author = 'علی فرجی';
         // وبسایت نویسنده افزودنی
@@ -66,7 +66,7 @@ class WPSH_Addon_Disable_Copy extends WPSH_Addons
     {
         wp_enqueue_script('wpsh-addons', WPSH_URL . 'assets/js/wpsh_addons.js', array(
             'jquery'
-        ), WPSH_VERSION);
+        ), WPSH_VERSION, true);
         wp_add_inline_script('wpsh-addons', '
           jQuery(document).bind("copy", function(e) {
               e.preventDefault();

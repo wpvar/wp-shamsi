@@ -136,7 +136,7 @@ class WPSH_Options extends WPSH_Core
                 'wrap_class' => 'no-border-bottom',
                 'title' => __('وردپرس', 'wpsh'),
                 'content' => __('این افزونه توسط <a href="https://wpvar.com" target="_blank">wpvar.com</a> برنامه‌نویسی شده است. <br />اگر مشکلی در راه اندازی و استفاده از وردپرس ویا این افزونه دارید، برای دریافت پشتیبانی رایگان می‌توانید به <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن پشتیبانی وردپرس فارسی</a></strong> مراجعه کنید.', 'wpsh'),
-                'before' => '<img style="margin: 0 0 -7px 3px;" src=' . WPSH_URL . 'assets/img/logo.png /><strong>وردپرس فارسی</strong>',
+                'before' => '<img class="wpsh-intro_logo" src=' . WPSH_URL . 'assets/img/logo.svg /><strong>وردپرس فارسی</strong>',
             ),
             array(
                 'type' => 'notice',
@@ -158,6 +158,7 @@ class WPSH_Options extends WPSH_Core
             array(
                 'id' => 'activate-stats',
                 'type' => 'switcher',
+                'wrap_class' => 'no-border-bottom',
                 'title' => __('ارسال آمار', 'wpsh'),
                 'default' => 'no',
                 'after' => '<p>با فعال کردن این گزینه اطلاعات وردپرس شما در دسترس ما قرار می‌گیرد. با ارسال این اطلاعات و داده‌ها به ما کمک فراوانی می‌کنید تا افزونه را بهتر و دقیق‌تر توسعه بدهیم تا بیشترین سازگاری را با خواسته‌های جامعه وردپرس فارسی داشته باشد. برای دریافت جزئیات و مطالعه حریم‌ خصوصی به قسمت "درباره و قوانین" در تنظیمات افزونه مراجعه کنید. این گزینه به صورت پیشفرض غیرفعال می‌باشد و فقط مدیران این سایت می‌توانند آن را فعال کنند.</p>',
@@ -229,6 +230,22 @@ class WPSH_Options extends WPSH_Core
             ),
         );
 
+        if(parent::pro()) {
+            $fonts = array(
+                'IRANSansWeb'  =>  'ایران سنس',
+                'IRANSansDn'    =>  'ایران سنس دست‌نویس',
+                'IRANYekanWeb' =>  'ایران یکان',
+                'Vazir' =>   'وزیر',
+                'none'  =>  'غیرفعال'
+            );
+        } else {
+            $fonts = array(
+                'IRANSansWeb'  =>  'ایران سنس',
+                'Vazir' =>   'وزیر',
+                'none'  =>  'غیرفعال'
+            );
+        }
+
         $fields[] = array(
             'name' => 'farsi',
             'title' => __('فارسی‌ساز', 'wpsh'),
@@ -249,11 +266,22 @@ class WPSH_Options extends WPSH_Core
                     'default' => 'yes',
                 ),
                 array(
-                    'id' => 'dashboard-font',
-                    'type' => 'switcher',
-                    'title' => __('اصلاح فونت بخش مدیریت', 'wpsh'),
-                    'description' => __('فعال‌سازی اصلاح فونت مدیریت و سازگاری با الفبای فارسی', 'wpsh'),
-                    'default' => 'yes',
+                    'type' => 'notice',
+                    'class' => 'primary',
+                    'content' => __('در <strong>نسخه حرفه‌ای و ‌‌VIP</strong> می‌توانید فونت "ایران یکان" و "ایران سنس دست‌نویس" را نیز انتخاب کنید.', 'wpsh'),
+                ),
+                array(
+                    'id'    => 'dashboard-font-default',
+                    'type'  => 'select',
+                    'title' => __('فونت مدیریت', 'wpsh'),
+                    'description' => __('این فونت در محیط مدیریت وردپرس بارگذاری خواهد شد.', 'wpsh'),
+                    'options'   => $fonts,
+                    'default'     => 'IRANSansWeb',
+                ),
+                array(
+                    'type' => 'notice',
+                    'class' => 'blank',
+                    'content' => __('برای استفاده از فونت‌های تجاری، خارج از مدیریت و در قالب و فرانت‌اند وردپرس باید لایسنس معتبر آن را <a href="https://fontiran.com/?ref=69" target="_blank" rel="nofollow"><strong>از طریق این لینک</strong></a> تهیه کنید.', 'wpsh'),
                 ),
             ),
         );
@@ -298,21 +326,41 @@ class WPSH_Options extends WPSH_Core
 
         foreach ($addons as $addon => $value) {
 
+            $extra = ($value['slug'] == 'maintenance') ? true : false;
+            $wrap = ($value['slug'] == 'maintenance') ? 'no-border-bottom' : '';
+
             $addons_settings[] = array(
                 'id' => $value['slug'],
+                'wrap_class' => $wrap,
                 'type' => 'switcher',
                 'title' => $value['name'],
-                'description' => $value['desc'] . '<br /><div class="plugin-version-author-uri">نسخه ' . $value['version'] . ' | نویسنده: ' . $value['author'] . ' | <a href="' . $value['website'] . '" target="_blank" style="text-decoration:none;">وبسایت</a>
-                         | <a href="' . $value['addon_home'] . '" target="_blank" style="text-decoration:none;">جزئیات</a></div>',
+                'after' => ' <br /> ' . $value['desc'],
                 'default' => ($value['is_active'] == true) ? 'yes' : 'no',
-
             );
+
+            if ($extra) {
+                if (!parent::pro()) {
+                    $addons_settings[] = array(
+                        'id'     => 'maintenance_text',
+                        'type'   => 'text',
+                        'title'  => 'متن در دست تعمیر',
+                        'after' => ' <br /> متن حالت "در دست تعمیر" فقط برای نسخه‌های حرفه‌ای و VIP قابل ویرایش است.',
+                        'attributes'     => array(
+                            'placeholder' => 'سایت در دست تعمیر می‌باشد، به‌زودی برمی‌گردیم. لطفا دقایقی دیگر مجددا مراجعه فرمایید.',
+                            'disabled'    => 'disabled',
+                        )
+                    );
+                } else {
+                    $addons_settings[] = array(
+                        'id'     => 'maintenance_text',
+                        'type'   => 'text',
+                        'title'  => 'متن در دست تعمیر',
+                        'after' => ' <br /> متن سفارشی برای نمایش به کاربران در حالت "در دست تعمیر".',
+                        'default'   =>  'سایت در دست تعمیر می‌باشد، به‌زودی برمی‌گردیم. لطفا دقایقی دیگر مجددا مراجعه فرمایید.'
+                    );
+                }
+            }
         }
-        $addons_settings[] = array(
-            'type' => 'notice',
-            'class' => 'info',
-            'content' => __('اگر برنامه‌نویس وردپرس هستید، می‌توانید با برنامه‌نویسی افزودنی‌ها، آن‌ها را با نام خود و لینک به وبسایتتان منتشر کنید. <a href="https://wpvar.com/wp-shamsi-docs/" target="_blank">اطلاعات بیشتر و نمونه کد.</a>', 'wpsh'),
-        );
 
         $fields[] = array(
             'name' => 'addons',
@@ -537,14 +585,11 @@ class WPSH_Options extends WPSH_Core
                 با تشکر از جناب آقای <strong>سالار کامجو</strong> و وبسایت <a href="https://upgraph.ir" target="_blank">Upgraph.ir</a> جهت طراحی المان‌های گرافیک افزونه.
                 </li>
                 <li>
-                افزونه تاریخ شمسی و فارسی‌ساز وردپرس برای بهبود رابط کاربری از فونت <a href="https://github.com/rastikerdar/vazir-font" target="_blank">وزیر</a> استفاده می‌کند. با تشکر از جناب آقای <strong>راستی کردار</strong>.
+                افزونه تاریخ شمسی و فارسی‌ساز وردپرس برای بهبود رابط کاربری علاوه‌بر فونت‌های تجاری، از فونت رایگان و بازمتن <a href="https://github.com/rastikerdar/vazir-font" target="_blank">وزیر</a> استفاده می‌کند. با تشکر از جناب آقای <strong>راستی کردار</strong>.
                 </li>
                 </ul>
                 <h2>مستندات</h2>
                 <p>مستندات فنی افزونه را می‌توانید <a href="https://wpvar.com/wp-shamsi-docs/" target="_blank">از طریق این صفحه</a> مطالعه کنید.</p>
-                <h2>ثبت افزودنی</h2>
-                <p>"افزونه تاریخ شمسی و فارسی‌ساز وردپرس" از سیستم ماژولار جهت ثبت افزودنی‌ها استفاده می‌کند. اگر برنامه‌نویس وردپرس هستید، می‌توانید با برنامه‌نویسی افزودنی‌ها برای این افزونه، آن‌ها را با نام خود و لینک به وبسایتتان منتشر کنید.</p>
-                <p><a href="https://wpvar.com/wp-shamsi-docs/" target="_blank">اطلاعات بیشتر و نمونه کد</a></p>
                 <h2>قوانین</h2>
                 <p>با ادامه استفاده از این افزونه <a href="https://wpvar.com/policy/" target="_blank">قوانین مندرج در این صفحه</a> را می‌پذیرید.</p>
                 <h2>حریم خصوصی</h2>
@@ -567,6 +612,13 @@ class WPSH_Options extends WPSH_Core
                 <p>چه داده‌هایی در این آمار ارسال می‌شود؟ لیست افزونه‌های فعال و پوسته، تنظیمات افزونه، آدرس اینترنتی و نام و توضیحات و ایمیل وبسایت شما، نسخه افزونه و نسخه وردپرس، نسخه پی اچ پی وبسایت شما.</p>
                 <p>با فعال‌سازی گزینه “ارسال آمار” در تنظیمات افزونه‌ها می‌پذیرید که وبسایت ما و افزونه‌های ما اجازه دسترسی و استفاده از داده های وبسایت شما را دارد.</p>
                 <p>با غیرفعال‌سازی گزینه ارسال آمار، روند ارسال آمار به ما قطع خواهد شد. و هرموقع که مایل بودید خواهید توانست ارسال آمار را متوقف کنید.</p>
+                <h2>فونت‌ها</h2>
+                <p>فونت‌های تجاری استفاده شده در این افزونه شامل "ایران سنس"، "ایران سنس دست‌نویس" و "ایران یکان" مشمول قوانین کپی‌رایت بوده و مجوز استفاده از طرف ناشر فقط برای استفاده در محیط مدیریت وردپرس وبسایت شما صادر شده است. اجازه استفاده از این فونت‌ها در قالب و سایر بخش‌های وردپرس را بدون تهیه لایسنس از ناشر، ندارید. همچنین اجازه بازنشر فایل فونت‌ها را نخواهید داشت. عواقب حقوقی نقض این مجوز متوجه وبسایت شما می‌باشد و افزونه‌های ما و وبسایت ما هیچ‌گونه مسئولیتی ندارند.</p>
+                <span>کد لایسنس فونت ایران سنس: YA7SYB</span>
+                <br />
+                <span>کد لایسنس فونت ایران سنس دست‌نویس: SPNNNV</span>
+                <br />
+                <span>کد لایسنس فونت ایران یکان: V75HKF</span>
                 ', 'wpsh'),
                 ),
             )

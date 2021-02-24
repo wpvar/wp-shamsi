@@ -28,7 +28,7 @@ class WPSH_Maintenance_Addon extends WPSH_Addons
         // نام افزودنی
         $name = __('در دست تعمیر', 'wpsh');
         // توضیحات افزودنی
-        $desc = __('در صورت فعال کردن حالت تعمیر، سایت فقط برای مدیران در دسترس خواهد بود و سایرین با پیغام سایت در دست تعمیر است مواجه خواهند شد. برای مواقعی که تغییراتی در وردپرس ویا قالب انجام میدهید فعال کردن این گزینه سودمند است.  این افزودنی سازگار با سئو می باشد', 'wpsh');
+        $desc = __('در صورت فعال کردن حالت تعمیر، سایت فقط برای مدیران در دسترس خواهد بود و سایرین با پیغام سایت در دست تعمیر است مواجه خواهند شد. برای مواقعی که تغییراتی در وردپرس ویا قالب انجام میدهید فعال کردن این گزینه سودمند است.  این افزودنی سازگار با سئو می باشد.', 'wpsh');
         // نام نویسنده افزودنی
         $author = 'علی فرجی';
         // وبسایت نویسنده افزودنی
@@ -64,27 +64,27 @@ class WPSH_Maintenance_Addon extends WPSH_Addons
     public function maintenance()
     {
         if (!current_user_can('activate_plugins') || !is_user_logged_in()) {
-            $path = WPSH_URL . 'assets/fonts/';
 
-            $css = '
-                @font-face {
-                    font-family: Vazir;
-                    src: url(' . $path . 'Vazir.ttf) format("truetype");
-                    font-weight: normal;
-                    font-style: normal;
-                }
-                @font-face {
-                    font-family: Vazir;
-                    src: url(' . $path . 'Vazir-Bold.ttf) format("truetype");
-                    font-weight: bold;
-                    font-style: normal;
-                }
+            $font = parent::option('dashboard-font-default', false, 'IRANSansWeb');
+
+            if($font != 'none') {
+                $css = parent::font($font);
+            } else {
+                $css = '';
+            }
+
+            $css .= '
                 body {
-                  font-family: Vazir, sans-serif, tahoma, arial;
+                    font-family: ' . $font . ', tahoma, arial;
                 }
-                ';
+            ';
 
-            wp_die(__('<style>' . $css . '</style><h1>در دست تعمیر</h1> <br /> سایت در دست تعمیر می باشد، به زودی برمیگردیم. لطفا دقایقی دیگر مجددا مراجعه فرمایید.', 'wpsh'), get_bloginfo('name') . ' - ' . __('در دست تعمیر', 'wpsh'), array(
+            if (parent::pro()) {
+                $text = parent::option('maintenance_text', false, 'سایت در دست تعمیر می‌باشد، به‌زودی برمی‌گردیم. لطفا دقایقی دیگر مجددا مراجعه فرمایید.');
+            } else {
+                $text = 'سایت در دست تعمیر می‌باشد، به‌زودی برمی‌گردیم. لطفا دقایقی دیگر مجددا مراجعه فرمایید.';
+            }
+            wp_die(__('<style>' . $css . '</style><h1>در دست تعمیر</h1> <br />' . $text, 'wpsh'), get_bloginfo('name') . ' - ' . __('در دست تعمیر', 'wpsh'), array(
                 'response' => '503'
             ));
         }

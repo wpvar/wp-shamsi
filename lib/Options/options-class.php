@@ -943,7 +943,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 				);
 
 				foreach ( $scripts_styles as $item ) {
-					wp_enqueue_script( $item['name'], $base . $item['fn'], $item['dep'], $this->version, true );
+					wp_enqueue_script( $item['name'], $base . $item['fn'], $item['dep'], $this->version, true);
 				}
 
 				/**
@@ -1634,7 +1634,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 
 		}
 
-		public function get_menu_item( $section, $active = '', $force_hidden ) {
+		public function get_menu_item( $section, $active = '', $force_hidden = null ) {
 
 			// $active = '';
 			// if ( $section === reset( $this->fields ) ) {

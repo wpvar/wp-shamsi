@@ -541,9 +541,7 @@ class WPSH_Admin extends WPSH_Core
             );
             wp_localize_script('wpsh-gjc', 'wpshSignature', $wpshSignature);
         }
-
-        if (parent::option('dashboard-font', true, true)) :
-
+        if (parent::option('dashboard-font-default', false, 'IRANSansWeb') != 'none') :
             parent::themes('wp-admin'); // Since 1.2.0
             wp_enqueue_style('wpsh-admin-css', WPSH_URL . 'assets/css/wpsh_admin_shamsi.css', array(), WPSH_VERSION);
         endif;
@@ -551,7 +549,7 @@ class WPSH_Admin extends WPSH_Core
         if (parent::option('persian-admin-num', true, true) && (get_locale() == 'fa_IR' || get_locale() == 'fa_AF')) :
             wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array(
                 'jquery'
-            ), WPSH_VERSION);
+            ), WPSH_VERSION, true);
 
             $base = basename($_SERVER['PHP_SELF']);
             $isShamsiInAdmin = array(
