@@ -278,6 +278,11 @@ class WPSH_Options extends WPSH_Core
                     'options'   => $fonts,
                     'default'     => 'IRANSansWeb',
                 ),
+                array(
+                    'type' => 'notice',
+                    'class' => 'blank',
+                    'content' => __('برای استفاده از فونت‌های تجاری، خارج از مدیریت و در قالب و فرانت‌اند وردپرس باید لایسنس معتبر آن را <a href="https://fontiran.com/?ref=69" target="_blank" rel="nofollow"><strong>از طریق این لینک</strong></a> تهیه کنید.', 'wpsh'),
+                ),
             ),
         );
         $fields[] = array(

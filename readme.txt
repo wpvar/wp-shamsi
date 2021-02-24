@@ -1,6 +1,6 @@
 === WP Shamsi - افزونه تاریخ شمسی و فارسی ساز وردپرس ===
 Contributors: wpvar, farajiali
-Tags: date, shamsi, jalali, iran, persian, farsi, parsi, hijri, شمسی, تاریخ, فارسی, پارسی, ایران
+Tags: farsi, shamsi, jalali, iran, persian, date, parsi, hijri, شمسی, تاریخ, فارسی, پارسی, ایران
 Donate link: https://wpvar.com/pro/
 Requires at least: 4.0
 Tested up to: 5.6
@@ -38,6 +38,7 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 * شمسی سازی گوتنبرگ (ویرایشگر بلوک) و قسمت ویرایش سریع
 * شمسی سازی مدیریت دیدگاه ها
 * شمسی سازی فیلترهای تاریخ
+* تغییر فونت مدیریت وردپرس به ایران سنس
 * پشتیبانی کامل از تقویم و ماه‌های ایران و افغانستان
 * دوستدار سئو
 * فارسی سازی المنتور
@@ -74,6 +75,9 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 ★ **فونت دلخواه:**
 ✔ سیستم آپلود و تغییر فونت وردپرس
 
+★ **فونت مدیریت:**
+✔ امکان تغییر فونت مدیریت وردپرس به ایران سنس، ایران سنس دست‌نویس، ایران یکان و وزیر
+
 ★ **اعداد هوشمند:**
 ✔ امکان فارسی‌سازی اعداد فقط در بخش‌های خاص قالب
 
@@ -103,6 +107,12 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 
 ★ **اعداد انگلیسی حین کپی:**
 ✔ تبدیل اعداد فارسی به انگلیسی درصورت کپی شدن متن
+
+★ اسلایدر حرفه‌ای:**
+✔ راه اندازی اسلایدر نوشته و دیدگاه‌ها با قابلیت شخصی‌سازی. مختص نسخه وی آی پی
+
+★ ویرایشگر کلاسیک:**
+✔ امکان تغییر ویرایشگر بلوک به ویرایشگر کلاسیک از داخل افزونه. مختص نسخه وی آی پی
 
 ★ استایل وی ای پی مدیریت:**
 ✔ تغییر استایل مدیریت وردپرس و مدرن کردن آن. مختص نسخه وی آی پی
