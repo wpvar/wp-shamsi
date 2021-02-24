@@ -136,7 +136,7 @@ class WPSH_Options extends WPSH_Core
                 'wrap_class' => 'no-border-bottom',
                 'title' => __('وردپرس', 'wpsh'),
                 'content' => __('این افزونه توسط <a href="https://wpvar.com" target="_blank">wpvar.com</a> برنامه‌نویسی شده است. <br />اگر مشکلی در راه اندازی و استفاده از وردپرس ویا این افزونه دارید، برای دریافت پشتیبانی رایگان می‌توانید به <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن پشتیبانی وردپرس فارسی</a></strong> مراجعه کنید.', 'wpsh'),
-                'before' => '<img style="margin: 0 0 -7px 3px;" src=' . WPSH_URL . 'assets/img/logo.png /><strong>وردپرس فارسی</strong>',
+                'before' => '<img class="wpsh-intro_logo" src=' . WPSH_URL . 'assets/img/logo.svg /><strong>وردپرس فارسی</strong>',
             ),
             array(
                 'type' => 'notice',

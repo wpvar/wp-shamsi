@@ -15,8 +15,7 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  margin-top: 20px;
+  margin-top: 30px;
   min-height: 50px;
   margin-right: -15px;
 }
@@ -81,8 +80,8 @@
 }
 
 #wpsh_downloads {
-  background: #de4410;
-  border: 1px solid #983411;
+  background: #007cba;
+  border: 1px solid #0d79af;
   padding: 5px;
   border-radius: 2px;
   margin-top: -20px;
@@ -94,8 +93,8 @@
 }
 
 #wpsh_downloads:hover {
-  background: #ca4a1f;
-  border: 1px solid #9e3816;
+  background: #0a8cce;
+  border: 1px solid #007cba;
 }
 
 .wpsh_newsletter_settings strong {
@@ -418,12 +417,22 @@
   color: #a0a0a0;
 }
 
+.wpsh-intro_logo {
+  margin: 0 0 -7px 3px;
+  width: 20px;
+  height: 20px;
+}
+
 .star-rating .star {
   font-family: dashicons !important;
 }
 
 .ui-datepicker {
   z-index: 99999;
+}
+
+#wpwrap .exopite-sof-ace-editor-wrapper * {
+  font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 }
 
 @media only screen and (max-width: 1150px) {
