@@ -52,6 +52,11 @@ class WPSH_Woo extends WPSH_Core
                 $this,
                 'save_variations'
             ), 1000, 2);
+
+            add_filter('wpsh_num_ignore', array(
+                $this,
+                'ignore'
+            ), 10);
         }
     }
 
@@ -139,7 +144,7 @@ class WPSH_Woo extends WPSH_Core
         }
     }
 
-    function meta($metadata, $object_id, $meta_key, $single)
+    public function meta($metadata, $object_id, $meta_key, $single)
     {
         $action = isset($_GET['action']) && $_GET['action'] == 'edit' ? true : false;
         $post = isset($_GET['action']) ? true : false;
@@ -154,6 +159,15 @@ class WPSH_Woo extends WPSH_Core
                 return $shamsi;
             }
         }
+    }
+
+    public function ignore($ignore) {
+
+        $js = $ignore;
+
+        $js .= 'wpshNumIgnore(".comment-form-rating", ".stars a", 1);';
+    
+        return $js;
     }
 
 }
