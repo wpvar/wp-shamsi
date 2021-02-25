@@ -149,6 +149,11 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 
 
 ## تغییرات
+= 3.0.2 =
+در این نسخه 1 باگ رفع شده است :
+
+* رفع باگ: رفع باگ عدم ثبت امتیاز در ووکامرس در اعداد فارسی
+
 = 3.0.1 =
 در این نسخه 3 باگ رفع شده است، و 4 بهبود اضافه شده :
 
