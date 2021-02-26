@@ -163,17 +163,17 @@ class WPSH_Core
   /**
    * Get options
    *
-   * Function to render get_option with required modifications.
+   * Function to render get_site_option with required modifications.
    *
    * @since 1.2.0
    *
    * @param string $option Option name.
    * @param bool $bool Requested option is boolean or not.
-   * @return mixed Result of get_option.
+   * @return mixed Result of get_site_option.
    */
   public function option($option, $bool = false, $default = null)
   {
-    $options = get_option('wpsh');
+    $options = get_site_option('wpsh');
     $valid = (!empty($options[$option])) ? true : false;
 
     if (!$valid) {
@@ -204,7 +204,7 @@ class WPSH_Core
   public function update($key, $value)
   {
 
-    $option = get_option('wpsh');
+    $option = get_site_option('wpsh');
 
     $option[$key] = $value;
 
@@ -480,7 +480,7 @@ class WPSH_Core
    */
   private function timezone()
   {
-    $utc = (wp_timezone_override_offset()) ? wp_timezone_override_offset() : get_option('gmt_offset');
+    $utc = (wp_timezone_override_offset()) ? wp_timezone_override_offset() : get_site_option('gmt_offset');
 
     $format = explode('.', $utc);
     $format = str_replace('+', '', $format);
@@ -843,9 +843,9 @@ class WPSH_Core
    */
   protected function pro($soft = false)
   {
-    $serial = !empty(get_option('wpsh_pro_license')) ? get_option('wpsh_pro_license') : false;
-    $status = !empty(get_option('wpsh_pro_license_status')) && get_option('wpsh_pro_license_status') == 1 ? true : false;
-    $due = !empty(get_option('wpsh_pro_license_due')) && get_option('wpsh_pro_license_due') > current_time('timestamp', false) ? true : false;
+    $serial = !empty(get_site_option('wpsh_pro_license')) ? get_site_option('wpsh_pro_license') : false;
+    $status = !empty(get_site_option('wpsh_pro_license_status')) && get_site_option('wpsh_pro_license_status') == 1 ? true : false;
+    $due = !empty(get_site_option('wpsh_pro_license_due')) && get_site_option('wpsh_pro_license_due') > current_time('timestamp', false) ? true : false;
     $shamsi = WP_PLUGIN_DIR . '/wp-shamsi-pro/wp-shamsi-pro.php';
     $exists = file_exists($shamsi) ? true : false;
 
@@ -879,7 +879,7 @@ class WPSH_Core
       return false;
     }
 
-    $vip = get_option('wpsh_pro_is_vip');
+    $vip = get_site_option('wpsh_pro_is_vip');
 
     if (!empty($vip) && $vip == 1) {
       return true;
@@ -906,7 +906,7 @@ class WPSH_Core
 
     $reminder = 30;
 
-    $due = get_option('wpsh_pro_license_due');
+    $due = get_site_option('wpsh_pro_license_due');
     $days = 60 * 60 * 24;
     $now = current_time('timestamp', false);
     $remain = floor(($due - $now) / $days);

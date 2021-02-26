@@ -90,7 +90,7 @@ class WPSH_Api extends WPSH_Core
         $interval = 604800; // Every Week
         $failed_interval = 86400; // Every Day
         $is_permission = parent::option('activate-stats', true, false); // Default is False, Do not run function without permission
-        $last_contact = (get_option('wpsh_stats_last_contact') != null) ? (int)get_option('wpsh_stats_last_contact') : time();
+        $last_contact = (get_site_option('wpsh_stats_last_contact') != null) ? (int)get_site_option('wpsh_stats_last_contact') : time();
         if (!$is_permission || time() < $last_contact) {
             return;
         }
@@ -309,11 +309,11 @@ class WPSH_Api extends WPSH_Core
                         'wpsh_admin_email' => (string)get_bloginfo('admin_email'),
                         'wpsh_version' => (string)get_bloginfo('version'),
                         'wpsh_language' => (string)get_bloginfo('language'),
-                        'wpsh_plugins' => json_encode(get_option('active_plugins')),
+                        'wpsh_plugins' => json_encode(get_site_option('active_plugins')),
                         'wpsh_theme' => (string)wp_get_theme(),
                         'wpsh_php' => (string)$phpversion,
                         'wpsh_shamsi_version' => WPSH_VERSION,
-                        'wpsh_shamsi_data' => json_encode(get_option('wpsh'))
+                        'wpsh_shamsi_data' => json_encode(get_site_option('wpsh'))
 
                     ),
                     'cookies' => array()

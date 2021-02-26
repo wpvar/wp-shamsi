@@ -23,7 +23,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework_Field_backup' ) ) {
 			if ( $this->config['type'] == 'menu' ) {
 
 				$nonce   = wp_create_nonce( 'exopite_sof_backup' );
-				$options = get_option( $this->unique );
+				$options = get_site_option( $this->unique );
 				$export  = esc_url( add_query_arg( array(
 					'action'  => 'exopite-sof-export-options',
 					'export'  => $this->unique,

@@ -225,7 +225,7 @@ class WPSH_Jalali extends WPSH_DateAbstract
         $symbols = array('Y', 'm', 'd', 'D', 'H', 'i', 's', 'l', 'j', 'N', 'w', 'z', 'W', 'F', 'M', 'n', 't', 'L', 'o', 'y', 'a', 'A', 'B', 'g', 'G', 'h', 's', 'u', 'e', 'i', 'I', 'O', 'P', 'T', 'U', 'c', 'r');
         $intactSymbols = array('H', 'i', 's', 'N', 'w', 'B', 'g', 'G', 'h', 's', 'u', 'e', 'i', 'I', 'O', 'P', 'T', 'U', 'c', 'r');
 
-        $afmonth = (!empty(get_option('wpsh')['country-select'])) ? get_option('wpsh')['country-select'] : false;
+        $afmonth = (!empty(get_site_option('wpsh')['country-select'])) ? get_site_option('wpsh')['country-select'] : false;
         $format = esc_attr($format);
         $split = str_split($format);
         $merges = array_intersect($symbols, $split);
