@@ -254,9 +254,9 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework_Upload' ) ) {
 			foreach ( get_intermediate_image_sizes() as $size ) {
 
 				$sizes[ $size ]           = array( 'width' => '', 'height' => '', 'crop' => true );
-				$sizes[ $size ]['width']  = get_site_option( "{$size}_size_w" ); // For default sizes set in options
-				$sizes[ $size ]['height'] = get_site_option( "{$size}_size_h" ); // For default sizes set in options
-				$sizes[ $size ]['crop']   = get_site_option( "{$size}_crop" ); // For default sizes set in options
+				$sizes[ $size ]['width']  = get_option( "{$size}_size_w" ); // For default sizes set in options
+				$sizes[ $size ]['height'] = get_option( "{$size}_size_h" ); // For default sizes set in options
+				$sizes[ $size ]['crop']   = get_option( "{$size}_crop" ); // For default sizes set in options
 
 			}
 

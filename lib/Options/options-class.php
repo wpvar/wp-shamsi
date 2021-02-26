@@ -361,7 +361,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 			 * Load options only if menu
 			 * on metabox, page id is not yet available
 			 */
-			$this->db_options = apply_filters( 'exopite_sof_menu_get_options', get_site_option( $this->unique ), $this->unique );
+			$this->db_options = apply_filters( 'exopite_sof_menu_get_options', get_option( $this->unique ), $this->unique );
 
 
 			add_action( 'admin_init', array( $this, 'register_setting' ) );
@@ -552,7 +552,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 				header( 'Expires: 0' );
 
 				// Using json_encode()
-				echo json_encode( get_site_option( $option_key ) );
+				echo json_encode( get_option( $option_key ) );
 
 			}
 
@@ -993,7 +993,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework' ) ) :
 				}
 
 				// Preserve values start with "_".
-                $options = get_site_option( $this->unique );
+                $options = get_option( $this->unique );
                 if ( is_array( $options ) ) {
 
                     foreach ( $options as $key => $value ) {
@@ -1934,7 +1934,7 @@ if ( ! function_exists( 'get_exopite_sof_option' ) ) {
 
 		$language_defaults = Exopite_Simple_Options_Framework_Helper::get_language_defaults();
 
-		$options = apply_filters( 'get_exopite_sof_option', get_site_option( $option_slug, $default ), $option_slug, $default );
+		$options = apply_filters( 'get_exopite_sof_option', get_option( $option_slug, $default ), $option_slug, $default );
 
 		if ( isset( $options[$language_defaults['current']] ) ) {
 

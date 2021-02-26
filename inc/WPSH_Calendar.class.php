@@ -127,7 +127,7 @@ class WPSH_Calendar extends WPSH_Core
             $w = (int)$_GET['w'];
         }
 
-        $week_begins = (int)get_site_option('start_of_week');
+        $week_begins = (int)get_option('start_of_week');
 
         if (!empty($monthnum) && !empty($year)) {
             $thismonth = zeroise(intval($monthnum), 2);

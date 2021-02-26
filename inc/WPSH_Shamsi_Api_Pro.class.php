@@ -40,7 +40,7 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
         if ($key !== null) {
             $serial = $key;
         } else {
-            $serial = !empty(get_site_option('wpsh_pro_license')) ? get_site_option('wpsh_pro_license') : false;
+            $serial = !empty(get_option('wpsh_pro_license')) ? get_option('wpsh_pro_license') : false;
         }
 
         if ($serial === false) {
@@ -54,7 +54,7 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
 
         if ($check || $bypass) {
 
-            $due = get_site_option('wpsh_pro_license_due');
+            $due = get_option('wpsh_pro_license_due');
             if (!empty($due)) {
                 $datediff = $due - $current;
                 $days = round($datediff / (60 * 60 * 24));
@@ -71,7 +71,7 @@ https://wpvar.com/pro/?renew=1
 wpvar.com
 ', 'wpsh');
 
-                    wp_mail(get_site_option('admin_email'), 'تمدید لایسنس', $mail_msg);
+                    wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
                 }
                 if ($days < 0) {
 
@@ -87,7 +87,7 @@ https://wpvar.com/pro/
 وردپرس فارسی
 wpvar.com
 ', 'wpsh');
-                        wp_mail(get_site_option('admin_email'), 'تمدید لایسنس', $mail_msg);
+                        wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
                         update_option('wpsh_pro_license_status', 0);
                         deactivate_plugins('wp-shamsi-pro/wp-shamsi-pro.php');
                     }
@@ -112,11 +112,11 @@ wpvar.com
             ));
 
             if (is_wp_error($response)) {
-                $failed = get_site_option('wpsh_pro_license_failed');
+                $failed = get_option('wpsh_pro_license_failed');
                 $count = (int)!empty($failed) ? $failed : 0;
                 update_option('wpsh_pro_license_failed', $count + 1);
                 $this->stamp($failed_stamp, true);
-                if (get_site_option('wpsh_pro_license_failed') >= 3) {
+                if (get_option('wpsh_pro_license_failed') >= 3) {
                     update_option('wpsh_pro_license_status', 0);
                 }
                 return false;
@@ -137,7 +137,7 @@ wpvar.com
                     update_option('wpsh_pro_license_due', $due);
                     update_option('wpsh_pro_license', $serial);
 
-                    if (empty(get_site_option('wpsh_pro_license_lastcontact'))) {
+                    if (empty(get_option('wpsh_pro_license_lastcontact'))) {
                         update_option('wpsh_pro_license_lastcontact', $current);
                     }
 
@@ -165,7 +165,7 @@ wpvar.com
     public function tasks()
     {
 
-        $license = !empty(get_site_option('wpsh_pro_license')) ? get_site_option('wpsh_pro_license') : '';
+        $license = !empty(get_option('wpsh_pro_license')) ? get_option('wpsh_pro_license') : '';
         $key = md5($license);
         $site = (string)get_bloginfo('url');
 
@@ -227,7 +227,7 @@ wpvar.com
 
     private function is_active($plugin)
     {
-        return in_array($plugin, (array) get_site_option('active_plugins', array()));
+        return in_array($plugin, (array) get_option('active_plugins', array()));
     }
 
 
@@ -296,7 +296,7 @@ wpvar.com
             return false;
         }
 
-        $last_contact = (get_site_option('wpsh_pro_license_lastcontact') != null) ? (int)get_site_option('wpsh_pro_license_lastcontact') : $current;
+        $last_contact = (get_option('wpsh_pro_license_lastcontact') != null) ? (int)get_option('wpsh_pro_license_lastcontact') : $current;
         if ($current < $last_contact) {
             return false;
         }
@@ -308,8 +308,8 @@ wpvar.com
     public function settings($options)
     {
 
-        $serial = !empty(get_site_option('wpsh_pro_license')) && get_site_option('wpsh_pro_license_status') == 1 ? get_site_option('wpsh_pro_license') : false;
-        $due = !empty(get_site_option('wpsh_pro_license_due')) ? get_site_option('wpsh_pro_license_due') : false;
+        $serial = !empty(get_option('wpsh_pro_license')) && get_option('wpsh_pro_license_status') == 1 ? get_option('wpsh_pro_license') : false;
+        $due = !empty(get_option('wpsh_pro_license_due')) ? get_option('wpsh_pro_license_due') : false;
 
         if (parent::pro() && !parent::vip()) {
             $support = 'https://wpvar.com/wp-login.php?redirect_to=https://wpvar.com/forums/forum/wp-shamsi-pro/';
