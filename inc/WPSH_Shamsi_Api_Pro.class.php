@@ -95,7 +95,6 @@ wpvar.com
                 }
             }
 
-            // Begin lICENSE validation
             $url = 'https://api.wpvar.com/wp-json/wp-shamsi/v1/validate/';
             $response = wp_safe_remote_post($url, array(
                 'method' => 'POST',
