@@ -688,7 +688,7 @@ class WPSH_Options extends WPSH_Core
                 array(
                     'type' => 'notice',
                     'class' => 'wpvarnet-intro',
-                    'content' => __('با تهیه هاست از <a href="https://wpvarnet.net" target="_blank"><strong>وردپرس فارسی</strong></a> می‌توانید نسخه حرفه‌ای و VIP افزونه را به‌صورت <strong>رایگان</strong> دریافت کنید. برای دریافت جزئیات <a href="https://wpvarnet.net" target="_blank"><strong>اینجا کلیک کنید</strong></a>.', 'wpsh'),
+                    'content' => __('با تهیه هاست از <a href="https://wpvar.net" target="_blank"><strong>وردپرس فارسی</strong></a> می‌توانید نسخه حرفه‌ای و VIP افزونه را به‌صورت <strong>رایگان</strong> دریافت کنید. برای دریافت جزئیات <a href="https://wpvar.net" target="_blank"><strong>اینجا کلیک کنید</strong></a>.', 'wpsh'),
                 ),
                 array(
                     'type'    => 'content',
