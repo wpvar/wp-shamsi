@@ -3,9 +3,9 @@ Contributors: wpvar, farajiali
 Tags: farsi, shamsi, jalali, iran, persian, date, parsi, hijri, شمسی, تاریخ, فارسی, پارسی, ایران
 Donate link: https://wpvar.com/pro/
 Requires at least: 4.0
-Tested up to: 5.6
+Tested up to: 5.7
 Requires PHP: 5.5
-Stable tag: 3.0.2
+Stable tag: 3.1.0
 License: GNU Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -25,6 +25,7 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calendar and improves local UI to farsi users.
 
 **[برای دریافت نسخه حرفه‌ای کلیک کنید](https://wpvar.com/pro/)**
+[هاست اختصاصی وردپرس و ووکامرس](https://wpvar.net/)
 [پشتیبانی وردپرس فارسی](https://wpvar.com/forums/)
 
 ## امکانات
@@ -126,6 +127,10 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 
 **[برای دریافت نسخه حرفه‌ای کلیک کنید](https://wpvar.com/pro/)**
 
+## هاست اختصاصی وردپرس و ووکامرس
+با استفاده از خدمات هاستینگ وردپرس فارسی سرعت و امنیت وب‌سایت خود را افزایش دهید. تمامی سرورها به‌طور اختصاصی با وردپرس بهینه شده اند و از جدیدترین سخت افزار و نرم افزار‌ها استفاده شده است [برای دریافت نسخه حرفه‌ای کلیک کنید](https://wpvar.net/)
+
+[هاست وردپرس فارسی](https://wpvar.net/)
 
 ## پشتیبانی وردپرس فارسی
 
@@ -163,10 +168,13 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 7. ووکامرس
 
 == Changelog ==
-= 3.0.3 =
-در این نسخه 1 بهبود اضافه شده است :
+= 3.1.0 =
+در این نسخه 3 بهبود اضافه شده است و 1 باگ رفع شده است :
 
-* بهبود: سازگاری با وردپرس چند سایته
+* بهبود: به‌روزرسانی پوسته افزونه
+* یهیود: کنترل سازگاری با وردپرس 5.7
+* بهبود: تغییرات در بک‌اند افزونه
+* رفع باگ: رفع باگ عدم نمایش صحیج آیکون‌ها
 
 = 3.0.2 =
 در این نسخه 1 باگ رفع شده است :

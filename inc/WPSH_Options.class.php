@@ -163,6 +163,21 @@ class WPSH_Options extends WPSH_Core
                 'default' => 'no',
                 'after' => '<p>با فعال کردن این گزینه اطلاعات وردپرس شما در دسترس ما قرار می‌گیرد. با ارسال این اطلاعات و داده‌ها به ما کمک فراوانی می‌کنید تا افزونه را بهتر و دقیق‌تر توسعه بدهیم تا بیشترین سازگاری را با خواسته‌های جامعه وردپرس فارسی داشته باشد. برای دریافت جزئیات و مطالعه حریم‌ خصوصی به قسمت "درباره و قوانین" در تنظیمات افزونه مراجعه کنید. این گزینه به صورت پیشفرض غیرفعال می‌باشد و فقط مدیران این سایت می‌توانند آن را فعال کنند.</p>',
             ),
+            array(
+                'type' => 'content',
+                'wrap_class' => 'no-border-bottom',
+                'content' => '
+                <!-- wpvar.net banner -->
+                <a href="https://wpvar.net/" target="_blank">
+                <div id="wpvarNetBanner" class="scene">
+                    <div class="rocket-title">هاست اختصاصی وردپرس و ووکامرس</div>
+                    <div class="rocket">
+                        <img src="' . WPSH_URL . 'assets/img/rocket.svg" alt="موشک وردپرس فارسی" />
+                    </div>
+                </div>
+                </a>
+                ',
+            ),
         );
 
         $fields[] = array(
@@ -230,7 +245,7 @@ class WPSH_Options extends WPSH_Core
             ),
         );
 
-        if(parent::pro()) {
+        if (parent::pro()) {
             $fonts = array(
                 'IRANSansWeb'  =>  'ایران سنس',
                 'IRANSansDn'    =>  'ایران سنس دست‌نویس',
@@ -274,15 +289,11 @@ class WPSH_Options extends WPSH_Core
                     'id'    => 'dashboard-font-default',
                     'type'  => 'select',
                     'title' => __('فونت مدیریت', 'wpsh'),
+                    'wrap_class' => 'no-border-bottom',
                     'description' => __('این فونت در محیط مدیریت وردپرس بارگذاری خواهد شد.', 'wpsh'),
                     'options'   => $fonts,
                     'default'     => 'IRANSansWeb',
-                ),
-                array(
-                    'type' => 'notice',
-                    'class' => 'blank',
-                    'content' => __('برای استفاده از فونت‌های تجاری، خارج از مدیریت و در قالب و فرانت‌اند وردپرس باید لایسنس معتبر آن را <a href="https://fontiran.com/?ref=69" target="_blank" rel="nofollow"><strong>از طریق این لینک</strong></a> تهیه کنید.', 'wpsh'),
-                ),
+                )
             ),
         );
         $fields[] = array(
@@ -613,7 +624,7 @@ class WPSH_Options extends WPSH_Core
                 <p>با فعال‌سازی گزینه “ارسال آمار” در تنظیمات افزونه‌ها می‌پذیرید که وبسایت ما و افزونه‌های ما اجازه دسترسی و استفاده از داده های وبسایت شما را دارد.</p>
                 <p>با غیرفعال‌سازی گزینه ارسال آمار، روند ارسال آمار به ما قطع خواهد شد. و هرموقع که مایل بودید خواهید توانست ارسال آمار را متوقف کنید.</p>
                 <h2>فونت‌ها</h2>
-                <p>فونت‌های تجاری استفاده شده در این افزونه شامل "ایران سنس"، "ایران سنس دست‌نویس" و "ایران یکان" مشمول قوانین کپی‌رایت بوده و مجوز استفاده از طرف ناشر فقط برای استفاده در محیط مدیریت وردپرس وبسایت شما صادر شده است. اجازه استفاده از این فونت‌ها در قالب و سایر بخش‌های وردپرس را بدون تهیه لایسنس از ناشر، ندارید. همچنین اجازه بازنشر فایل فونت‌ها را نخواهید داشت. عواقب حقوقی نقض این مجوز متوجه وبسایت شما می‌باشد و افزونه‌های ما و وبسایت ما هیچ‌گونه مسئولیتی ندارند. برای تهیه لایسنس معتبر و قانونی فونت‌های فارسی <a href="https://fontiran.com/?ref=69" target="_blank" rel="nofollow"><strong>اینجا کلیک کنید</strong></a>.</p>
+                <p>فونت‌های تجاری استفاده شده در این افزونه شامل "ایران سنس"، "ایران سنس دست‌نویس" و "ایران یکان" مشمول قوانین کپی‌رایت بوده و مجوز استفاده از طرف ناشر فقط برای استفاده در محیط مدیریت وردپرس وبسایت شما صادر شده است. اجازه استفاده از این فونت‌ها در قالب و سایر بخش‌های وردپرس را بدون تهیه لایسنس از ناشر، ندارید. همچنین اجازه بازنشر فایل فونت‌ها را نخواهید داشت. عواقب حقوقی نقض این مجوز متوجه وبسایت شما می‌باشد و افزونه‌های ما و وبسایت ما هیچ‌گونه مسئولیتی ندارند.</p>
                 <span>کد لایسنس فونت ایران سنس: YA7SYB</span>
                 <br />
                 <span>کد لایسنس فونت ایران سنس دست‌نویس: SPNNNV</span>
@@ -621,6 +632,49 @@ class WPSH_Options extends WPSH_Core
                 <span>کد لایسنس فونت ایران یکان: V75HKF</span>
                 ', 'wpsh'),
                 ),
+            )
+        );
+
+        $fields[] = array(
+            'name' => 'hosts',
+            'title' => __('هاست وردپرس', 'wpsh'),
+            'icon' => 'dashicons-database',
+            'fields' => array(
+                array(
+                    'type' => 'content',
+                    'wrap_class' => 'no-border-bottom wpvarnet',
+                    'content' => __('سرعت و امنیت وردپرس علاوه بر خود برنامه، تاحد زیادی به میزبان و هاست شما هم بستگی دارد. با استفاده از خدمات هاستینگ اختصاصی وردپرس، خیال‌تان بابت سرعت و امنیت وبسایت‌خود راحت خواهد بود. همه سرورهای ما از جدیدیتری سخت‌افزارها و نرم‌افزارها بهره می‌برند و به‌صورت اختصاصی با وردپرس و ووکامرس بهینه‌سازی شده‌اند تا وردپرس با حداکثر سرعت و کیفیت اجزا شود. همچنین با تهیه هاست از وردپرس فارسی، <strong>نسخه VIP این افزونه به صورت رایگان</strong> ارائه خواهد شد. افزایش سرعت و پایداری هاست، تاثیر زیادی در بهبود سئو وب‌سایت شما خواهد داشت. برای دریافت جزئیات <a href="https://wpvar.net/" target="_blank"><strong>اینجا کلیک کنید</strong></a>. <br /><br /> <strong>برخی امکانات و مشخصات:</strong>
+                    <ul>
+                        <li>دامنه رایگان</li>
+                        <li>SSL رایگان</li>
+                        <li>انتقال رایگان وب‌سایت</li>
+                        <li>هارد NVMe SSD</li>
+                        <li>تکنولوژی LiteSpeed</li>
+                        <li>پنل هاست cPanel</li>
+                        <li>پشتیبان‌گیری روزانه</li>
+                        <li>امنیت و آپ‌تایم بالا</li>
+                        <li>پشتیبانی حرفه‌ای</li>
+                        <li>نصب خودکار وردپرس فارسی</li>
+                        <li>نسخه VIP این افزونه به‌صورت رایگان</li>
+                    </ul>
+                    ', 'wpsh'),
+                    'before' => '<strong>هاست اختصاصی وردپرس و ووکامرس</strong>',
+                ),
+                array(
+                    'type' => 'content',
+                    'wrap_class' => 'no-border-bottom',
+                    'content' => '
+                    <!-- wpvar.net banner -->
+                    <a href="https://wpvar.net/" target="_blank">
+                    <div id="wpvarNetBannerChild" class="scene">
+                        <div class="rocket-title">وردپرس را با بالاترین سرعت و امنیت تجربه کنید</div>
+                        <div class="rocket">
+                            <img src="' . WPSH_URL . 'assets/img/rocket.svg" alt="موشک وردپرس فارسی" />
+                        </div>
+                    </div>
+                    </a>
+                    ',
+                )
             )
         );
 
@@ -632,9 +686,14 @@ class WPSH_Options extends WPSH_Core
             'icon' => 'dashicons-star-filled',
             'fields' => array(
                 array(
+                    'type' => 'notice',
+                    'class' => 'wpvarnet-intro',
+                    'content' => __('با تهیه هاست از <a href="https://wpvarnet.net" target="_blank"><strong>وردپرس فارسی</strong></a> می‌توانید نسخه حرفه‌ای و VIP افزونه را به‌صورت <strong>رایگان</strong> دریافت کنید. برای دریافت جزئیات <a href="https://wpvarnet.net" target="_blank"><strong>اینجا کلیک کنید</strong></a>.', 'wpsh'),
+                ),
+                array(
                     'type'    => 'content',
                     'content'   =>  apply_filters('wpsh_pro_intro', $pro_intro)
-                ),
+                )
             )
         );
 

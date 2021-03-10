@@ -71,4 +71,38 @@ jQuery(document).ready(function () {
       }
     });
   });
+
+  if (jQuery('#wpvarNetBanner').length > 0) {
+    wpvarNetStars('1');
+  }
+  if (jQuery('#wpvarNetBannerChild').length > 0) {
+    wpvarNetStars('2');
+  }
 });
+
+function wpvarNetStars(element) {
+  let count = 50;
+  let query = element;
+  if(query == '1') {
+    var scene = document.querySelector('#wpvarNetBanner');
+  }
+  if(query == '2') {
+    var scene = document.querySelector('#wpvarNetBannerChild');
+  }
+  let i = 0;
+  while (i < count) {
+    let star = document.createElement("i");
+    let x = Math.floor(Math.random() * screen.width);
+
+    let duration = Math.random() * 1;
+    let h = Math.random() * 100;
+
+    star.style.left = x + "px";
+    star.style.width = 1 + "px";
+    star.style.height = h + "px";
+    star.style.animationDuration = duration + "s";
+
+    scene.appendChild(star);
+    i++;
+  }
+}
