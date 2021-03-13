@@ -56,7 +56,7 @@ class WPSH_Admin extends WPSH_Core
             add_action('admin_notices', array(
                 $this,
                 'no_farsi'
-            ));
+            ), 12);
         }
 
         if (function_exists('wp_timezone_string')) {
@@ -67,7 +67,7 @@ class WPSH_Admin extends WPSH_Core
                 add_action('admin_notices', array(
                     $this,
                     'no_valid_zone'
-                ));
+                ), 12);
             }
         }
 

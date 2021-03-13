@@ -168,7 +168,7 @@ class WPSH_Options extends WPSH_Core
                 'wrap_class' => 'no-border-bottom',
                 'content' => '
                 <!-- wpvar.net banner -->
-                <a href="https://wpvar.net/" target="_blank">
+                <a href="https://wpvar.net/?wpsh=1" target="_blank">
                 <div id="wpvarNetBanner" class="scene">
                     <div class="rocket-title">هاست اختصاصی وردپرس و ووکامرس</div>
                     <div class="rocket">
@@ -643,7 +643,7 @@ class WPSH_Options extends WPSH_Core
                 array(
                     'type' => 'content',
                     'wrap_class' => 'no-border-bottom wpvarnet',
-                    'content' => __('سرعت و امنیت وردپرس علاوه بر خود برنامه، تاحد زیادی به میزبان و هاست شما هم بستگی دارد. با استفاده از خدمات هاستینگ اختصاصی وردپرس، خیال‌تان بابت سرعت و امنیت وبسایت‌خود راحت خواهد بود. همه سرورهای ما از جدیدیتری سخت‌افزارها و نرم‌افزارها بهره می‌برند و به‌صورت اختصاصی با وردپرس و ووکامرس بهینه‌سازی شده‌اند تا وردپرس با حداکثر سرعت و کیفیت اجزا شود. همچنین با تهیه هاست از وردپرس فارسی، <strong>نسخه VIP این افزونه به صورت رایگان</strong> ارائه خواهد شد. افزایش سرعت و پایداری هاست، تاثیر زیادی در بهبود سئو وب‌سایت شما خواهد داشت. برای دریافت جزئیات <a href="https://wpvar.net/" target="_blank"><strong>اینجا کلیک کنید</strong></a>. <br /><br /> <strong>برخی امکانات و مشخصات:</strong>
+                    'content' => __('سرعت و امنیت وردپرس علاوه بر خود برنامه، تاحد زیادی به میزبان و هاست شما هم بستگی دارد. با استفاده از خدمات هاستینگ اختصاصی وردپرس، خیال‌تان بابت سرعت و امنیت وبسایت‌خود راحت خواهد بود. همه سرورهای ما از جدیدیتری سخت‌افزارها و نرم‌افزارها بهره می‌برند و به‌صورت اختصاصی با وردپرس و ووکامرس بهینه‌سازی شده‌اند تا وردپرس با حداکثر سرعت و کیفیت اجزا شود. همچنین با تهیه هاست از وردپرس فارسی، <strong>نسخه VIP این افزونه به صورت رایگان</strong> ارائه خواهد شد. افزایش سرعت و پایداری هاست، تاثیر زیادی در بهبود سئو وب‌سایت شما خواهد داشت. برای دریافت جزئیات <a href="https://wpvar.net/?wpsh=1" target="_blank"><strong>اینجا کلیک کنید</strong></a>. <br /><br /> <strong>برخی امکانات و مشخصات:</strong>
                     <ul>
                         <li>دامنه رایگان</li>
                         <li>SSL رایگان</li>
@@ -665,7 +665,7 @@ class WPSH_Options extends WPSH_Core
                     'wrap_class' => 'no-border-bottom',
                     'content' => '
                     <!-- wpvar.net banner -->
-                    <a href="https://wpvar.net/" target="_blank">
+                    <a href="https://wpvar.net/?wpsh=1" target="_blank">
                     <div id="wpvarNetBannerChild" class="scene">
                         <div class="rocket-title">وردپرس را با بالاترین سرعت و امنیت تجربه کنید</div>
                         <div class="rocket">
@@ -688,7 +688,7 @@ class WPSH_Options extends WPSH_Core
                 array(
                     'type' => 'notice',
                     'class' => 'wpvarnet-intro',
-                    'content' => __('با تهیه هاست از <a href="https://wpvar.net" target="_blank"><strong>وردپرس فارسی</strong></a> می‌توانید نسخه حرفه‌ای و VIP افزونه را به‌صورت <strong>رایگان</strong> دریافت کنید. برای دریافت جزئیات <a href="https://wpvar.net" target="_blank"><strong>اینجا کلیک کنید</strong></a>.', 'wpsh'),
+                    'content' => __('با تهیه هاست از <a href="https://wpvar.net/?wpsh=1" target="_blank"><strong>وردپرس فارسی</strong></a> می‌توانید نسخه حرفه‌ای و VIP افزونه را به‌صورت <strong>رایگان</strong> دریافت کنید. برای دریافت جزئیات <a href="https://wpvar.net/?wpsh=1" target="_blank"><strong>اینجا کلیک کنید</strong></a>.', 'wpsh'),
                 ),
                 array(
                     'type'    => 'content',
