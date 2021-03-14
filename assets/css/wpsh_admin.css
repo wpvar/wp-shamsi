@@ -71,7 +71,7 @@
 
 .wpsh_newsletter_settings #wpsh_form_settings {
   background: #007cba;
-  border-radius: 2px;
+  border-radius: 4px;
   margin-top: 1px;
 }
 
@@ -183,7 +183,7 @@
 .wpsh-verified {
   font-size: 25px !important;
   margin-left: 8px;
-  margin-top: 4px;
+  margin-top: 0;
   color: #398400 !important;
 }
 
@@ -192,7 +192,7 @@
 }
 
 .exopite-sof-before .dashicons-email {
-  margin-top: 2px;
+  margin-top: 0;
 }
 
 .wpsh-pro-intro {
@@ -247,9 +247,9 @@
 
 .wpsh-pro-due-widget {
   text-align: center;
-  background: #6b1b33;
+  background: #486580;
   color: #fff;
-  padding: 4px;
+  padding: 4px 10px;
   border-radius: 5px;
   margin: 20px 0;
 }
@@ -260,11 +260,16 @@
 
 .wpsh-pro-widget div {
   text-align: center;
-  background: #6b1b33;
-  color: #fff;
+  background: #486580;
+  color: #ffffff;
   padding: 4px;
-  border-radius: 5px;
+  border-radius: 6px;
   margin: 20px 0;
+  transition: 0.3s;
+}
+
+.wpsh-pro-widget div:hover {
+  background: #32475c;
 }
 
 .wpsh-pro-widget {
@@ -441,6 +446,185 @@
 
 #wpwrap .exopite-sof-ace-editor-wrapper * {
   font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+}
+
+.toplevel_page_wpsh .scene {
+  position: relative;
+  width: 100%;
+  height: 20vh;
+  background: #23282d;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  box-shadow: inset 0 0 5rem rgb(0 0 0 / 50%);
+}
+
+.toplevel_page_wpsh .scene .rocket {
+  position: relative;
+  animation: animate 0.2s ease infinite;
+}
+
+.toplevel_page_wpsh .scene .rocket::before {
+  content: '';
+  position: absolute;
+  bottom: -200px;
+  right: 2.8vw;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 200px;
+  background: linear-gradient(#b1e4ff29, transparent);
+}
+
+.toplevel_page_wpsh .scene .rocket::after {
+  content: '';
+  position: absolute;
+  bottom: -200px;
+  right: 2.8vw;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 200px;
+  background: linear-gradient(#00d0ff, transparent);
+  filter: blur(20px);
+}
+
+.toplevel_page_wpsh .scene i {
+  position: absolute;
+  top: -250px;
+  background: rgba(255, 255, 255, 0.5);
+  animation: animateStars linear infinite;
+}
+
+.toplevel_page_wpsh .rocket {
+  width: 58vw;
+  float: right;
+}
+
+.toplevel_page_wpsh .rocket-title {
+  display: block;
+  color: #fff;
+  position: absolute;
+  font-size: 2.5vw;
+}
+
+.toplevel_page_wpsh .rocket img {
+  width: 7vw;
+}
+
+.toplevel_page_wpsh #wpvarNetBannerChild .rocket {
+  width: 64vw;
+}
+
+.wpvarnet .exopite-sof-before {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.wpvarnet ul {
+  list-style: inside;
+}
+
+.wpvarnet {
+  text-align: justify;
+}
+
+.wp-admin .wpvarnet-intro {
+  background: #dbfdee;
+  border: none;
+  font-size: 14px;
+}
+
+.wpvarnet-intro a {
+  text-decoration: none;
+}
+
+.wp-admin .exopite-sof-field .exopite-sof-notice, .wp-admin .exopite-sof-section>.exopite-sof-field {
+  border: none;
+}
+
+.wpsh-ribbon {
+  width: 200px;
+  height: 28px;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  font-size: 12px;
+  line-height: 25px;
+  padding-right: 0px;
+  border-radius: 0px 5px 5px 0px;
+  position: absolute;
+  left: -1px;
+  background: #486580;
+  transition: 0.3s;
+}
+
+.wpsh-ribbon .dashicons {
+  padding-top: 6px;
+  font-size: 16px;
+}
+
+.wpsh-ribbon:hover {
+  background: #32475c;
+}
+
+#rss_dashboard li a {
+  color: #486580;
+}
+
+#rss_dashboard li a:hover {
+  color: #32475c;
+}
+
+#rss_dashboard .rss-widget {
+  padding-top: 40px;
+}
+
+.wpsh-ribbon:hover, .wpsh-ribbon:active, .wpsh-ribbon:visited {
+  color: #fff;
+  text-decoration: none;
+}
+
+.wpsh-ribbon:before {
+  content: "";
+  position: absolute;
+}
+
+.wpsh-ribbon:before {
+  width: 7px;
+  height: 100%;
+  top: 0;
+  left: -6.5px;
+  padding: 0 0 7px;
+  background: inherit;
+  border-radius: 5px 0 0 5px;
+}
+
+.wpsh-ribbon::after {
+  width: 5px;
+  height: 5px;
+  bottom: -5px;
+  left: -4.5px;
+  background: lightblue;
+  border-radius: 5px 0 0 5px;
+}
+
+@keyframes animateStars {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(200vh);
+  }
+}
+
+@keyframes animate {
+  0%, 100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(2px);
+  }
 }
 
 @media only screen and (max-width: 1150px) {

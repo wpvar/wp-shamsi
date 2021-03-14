@@ -2,7 +2,8 @@
 
 /**
  * @package WPSH
-                                                 */
+ */
+
 defined('ABSPATH') or die();
 
 class WPSH_Shamsi_Api_Pro extends WPSH_Core
@@ -93,7 +94,6 @@ wpvar.com
                     }
                 }
             }
-
 
             $url = 'https://api.wpvar.com/wp-json/wp-shamsi/v1/validate/';
             $response = wp_safe_remote_post($url, array(
@@ -233,7 +233,6 @@ wpvar.com
 
     public function reminder()
     {
-
         if (!current_user_can('manage_options')) {
             return;
         }
@@ -278,9 +277,9 @@ wpvar.com
         $html .= '</div>';
         $html .= '<div class="notice-wpsh-pro-wrap">';
         $html .= '<h3>نسخه حرفه‌ای</h3>';
-        $html .= '<p>شما از نسخه رایگان استفاده می‌کنید. برای دریافت نسخه حرفه‌ای تاریخ شمسی و فارسی ساز وردپرس <strong><a target="_blank" href="https://wpvar.com/pro/?renew=1">اینجا کلیک کنید</a></strong>.</p>';
+        $html .= '<p>شما از نسخه رایگان استفاده می‌کنید. برای دریافت نسخه حرفه‌ای تاریخ شمسی و فارسی ساز وردپرس <strong><a target="_blank" href="https://wpvar.com/pro/?renew=1">اینجا کلیک کنید</a></strong>. همچنین با تهیه <strong><a target="_blank" href="https://wpvar.net/?wpsh=1">هاست وردپرس فارسی</a></strong> می‌توانید نسخه حرفه‌ای و VIP افزونه را رایگان دریافت کنید.</p>';
         $html .= '<a target="_blank" href="https://wpvar.com/pro/" class="button button-primary">دریافت نسخه حرفه‌ای</a>';
-        $html .= '<a target="_blank" href="https://wpvar.com/pro/" class="button">مشاهده امکانات</a>';
+        $html .= '<a target="_blank" href="https://wpvar.net/?wpsh=1" class="button">هاست وردپرس فارسی</a>';
         $html .= '</div>';
         $html .= '</div>';
 

@@ -21,7 +21,8 @@ jQuery(document).ready(function () {
     listFarsiMonth[8] + ' و ' + listFarsiMonth[9],
     listFarsiMonth[9] + ' و ' + listFarsiMonth[10],
     listFarsiMonth[10] + ' و ' + listFarsiMonth[11],
-    listFarsiMonth[11] + ' و ' + listFarsiMonth[12]
+    listFarsiMonth[11] + ' و ' + listFarsiMonth[12],
+    listFarsiMonth[12] + ' و ' + listFarsiMonth[1]
   ];
 
   if (jQuery(".iedit").length > 0) {

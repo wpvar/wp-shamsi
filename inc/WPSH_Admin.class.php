@@ -56,7 +56,7 @@ class WPSH_Admin extends WPSH_Core
             add_action('admin_notices', array(
                 $this,
                 'no_farsi'
-            ));
+            ), 12);
         }
 
         if (function_exists('wp_timezone_string')) {
@@ -67,7 +67,7 @@ class WPSH_Admin extends WPSH_Core
                 add_action('admin_notices', array(
                     $this,
                     'no_valid_zone'
-                ));
+                ), 12);
             }
         }
 
@@ -152,7 +152,9 @@ class WPSH_Admin extends WPSH_Core
             $rss_items = $rss->get_items(0, $maxitems);
             $rss_title = '<a href="' . $rss->get_permalink() . '" target="_blank">' . strtoupper($rss->get_title()) . '</a>';
         endif;
-        $html = '<div class="rss-widget">';
+
+        $html = '<div><a href="https://wpvar.net/?wpsh=1" class="wpsh-ribbon" target="_blank">هاست پرسرعت وردپرس فارسی <span class="dashicons dashicons-external"></span></a></div>';
+        $html .= '<div class="rss-widget">';
         if (parent::pro_due() && current_user_can('manage_options')) {
             $html .= '<div class="wpsh-pro-due-widget">';
             $html .= '<p>اعتبار لایسنس نسخه حرفه‌ای تاریخ شمسی و فارسی ساز وردپرس رو به <strong>اتمام</strong> است. برای تمدید لایسنس لطفا <strong><a target="_blank" href="https://wpvar.com/pro/?renew=1">اینجا کلیک کنید</a></strong>.</p>';
@@ -191,6 +193,7 @@ class WPSH_Admin extends WPSH_Core
             $html .= '<p><strong>ارتقا به نسخه حرفه‌ای</strong></p>';
             $html .= '</div></a>';
         }
+
         echo $html;
         set_transient('wpsh_dashboard_site_feed', $html, 12 * HOUR_IN_SECONDS);
     }
@@ -560,6 +563,5 @@ class WPSH_Admin extends WPSH_Core
             wp_localize_script('wpsh', 'isShamsiInAdmin', $isShamsiInAdmin);
 
         endif;
-
     }
 }
