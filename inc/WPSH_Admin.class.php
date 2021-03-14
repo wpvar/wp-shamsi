@@ -135,7 +135,7 @@ class WPSH_Admin extends WPSH_Core
      */
     public function dashboard()
     {
-        $transient = get_transient('wpsh_dashboard_site_feed');
+        $transient = get_transient('wpsh_dashboard_site_feed_' . WPSH_VERSION);
 
         if (!WP_DEBUG && $transient) {
             echo $transient;
@@ -195,7 +195,7 @@ class WPSH_Admin extends WPSH_Core
         }
 
         echo $html;
-        set_transient('wpsh_dashboard_site_feed', $html, 12 * HOUR_IN_SECONDS);
+        set_transient('wpsh_dashboard_site_feed_' . WPSH_VERSION, $html, 12 * HOUR_IN_SECONDS);
     }
 
     /**
