@@ -313,7 +313,7 @@ class WPSH_Core
           }
         ';
         $css .= '
-        #wpwrap h1, #wpwrap h2, #wpwrap h3, #wpwrap h4, #wpwrap h5, #wpwrap h6, #wpwrap p, #wpwrap a, #wpwrap code, #wpwrap li, #wpwrap ul, #wpwrap strong, #wpwrap select, #wpwrap option, #wpwrap button, p, #wpwrap input, #wpwrap body {
+        h1,  h2,  h3,  h4,  h5,  h6,  p,  a,  code,  li,  ul,  strong,  select,  option,  button, p,  input, span, textarea, body {
           font-family: ' . $font . ', tahoma, sans-serif, arial, dashicons;
           letter-spacing: 0;
         }
