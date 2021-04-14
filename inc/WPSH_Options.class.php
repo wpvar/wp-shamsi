@@ -169,12 +169,9 @@ class WPSH_Options extends WPSH_Core
                 'content' => '
                 <!-- wpvar.net banner -->
                 <a href="https://wpvar.net/?wpsh=1" target="_blank">
-                <div id="wpvarNetBanner" class="scene">
-                    <div class="rocket-title">هاست اختصاصی وردپرس و ووکامرس</div>
-                    <div class="rocket">
-                        <img src="' . WPSH_URL . 'assets/img/rocket.svg" alt="موشک وردپرس فارسی" />
+                    <div class="wpvarnet-banner">
+                        <img src="' . WPSH_URL . 'assets/img/wpvarnet.svg" alt="هاست وردپرس فارسی" loading="lazy"/>
                     </div>
-                </div>
                 </a>
                 ',
             ),
