@@ -32,6 +32,14 @@ class WPSH_Options extends WPSH_Core
             $this,
             'register'
         ));
+
+        if(!empty($_GET['wpsh_deactivate'])) {
+            add_action('init', array(
+                $this,
+                'deactivate'
+            ));
+        }
+
         $this->plugin_name = $plugin_name;
     }
 
@@ -56,6 +64,64 @@ class WPSH_Options extends WPSH_Core
 
         return $result;
     }
+
+    /**
+     * Detect conflicted plugins
+     *
+     * Detects conflicted plugins to generate notification.
+     *
+     * @since 3.1.2
+     *
+     * @return mixed Name of plugin or false on no conflict.
+     */
+    public function conflicts()
+    {
+        $check = (is_admin() && !empty($_GET['page']) && $_GET['page'] == 'wpsh') ? true : false;
+
+        if($check == false) {
+            return false;    
+        }
+
+        $conflicts = array(
+            'wp-jalali/wp-jalali.php',
+            'wp-parsidate/wp-parsidate.php',
+            'persian-woocommerce/persian-woocommerce.php',
+            'persian-elementor/persian-elementor.php',
+            'wp-persian/wp-persian.php',
+            'wp-farsi/wp-farsi.php',
+            'persian-date/persian-date.php'
+        );
+
+        $confilct = false;
+        foreach ($conflicts as $conflict) {
+            if (in_array($conflict, apply_filters('active_plugins', get_option('active_plugins')))) {
+
+                $conflict = explode('/', $conflict);
+                return $conflict[0];
+            }
+        }
+
+        return $confilct;
+    }
+
+    /**
+     * Deactivate plugins
+     *
+     * Detects conflicted plugins.
+     *
+     * @since 3.1.2
+     */
+    public function deactivate() {
+        $plugin = (!empty($_GET['wpsh_deactivate']) ? esc_attr($_GET['wpsh_deactivate']) : false);
+
+        if($plugin != false) {
+            deactivate_plugins($plugin . '.php');
+        }
+
+        wp_safe_redirect(get_admin_url() . 'admin.php?page=wpsh');
+        exit;
+    }
+
     /**
      * Generate download links
      *
@@ -117,6 +183,20 @@ class WPSH_Options extends WPSH_Core
           ';
         }
 
+        $conflicts = $this->conflicts();
+
+        if($conflicts != false) {
+            $list_conflicts = array(
+                array(
+                    'type' => 'notice',
+                    'class' => 'danger',
+                    'content' => __('<b>هشدار مهم:</b> در حال حاضر افزونه‌ای با نام <b>' . $conflicts . '</b>  فعال می‌باشد، فعال بودن این افزونه می‌تواند باعث تداخل با وردپرس فارسی و بروز مشکل در وب‌سایت شما شود. برای غیرفعال کردن ' . $conflicts . ' <b><a href="' . get_admin_url() . 'admin.php?page=wpsh&wpsh_deactivate=' . $conflicts . '/' . $conflicts .'">اینجا کلیک کنید</a></b>.', 'wpsh'),
+                )
+            );
+            
+        } else {
+            $list_conflicts = array();
+        }
 
         $pro = !parent::pro() ? '<strong class="wpsh-pro-intro"><a target="_blank" href="https://wpvar.com/pro/">ارتقا به نسخه حرفه‌ای</a></strong>' : (!parent::vip() ? '<strong class="wpsh-pro-intro">نسخه حرفه‌ای</strong>' : '<strong class="wpsh-pro-intro">نسخه VIP</strong>');
         $version = WPSH_VERSION . $pro;
@@ -181,7 +261,7 @@ class WPSH_Options extends WPSH_Core
             'name' => 'general',
             'title' => __('عمومی', 'wpsh'),
             'icon' => 'dashicons-dashboard',
-            'fields' => array_merge($license_pro, $general)
+            'fields' => array_merge($list_conflicts, $license_pro, $general)
         );
 
         $fields[] = array(

@@ -314,8 +314,11 @@ class WPSH_Core
         ';
         $css .= '
         h1,  h2,  h3,  h4,  h5,  h6,  p,  a,  code,  li,  ul,  strong,  select,  option,  button, p,  input, span, textarea, body {
-          font-family: ' . $font . ', tahoma, sans-serif, arial, dashicons;
+          font-family: ' . $font . ', tahoma, sans-serif, arial, dashicons, Roboto-Regular, HelveticaNeue, sans-serif;
           letter-spacing: 0;
+        }
+        #yoast-snippet-preview-container * {
+          font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
         }
         ';
         $css .= '
