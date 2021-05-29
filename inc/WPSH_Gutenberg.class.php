@@ -85,5 +85,4 @@ class WPSH_Gutenberg extends WPSH_Core
         wp_add_inline_style('wpsh-gjc', $css);
 
     }
-
 }

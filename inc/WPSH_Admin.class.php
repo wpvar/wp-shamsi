@@ -25,71 +25,30 @@ class WPSH_Admin extends WPSH_Core
      */
     function __construct()
     {
-        add_action('wp_dashboard_setup', array(
-            $this,
-            'add_dashboard'
-        ));
-
-        add_filter('dashboard_secondary_link', array(
-            $this,
-            'wpsh_dashboard_link'
-        ));
-
-        add_filter('dashboard_secondary_feed', array(
-            $this,
-            'wpsh_dashboard_feed'
-        ));
-
-        add_action('current_screen', array(
-            $this,
-            'farsi_support'
-        ));
+        add_action('wp_dashboard_setup', array($this, 'add_dashboard'));
+        add_filter('dashboard_secondary_link', array($this, 'wpsh_dashboard_link'));
+        add_filter('dashboard_secondary_feed', array($this, 'wpsh_dashboard_feed'));
+        add_action('current_screen', array($this, 'farsi_support'));
 
         if (!function_exists('wp_date')) {
-            add_filter('get_the_time', array(
-                $this,
-                'post_time'
-            ), 10, 3);
+            add_filter('get_the_time', array($this, 'post_time'), 10, 3);
         }
 
         if (get_locale() != 'fa_IR' && get_locale() != 'fa_AF') {
-            add_action('admin_notices', array(
-                $this,
-                'no_farsi'
-            ), 12);
+            add_action('admin_notices', array($this, 'no_farsi'), 12);
         }
 
         if (function_exists('wp_timezone_string')) {
-
             $zone = wp_timezone_string();
-
             if ((get_locale() == 'fa_IR' || get_locale() == 'fa_AF') && $zone != 'Asia/Tehran' && $zone != 'Asia/Kabul' && $zone != '+03:30' && $zone != '+04:30') {
-                add_action('admin_notices', array(
-                    $this,
-                    'no_valid_zone'
-                ), 12);
+                add_action('admin_notices', array($this, 'no_valid_zone'), 12);
             }
         }
 
-        add_filter('plugin_action_links_' . WPSH_BASE, array(
-            $this,
-            'add_settings_link'
-        ));
-
-        add_filter('plugin_row_meta', array(
-            $this,
-            'add_settings_meta'
-        ), 10, 4);
-
-        add_action('admin_enqueue_scripts', array(
-            $this,
-            'admin_script'
-        ), 1);
-
-        add_action('admin_head', array(
-            $this,
-            'remove_notices'
-        ), 10);
+        add_filter('plugin_action_links_' . WPSH_BASE, array($this, 'add_settings_link'));
+        add_filter('plugin_row_meta', array($this, 'add_settings_meta'), 10, 4);
+        add_action('admin_enqueue_scripts', array($this, 'admin_script'), 1);
+        add_action('admin_head', array($this, 'remove_notices'), 10);
     }
 
     /**
@@ -119,10 +78,7 @@ class WPSH_Admin extends WPSH_Core
      */
     public function add_dashboard()
     {
-        add_meta_box('rss_dashboard', 'وردپرس فارسی', array(
-            $this,
-            'dashboard'
-        ), 'dashboard', 'normal', 'high');
+        add_meta_box('rss_dashboard', 'وردپرس فارسی', array($this, 'dashboard'), 'dashboard', 'normal', 'high');
     }
 
     /**
@@ -185,7 +141,7 @@ class WPSH_Admin extends WPSH_Core
             <li><a href="https://wpvar.com/downloads/themes/" target="_blank" title="قالب های وردپرس"><span class="dashicons dashicons-admin-appearance"></a></span></li>
             <li><a href="https://wpvar.com/downloads/plugins/" target="_blank" title="افزونه های وردپرس"><span class="dashicons dashicons-admin-plugins"></a></span></li>
             <li><a href="https://wpvar.com/forums/" target="_blank" title="پشتیبانی وردپرس"><span class="dashicons dashicons-sos"></span></a></li>
-            <li><a href="https://wpvar.com/edu/" target="_blank" title="آموزش وردپرس"><span class="dashicons dashicons-welcome-learn-more"></a></span></li>
+            <li><a href="https://wpvar.com/courses/" target="_blank" title="دوره‌های آموزشی"><span class="dashicons dashicons-welcome-learn-more"></a></span></li>
           </ul>
         </div>';
         if (!parent::pro() && current_user_can('manage_options')) {
@@ -251,8 +207,8 @@ class WPSH_Admin extends WPSH_Core
             $screen->add_help_tab(array(
                 'id' => 'farsi-support',
                 'title' => 'پشتیبانی فارسی',
-                'content' => '<p>همیشه می توانید از طریق <strong><a href="https://wpvar.com/forums/" target="_blank">این لینک</a></strong> سوالات خود را در <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن فارسی</a></strong> وردپرس بپرسید. همچنین می توانید <strong><a href="https://wpvar.com/edu/" target="_blank">بخش آموزش وردپرس</a></strong> را که دارای آموزش های تصویری است، مطالعه کنید.</p>
-                              <p><a href="https://wpvar.com" class="button button-primary">وردپرس فارسی</a> <a href="https://wpvar.com/forums/" class="button">انجمن پشتیبانی</a> <a href="https://wpvar.com/edu/" class="button">آموزش وردپرس</a></p>',
+                'content' => '<p>همیشه می توانید از طریق <strong><a href="https://wpvar.com/forums/" target="_blank">این لینک</a></strong> سوالات خود را در <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن فارسی</a></strong> وردپرس بپرسید. همچنین می توانید <strong><a href="https://wpvar.com/courses/" target="_blank">دوه‌های آموزشی</a></strong> را که حاوی آموزش‌های ویدیوی و تصویری است، مطالعه کنید.</p>
+                              <p><a href="https://wpvar.com" class="button button-primary">وردپرس فارسی</a> <a href="https://wpvar.com/forums/" class="button">انجمن پشتیبانی</a> <a href="https://wpvar.com/courses/" class="button">دوره‌های آموزشی</a></p>',
                 'priority' => 11,
             ));
         }
@@ -510,7 +466,7 @@ class WPSH_Admin extends WPSH_Core
     {
         if ($plugin_file == WPSH_BASE) {
             $plugin_meta[] = '<a href="https://wpvar.com/" target="_blank">' . __('وردپرس فارسی', 'wpsh') . '</a>';
-            $plugin_meta[] = '<a href="https://wpvar.com/edu/" target="_blank">' . __('آموزش وردپرس', 'wpsh') . '</a>';
+            $plugin_meta[] = '<a href="https://wpvar.com/courses/" class="wpvar-courses" target="_blank">' . __('دوره‌های آموزشی', 'wpsh') . '</a>';
         }
 
         return $plugin_meta;

@@ -23,40 +23,13 @@ class WPSH_Woo extends WPSH_Core
             return;
         }
         if (class_exists('WooCommerce') && (get_locale() == 'fa_IR' || get_locale() == 'fa_AF')) {
-            add_action('admin_enqueue_scripts', array(
-                $this,
-                'datepicker_script'
-            ), 999999);
-
-            add_filter("wp_insert_post_data", array(
-                $this,
-                "woocommerce_filter"
-            ), 1000, 2);
-
-            add_filter("get_post_metadata", array(
-                $this,
-                "meta"
-            ), 10, 4);
-
-            add_action('admin_init', array(
-                $this,
-                'woocommerce_action'
-            ), 1000);
-
-            add_action('admin_init', array(
-                $this,
-                'dates'
-            ), 1000);
-
-            add_action('woocommerce_admin_process_variation_object', array(
-                $this,
-                'save_variations'
-            ), 1000, 2);
-
-            add_filter('wpsh_num_ignore', array(
-                $this,
-                'ignore'
-            ), 10);
+            add_action('admin_enqueue_scripts', array($this, 'datepicker_script'), 999999);
+            add_filter("wp_insert_post_data", array($this, "woocommerce_filter"), 1000, 2);
+            add_filter("get_post_metadata", array($this, "meta"), 10, 4);
+            add_action('admin_init', array($this, 'woocommerce_action'), 1000);
+            add_action('admin_init', array($this, 'dates'), 1000);
+            add_action('woocommerce_admin_process_variation_object', array($this, 'save_variations'), 1000, 2);
+            add_filter('wpsh_num_ignore', array($this, 'ignore'), 10);
         }
     }
 

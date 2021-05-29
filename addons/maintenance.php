@@ -55,10 +55,7 @@ class WPSH_Maintenance_Addon extends WPSH_Addons
             die();
         }
 
-        add_filter('get_header', array(
-            $this,
-            'maintenance'
-        ));
+        add_filter('get_header', array($this, 'maintenance'));
     }
 
     public function maintenance()

@@ -475,6 +475,10 @@
   border: none;
 }
 
+.exopite-sof-notice {
+  line-height: 1.6;
+}
+
 .wpsh-ribbon {
   width: 200px;
   height: 28px;
@@ -539,6 +543,15 @@
   left: -4.5px;
   background: lightblue;
   border-radius: 5px 0 0 5px;
+}
+
+.wpsh-redirect {
+  height: 50px !important;
+}
+
+.wpvar-courses {
+  font-weight: bold;
+  color: #d63637;
 }
 
 @keyframes animateStars {

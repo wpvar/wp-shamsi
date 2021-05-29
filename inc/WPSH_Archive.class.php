@@ -30,10 +30,7 @@ class WPSH_Archive extends WPSH_Core
         }
 
         if (parent::option('activate-shamsi', true, true) && parent::option('activate-shamsi-archive', true, true) && !parent::no_lang_no_shamsi()) {
-            add_filter('get_archives_link', array(
-                $this,
-                'archive'
-            ), 10, 7);
+            add_filter('get_archives_link', array($this, 'archive'), 10, 7);
         }
     }
 

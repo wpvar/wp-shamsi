@@ -26,15 +26,8 @@ class WPSH_Numignore
      */
     function __construct()
     {
-        add_action('wp_enqueue_scripts', array(
-            $this,
-            'scripts'
-        ), 999999);
-    
-        add_action('admin_enqueue_scripts', array(
-            $this,
-            'scripts'
-        ), 999999);
+        add_action('wp_enqueue_scripts', array($this, 'scripts'), 999999);
+        add_action('admin_enqueue_scripts', array($this, 'scripts'), 999999);
     }
 
     /**

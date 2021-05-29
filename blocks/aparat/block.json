@@ -1,0 +1,35 @@
+{
+	"apiVersion": 2,
+	"name": "wpsh-blocks/aparat",
+	"title": "آپارات",
+	"category": "wpsh",
+	"keywords": [ "aparat", "آپارات", "وردپرس", "ویدیو", "wp-shamsi" ],
+	"attributes": {
+		"aparat": {
+			"type": "string",
+			"default": "https://www.aparat.com/v/C5BLs"
+		},
+		"alignment": {
+			"type": "string",
+			"default": "center"
+		},
+		"size": {
+			"type": "string",
+			"default": "big"
+		}
+	},
+	"example": {
+		"attributes": {
+			"preview" : true
+		}
+	},
+	"description": "بلوک ویدیو‌های آپارات افزونه تاریخ شمسی و فارسی‌ساز وردپرس، wpvar.com",
+	"supports": {
+		"html": true,
+		"alignment": true
+	},
+	"textdomain": "wpsh",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css"
+}

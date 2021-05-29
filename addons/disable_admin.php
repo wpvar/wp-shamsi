@@ -47,7 +47,6 @@ class WPSH_Disable_Admin_Addon extends WPSH_Addons
             'website' => $website,
             'addon_home' => $addon_home,
             'is_active' => $is_active,
-
         );
 
         if (!parent::validate($slug, $is_active)) {

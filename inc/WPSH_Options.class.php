@@ -27,17 +27,10 @@ class WPSH_Options extends WPSH_Core
      */
     function __construct($plugin_name)
     {
+        add_action('init', array($this, 'register'));
 
-        add_action('init', array(
-            $this,
-            'register'
-        ));
-
-        if(!empty($_GET['wpsh_deactivate'])) {
-            add_action('init', array(
-                $this,
-                'deactivate'
-            ));
+        if (!empty($_GET['wpsh_deactivate'])) {
+            add_action('init', array($this, 'deactivate'));
         }
 
         $this->plugin_name = $plugin_name;
@@ -70,7 +63,7 @@ class WPSH_Options extends WPSH_Core
      *
      * Detects conflicted plugins to generate notification.
      *
-     * @since 3.1.2
+     * @since 3.2.0
      *
      * @return mixed Name of plugin or false on no conflict.
      */
@@ -78,25 +71,36 @@ class WPSH_Options extends WPSH_Core
     {
         $check = (is_admin() && !empty($_GET['page']) && $_GET['page'] == 'wpsh') ? true : false;
 
-        if($check == false) {
-            return false;    
+        if ($check == false) {
+            return false;
         }
 
         $conflicts = array(
             'wp-jalali/wp-jalali.php',
             'wp-parsidate/wp-parsidate.php',
-            'persian-woocommerce/persian-woocommerce.php',
+            'persian-woocommerce/woocommerce-persian.php',
             'persian-elementor/persian-elementor.php',
             'wp-persian/wp-persian.php',
             'wp-farsi/wp-farsi.php',
-            'persian-date/persian-date.php'
+            'persian-date/persian-date.php',
+            'font-farsi/font-farsi.php',
+            'wp-administration-style/wp-administration-style.php'
         );
 
         $confilct = false;
         foreach ($conflicts as $conflict) {
             if (in_array($conflict, apply_filters('active_plugins', get_option('active_plugins')))) {
-
                 $conflict = explode('/', $conflict);
+                if($conflict[0] == 'persian-woocommerce') {
+                    $pwoo = get_option('PW_Options');
+                    if(!empty($pwoo)) {
+                        if($pwoo['enable_jalali_datepicker'] == 'yes') {
+                            return('pwoo');
+                        } else {
+                            continue;
+                        }
+                    }
+                }
                 return $conflict[0];
             }
         }
@@ -109,12 +113,13 @@ class WPSH_Options extends WPSH_Core
      *
      * Detects conflicted plugins.
      *
-     * @since 3.1.2
+     * @since 3.2.0
      */
-    public function deactivate() {
+    public function deactivate()
+    {
         $plugin = (!empty($_GET['wpsh_deactivate']) ? esc_attr($_GET['wpsh_deactivate']) : false);
 
-        if($plugin != false) {
+        if ($plugin != false) {
             deactivate_plugins($plugin . '.php');
         }
 
@@ -185,15 +190,20 @@ class WPSH_Options extends WPSH_Core
 
         $conflicts = $this->conflicts();
 
-        if($conflicts != false) {
+        if($conflicts == 'pwoo') {
+            $conflict_text = __('<b>هشدار مهم:</b> تاریخ شمسی افزونه <b>ووکامرس فارسی</b>  فعال می‌باشد، فعال بودن شمسی‌ساز این افزونه می‌تواند باعث تداخل با وردپرس فارسی و بروز مشکل در وب‌سایت شما شود. برای شمسی‌سازی کامل وردپرس و ووکامرس و جلوگیری از تداخل، گزینه "تاریخ شمسی" افزونه ووکامرس فارسی را غیرفعال کنید ویا برای غیرفعال کردن ووکامرس فارسی <b><a href="' . get_admin_url() . 'admin.php?page=wpsh&wpsh_deactivate=persian-woocommerce/woocommerce-persian">اینجا کلیک کنید</a></b>.', 'wpsh');
+        } else {
+            $conflict_text = __('<b>هشدار مهم:</b> در حال حاضر افزونه‌ای با نام <b>' . $conflicts . '</b>  فعال می‌باشد، فعال بودن این افزونه می‌تواند باعث تداخل با وردپرس فارسی و بروز مشکل در وب‌سایت شما شود. برای غیرفعال کردن ' . $conflicts . ' <b><a href="' . get_admin_url() . 'admin.php?page=wpsh&wpsh_deactivate=' . $conflicts . '/' . $conflicts . '">اینجا کلیک کنید</a></b>.', 'wpsh');
+        }
+
+        if ($conflicts != false) {
             $list_conflicts = array(
                 array(
                     'type' => 'notice',
                     'class' => 'danger',
-                    'content' => __('<b>هشدار مهم:</b> در حال حاضر افزونه‌ای با نام <b>' . $conflicts . '</b>  فعال می‌باشد، فعال بودن این افزونه می‌تواند باعث تداخل با وردپرس فارسی و بروز مشکل در وب‌سایت شما شود. برای غیرفعال کردن ' . $conflicts . ' <b><a href="' . get_admin_url() . 'admin.php?page=wpsh&wpsh_deactivate=' . $conflicts . '/' . $conflicts .'">اینجا کلیک کنید</a></b>.', 'wpsh'),
+                    'content' => $conflict_text,
                 )
             );
-            
         } else {
             $list_conflicts = array();
         }
@@ -549,6 +559,7 @@ class WPSH_Options extends WPSH_Core
                 ),
             )
         );
+
         $fields[] = array(
             'name' => 'translate',
             'title' => __('مترجم', 'wpsh'),
@@ -583,12 +594,95 @@ class WPSH_Options extends WPSH_Core
                         array(
                             'id' => 'translate-target',
                             'type' => 'textarea',
-                            'title' => __('به', 'plugin-name'),
+                            'title' => __('به', 'wpsh'),
                             'attributes' => array(
                                 'data-title' => 'title',
                                 'placeholder' => __('ترجمه به فارسی', 'wpsh'),
                             ),
                         ),
+                    ),
+                ),
+
+            ),
+        );
+
+        if(!parent::pro()) {
+            $redirect_status = 'disabled';
+            $redirect_status_text = array(
+                    'id' => 'redirect-status-text',
+                    'type'    => 'notice',
+                    'class'   => 'warning',
+                    'content' => 'امکان انتخاب نوع ریدایرکت فقط برای نسخه‌های حرفه‌ای و VIP مقدور است.',
+            );
+        } else {
+            $redirect_status = 'enabled';
+            $redirect_status_text = array(
+                'id' => 'redirect-status-text',
+                'type'    => 'notice',
+                'class'   => 'warning',
+                'content' => 'برای ریدایرکت همیشگی، گزینه دائمی را انتخاب کنید.',
+        );
+        }
+
+        $fields[] = array(
+            'name' => 'redirect',
+            'title' => __('ریدایرکت', 'wpsh'),
+            'icon' => 'dashicons-admin-links',
+            'fields' => array(
+
+                array(
+                    'type' => 'group',
+                    'id' => 'redirect-group',
+                    'title' => __('ریدایرکت', 'wpsh'),
+                    'description' => __('ریدایرکت صفحات وردپرس به لینک‌ جدید به صورت موقت یا دائمی. ریدایرکت‌های تعریف شده سازگار با سئو می‌باشند.', 'wpsh'),
+                    'options' => array(
+                        'repeater' => true,
+                        'accordion' => true,
+                        'button_title' => __('ریدایرکت جدید', 'wpsh'),
+                        'group_title' => __('ریدایرکت', 'wpsh'),
+                        'limit' => 2000,
+                        'sortable' => true,
+                    ),
+                    'fields' => array(
+
+                        array(
+                            'id' => 'redirect-source',
+                            'type' => 'textarea',
+                            'title' => __('از', 'wpsh'),
+                            'attributes' => array(
+                                'data-title' => 'title',
+                                'placeholder' => __('برای مثال: ' . home_url() . '/redirect-from', 'wpsh'),
+                                'pattern' => esc_html__('https?://.+', 'wpsh'),
+                                'class' =>  'wpsh-ltr wpsh-redirect',
+                                'required'  =>  'required'
+                            ),
+                        ),
+                        array(
+                            'id' => 'redirect-target',
+                            'type' => 'textarea',
+                            'title' => __('به', 'wpsh'),
+                            'attributes' => array(
+                                'data-title' => 'title',
+                                'placeholder' => __('برای مثال: ' . home_url() . '/redirect-to', 'wpsh'),
+                                'pattern' => esc_html__('https?://.+', 'wpsh'),
+                                'class' =>  'wpsh-ltr wpsh-redirect',
+                                'required'  =>  'required'
+                            ),
+                        ),
+                        array(
+                            'id'      => 'redirect-status',
+                            'type'    => 'radio',
+                            'title'   => 'نوع ریدایرکت',
+                            'options' => array(
+                                '302'   => 'موقتی (ریدایرکت 302)',
+                                '301'    => 'دائمی (ریدایرکت 301)',
+                            ),
+                            'class' =>  'wpsh-radio',
+                            'attributes'    => array(
+                                'data-radio-status'  =>  $redirect_status,
+                            ),
+                        ),
+                        $redirect_status_text
                     ),
                 ),
 
@@ -746,7 +840,7 @@ class WPSH_Options extends WPSH_Core
                     <div id="wpvarNetBannerChild" class="scene">
                         <div class="rocket-title">وردپرس را با بالاترین سرعت و امنیت تجربه کنید</div>
                         <div class="rocket">
-                            <img src="' . WPSH_URL . 'assets/img/rocket.svg" alt="موشک وردپرس فارسی" />
+                            <img src="' . WPSH_URL . 'assets/img/wpvarnet.svg" alt="موشک وردپرس فارسی" />
                         </div>
                     </div>
                     </a>

@@ -70,4 +70,14 @@ jQuery(document).ready(function () {
       }
     });
   });
+  if (jQuery('.wpsh-radio input') !== null) {
+    jQuery(document).mousemove(function (event) {
+      jQuery('.wpsh-radio input').each(function () {
+        status = jQuery(this).data('radio-status');
+        if (status == 'disabled') {
+          jQuery(this).attr('disabled', 'disabled');
+        }
+      });
+    });
+  }
 });
