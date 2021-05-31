@@ -263,6 +263,11 @@ class WPSH_Options extends WPSH_Core
                         <img src="' . WPSH_URL . 'assets/img/wpvarnet.svg" alt="هاست وردپرس فارسی" loading="lazy"/>
                     </div>
                 </a>
+                <a href="https://wpvar.com/courses/?wpshc=1" target="_blank">
+                    <div class="wpvarnet-banner">
+                        <img src="' . WPSH_URL . 'assets/img/wpvar-courses-wp.svg" alt="دوره‌های آموزشی وردپرس فارسی" loading="lazy"/>
+                    </div>
+                </a>
                 ',
             ),
         );

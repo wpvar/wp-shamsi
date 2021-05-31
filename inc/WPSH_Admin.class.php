@@ -110,6 +110,8 @@ class WPSH_Admin extends WPSH_Core
         endif;
 
         $html = '<div><a href="https://wpvar.net/?wpsh=1" class="wpsh-ribbon" target="_blank">هاست پرسرعت وردپرس فارسی <span class="dashicons dashicons-external"></span></a></div>';
+        $html .= '<div><a href="https://wpvar.com/courses/?wpshc=1" class="wpsh-ribbon wpsh-ribbon_courses" target="_blank"><span class="dashicons dashicons-external"></span> دوره‌های آموزشی</a></div>';
+
         $html .= '<div class="rss-widget">';
         if (parent::pro_due() && current_user_can('manage_options')) {
             $html .= '<div class="wpsh-pro-due-widget">';
@@ -141,7 +143,7 @@ class WPSH_Admin extends WPSH_Core
             <li><a href="https://wpvar.com/downloads/themes/" target="_blank" title="قالب های وردپرس"><span class="dashicons dashicons-admin-appearance"></a></span></li>
             <li><a href="https://wpvar.com/downloads/plugins/" target="_blank" title="افزونه های وردپرس"><span class="dashicons dashicons-admin-plugins"></a></span></li>
             <li><a href="https://wpvar.com/forums/" target="_blank" title="پشتیبانی وردپرس"><span class="dashicons dashicons-sos"></span></a></li>
-            <li><a href="https://wpvar.com/courses/" target="_blank" title="دوره‌های آموزشی"><span class="dashicons dashicons-welcome-learn-more"></a></span></li>
+            <li><a href="https://wpvar.com/courses/?wpshc=1" target="_blank" title="دوره‌های آموزشی"><span class="dashicons dashicons-welcome-learn-more"></a></span></li>
           </ul>
         </div>';
         if (!parent::pro() && current_user_can('manage_options')) {
@@ -207,8 +209,8 @@ class WPSH_Admin extends WPSH_Core
             $screen->add_help_tab(array(
                 'id' => 'farsi-support',
                 'title' => 'پشتیبانی فارسی',
-                'content' => '<p>همیشه می توانید از طریق <strong><a href="https://wpvar.com/forums/" target="_blank">این لینک</a></strong> سوالات خود را در <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن فارسی</a></strong> وردپرس بپرسید. همچنین می توانید <strong><a href="https://wpvar.com/courses/" target="_blank">دوه‌های آموزشی</a></strong> را که حاوی آموزش‌های ویدیوی و تصویری است، مطالعه کنید.</p>
-                              <p><a href="https://wpvar.com" class="button button-primary">وردپرس فارسی</a> <a href="https://wpvar.com/forums/" class="button">انجمن پشتیبانی</a> <a href="https://wpvar.com/courses/" class="button">دوره‌های آموزشی</a></p>',
+                'content' => '<p>همیشه می توانید از طریق <strong><a href="https://wpvar.com/forums/" target="_blank">این لینک</a></strong> سوالات خود را در <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن فارسی</a></strong> وردپرس بپرسید. همچنین می توانید <strong><a href="https://wpvar.com/courses/?wpshc=1" target="_blank">دوه‌های آموزشی</a></strong> را که حاوی آموزش‌های ویدیوی و تصویری است، مطالعه کنید.</p>
+                              <p><a href="https://wpvar.com" class="button button-primary">وردپرس فارسی</a> <a href="https://wpvar.com/forums/" class="button">انجمن پشتیبانی</a> <a href="https://wpvar.com/courses/?wpshc=1" class="button">دوره‌های آموزشی</a></p>',
                 'priority' => 11,
             ));
         }
@@ -466,7 +468,7 @@ class WPSH_Admin extends WPSH_Core
     {
         if ($plugin_file == WPSH_BASE) {
             $plugin_meta[] = '<a href="https://wpvar.com/" target="_blank">' . __('وردپرس فارسی', 'wpsh') . '</a>';
-            $plugin_meta[] = '<a href="https://wpvar.com/courses/" class="wpvar-courses" target="_blank">' . __('دوره‌های آموزشی', 'wpsh') . '</a>';
+            $plugin_meta[] = '<a href="https://wpvar.com/courses/?wpshc=1" class="wpvar-courses" target="_blank">' . __('دوره‌های آموزشی', 'wpsh') . '</a>';
         }
 
         return $plugin_meta;

@@ -75,7 +75,7 @@ class WPSH_Blocks
             <div class="wpsh-blocks_aparat wpsh-blocks_aparat_align_' . $block_attributes['alignment'] . ' wpsh-blocks_aparat_size_' . $block_attributes['size'] . '">
         ';
         echo '
-            <div class="h_iframe-aparat_embed_frame"><span style="display: block;padding-top: 57%"></span><iframe src="https://www.aparat.com/video/video/embed/videohash/' . $id[4] . '/vt/frame" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" frameBorder="0"></iframe></div>
+            <div class="h_iframe-aparat_embed_frame"><span style="display: block;padding-top: 56.3%"></span><iframe src="https://www.aparat.com/video/video/embed/videohash/' . $id[4] . '/vt/frame" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" frameBorder="0"></iframe></div>
         ';
         echo '
             </div>

@@ -491,7 +491,7 @@
   border-radius: 0px 5px 5px 0px;
   position: absolute;
   left: -1px;
-  background: #486580;
+  background: #d63637;
   transition: 0.3s;
 }
 
@@ -545,9 +545,37 @@
   border-radius: 5px 0 0 5px;
 }
 
+.wpsh-ribbon_courses {
+  padding-left: 0px !important;
+  border-radius: 5px 0 0 5px !important;
+  right: -1px !important;
+  background: #486580 !important;
+  width: 150px !important;
+}
+
+.wpsh-ribbon:hover {
+  background: #32475c !important;
+}
+
+.wpsh-ribbon_courses .dashicons {
+  padding-top: 5px !important;
+}
+
+.wpsh-ribbon_courses::before {
+  right: -6.5px !important;
+  border-radius: 0 5px 5px 0 !important;
+}
+
+.wpsh-ribbon_courses::after {
+  right: -4.5px !important;
+  border-radius: 5px 5px 0 0 !important;
+
+}
+
 .wpsh-redirect {
   height: 50px !important;
 }
+
 
 .wpvar-courses {
   font-weight: bold;
