@@ -56,10 +56,7 @@ class WPSH_Disable_Admin_Bar_Addon extends WPSH_Addons
         }
 
         if (!is_admin()) {
-            add_filter('show_admin_bar', array(
-                $this,
-                'admin_bar'
-            ));
+            add_filter('show_admin_bar', array($this, 'admin_bar'));
         }
     }
 

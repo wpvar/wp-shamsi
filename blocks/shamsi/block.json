@@ -1,0 +1,29 @@
+{
+	"apiVersion": 2,
+	"name": "wpsh-blocks/shamsi",
+	"title": "تاریخ شمسی",
+	"category": "wpsh",
+	"keywords": [ "shamsi", "جلالی", "شمسی", "تاریخ", "wp-shamsi" ],
+	"attributes": {
+		"date": {
+			"type": "string"
+		},
+		"alignment": {
+			"type": "string",
+			"default": "center"
+		}
+	},
+	"example": {
+		"attributes": {
+			"preview" : true
+		}
+	},
+	"description": "بلوک تاریخ شمسی افزونه تاریخ شمسی و فارسی‌ساز وردپرس، wpvar.com",
+	"supports": {
+		"html": true
+	},
+	"textdomain": "wpsh",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css"
+}

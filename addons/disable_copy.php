@@ -56,10 +56,7 @@ class WPSH_Addon_Disable_Copy extends WPSH_Addons
             die();
         }
 
-        add_action('wp_enqueue_scripts', array(
-            $this,
-            'script'
-        ));
+        add_action('wp_enqueue_scripts', array($this, 'script'));
     }
 
     public function script()

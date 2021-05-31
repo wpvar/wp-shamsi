@@ -1,0 +1,43 @@
+{
+	"apiVersion": 2,
+	"name": "wpsh-blocks/justify",
+	"title": "پاراگراف تراز شده",
+	"category": "wpsh",
+	"keywords": [ "paragraph", "متن", "تراز", "پاراگراف", "p" ],
+	"attributes": {
+		"content": {
+			"type": "string",
+			"source": "html",
+			"selector": "p",
+			"default": "",
+			"__experimentalRole": "content"
+		},
+		"direction": {
+			"type": "string",
+			"default": "rtl",
+			"selector": "p"
+		}
+	},
+	"example": {
+		"attributes": {
+			"preview" : true
+		}
+	},
+	"description": "بلوک پاراگراف تراز شده (Justify) افزونه تاریخ شمسی و فارسی‌ساز وردپرس، wpvar.com",
+	"supports": {
+		"anchor": true,
+		"className": false,
+		"color": {
+			"link": true,
+			"gradient": true
+		},
+		"fontSize": true,
+		"lineHeight": true,
+		"__experimentalSelector": "p",
+		"__unstablePasteTextInline": true
+	},
+	"textdomain": "wpsh",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css"
+}

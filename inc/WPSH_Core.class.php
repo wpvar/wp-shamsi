@@ -28,71 +28,31 @@ class WPSH_Core
    */
   function __construct()
   {
-    register_activation_hook(WPSH_FILE, array(
-      $this,
-      'init'
-    ));
+    register_activation_hook(WPSH_FILE, array($this, 'init'));
 
     if (function_exists('wp_date')) {
-      add_filter('wp_date', array(
-        $this,
-        'wp_shamsi'
-      ), 10, 4);
+      add_filter('wp_date', array($this, 'wp_shamsi'), 10, 4);
     } else {
-      add_filter('date_i18n', array(
-        $this,
-        'wp_shamsi'
-      ), 10, 4);
+      add_filter('date_i18n', array($this, 'wp_shamsi'), 10, 4);
     }
 
-    add_filter('human_time_diff', array(
-      $this,
-      'wp_shamsi_diff'
-    ), 10, 4);
-
-    add_action('wp_enqueue_scripts', array(
-      $this,
-      'script'
-    ), 999);
-
-    add_action('login_enqueue_scripts', array(
-      $this,
-      'login_themes'
-    ));
-
-    add_filter('mce_css', array(
-      $this,
-      'tinymce_style'
-    ), 10);
+    add_filter('human_time_diff', array($this, 'wp_shamsi_diff'), 10, 4);
+    add_action('wp_enqueue_scripts', array($this, 'script'), 999);
+    add_action('login_enqueue_scripts', array($this, 'login_themes'));
+    add_filter('mce_css', array($this, 'tinymce_style'), 10);
 
     if (!empty($this->option('translate-group')[0]['translate-target'])) {
-      add_filter('gettext', array(
-        $this,
-        'translate'
-      ), 20, 1);
-      add_filter('ngettext', array(
-        $this,
-        'translate'
-      ), 20, 1);
+      add_filter('gettext', array($this, 'translate'), 20, 1);
+      add_filter('ngettext', array($this, 'translate'), 20, 1);
     }
 
     if (get_locale() == 'fa_IR' || get_locale() == 'fa_AF') {
-      add_filter('wp_mail', array(
-        $this,
-        'email'
-      ));
+      add_filter('wp_mail', array($this, 'email'));
     }
 
-    add_filter('wp_insert_post_data', array( //wp_update_post_data
-      $this,
-      'save_post_date'
-    ), 99, 1);
-
-    add_filter('wp_update_comment_data', array(
-      $this,
-      'save_comment_date'
-    ), 99, 1);
-
+    //wp_update_post_data
+    add_filter('wp_insert_post_data', array($this, 'save_post_date'), 99, 1);
+    add_filter('wp_update_comment_data', array($this, 'save_comment_date'), 99, 1);
     add_filter('wp_checkdate', '__return_true');
   }
 
@@ -152,7 +112,6 @@ class WPSH_Core
    */
   public function init()
   {
-
     update_option('start_of_week', 6);
     load_plugin_textdomain('wpsh');
     delete_transient('dash_v2_' . md5('dashboard_primary_fa_IR'));
@@ -222,9 +181,8 @@ class WPSH_Core
   public function script()
   {
     if ($this->option('persian-num', true, true) && (get_locale() == 'fa_IR' || get_locale() == 'fa_AF')) :
-      wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array(
-        'jquery'
-      ), WPSH_VERSION, true);
+
+      wp_enqueue_script('wpsh', WPSH_URL . 'assets/js/wpsh.js', array('jquery'), WPSH_VERSION, true);
 
       $isShamsiInAdmin = array(
         'in_admin' => (is_admin()) ? 1 : 0,
@@ -314,8 +272,11 @@ class WPSH_Core
         ';
         $css .= '
         h1,  h2,  h3,  h4,  h5,  h6,  p,  a,  code,  li,  ul,  strong,  select,  option,  button, p,  input, span, textarea, body {
-          font-family: ' . $font . ', tahoma, sans-serif, arial, dashicons;
+          font-family: ' . $font . ', tahoma, sans-serif, arial, dashicons, Roboto-Regular, HelveticaNeue, sans-serif;
           letter-spacing: 0;
+        }
+        #yoast-snippet-preview-container * {
+          font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
         }
         ';
         $css .= '
@@ -843,6 +804,9 @@ class WPSH_Core
    */
   protected function pro($soft = false)
   {
+    if (!in_array('wp-shamsi-pro/wp-shamsi-pro.php', apply_filters('active_plugins', get_option('active_plugins')))) {
+      return false;
+    }
     $serial = !empty(get_option('wpsh_pro_license')) ? get_option('wpsh_pro_license') : false;
     $status = !empty(get_option('wpsh_pro_license_status')) && get_option('wpsh_pro_license_status') == 1 ? true : false;
     $due = !empty(get_option('wpsh_pro_license_due')) && get_option('wpsh_pro_license_due') > current_time('timestamp', false) ? true : false;

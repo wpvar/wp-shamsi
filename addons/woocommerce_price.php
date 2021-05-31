@@ -37,7 +37,7 @@ class WPSH_Addon_Woocommerce_Price extends WPSH_Addons
         // صفحه معرفی افزودنی برای کسب اطلاعات بیشتر
         $addon_home = 'https://wpvar.com/wp-shamsi';
         // آیا افزودنی به صورت پیشفرض فعال باشد
-        $is_active = true;
+        $is_active = false;
 
         $wpsh_addon[] = array(
             'slug' => $slug,
@@ -56,10 +56,7 @@ class WPSH_Addon_Woocommerce_Price extends WPSH_Addons
             die();
         }
         if (class_exists('WooCommerce')) {
-            add_filter('woocommerce_get_price_html', array(
-                $this,
-                'addon'
-            ), 10, 2);
+            add_filter('woocommerce_get_price_html', array($this, 'addon'), 10, 2);
         }
     }
 

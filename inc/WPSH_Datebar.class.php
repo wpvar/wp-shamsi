@@ -25,11 +25,7 @@ class WPSH_Datebar extends WPSH_Core
      */
     function __construct()
     {
-
-        add_action('admin_bar_menu', array(
-            $this,
-            'date_bar'
-        ), 1000);
+        add_action('admin_bar_menu', array($this, 'date_bar'), 1000);
     }
 
     /**
