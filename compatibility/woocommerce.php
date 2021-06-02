@@ -14,9 +14,7 @@ defined('ABSPATH') or die();
  * @since 2.0.0
  */
 class WPSH_Woo extends WPSH_Core
-
 {
-
     function __construct()
     {
         if (!parent::option('activate-woocommerce', true, true)) {

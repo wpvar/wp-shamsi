@@ -5,7 +5,7 @@ Donate link: https://wpvar.com/pro/
 Requires at least: 4.0
 Tested up to: 5.7
 Requires PHP: 5.5
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 License: GNU Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -177,6 +177,11 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 7. ووکامرس
 
 == Changelog ==
+= 4.0.1 =
+در این نسخه 1 باگ رفع شده است :
+
+* رفع باگ: افزودن سازگاری با قالب و افزونه بادی باس
+
 = 4.0.0 =
 در این نسخه 5 امکانات جدید معرفی شده، 2 بهبود اضافه شده و 2 باگ رفع شده است :
 

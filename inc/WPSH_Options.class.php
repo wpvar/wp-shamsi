@@ -539,6 +539,13 @@ class WPSH_Options extends WPSH_Core
                     'default' => 'yes',
                 ),
                 array(
+                    'id' => 'activate-buddyboss',
+                    'type' => 'switcher',
+                    'title' => __('بادی باس', 'wpsh'),
+                    'description' => __('قالب و افزونه بادی باس', 'wpsh'),
+                    'default' => 'yes',
+                ),
+                array(
                     'type' => 'notice',
                     'class' => 'danger',
                     'content' => __('با فعال کردن گزینه زیر، شمسی‌سازی بخش مدیریت غیرفعال خواهد شد ولی محیط کاربری وردپرس همچنان شمسی‌سازی خواهد شد. این گزینه را هنگامی فعال کنید که شمسی‌ساز با افزونه‌های دیگر دچار تداخل باشد.', 'wpsh'),
