@@ -43,6 +43,12 @@ class WPSH_Datebar extends WPSH_Core
             return;
         }
 
+        $active = apply_filters('wpsh_admin_bar', true);
+
+        if($active === false) {
+            return;
+        }
+
         $jdate = parent::wp_shamsi(null, 'l d F Y', time());
         $gdate = date('l d F Y', time());
         $jtime = parent::wp_shamsi(null, 'g:i a', time());

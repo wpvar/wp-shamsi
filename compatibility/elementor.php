@@ -14,9 +14,7 @@ defined('ABSPATH') or die();
  * @since 2.1.2
  */
 class WPSH_Elementor extends WPSH_Core
-
 {
-
     function __construct()
     {
 

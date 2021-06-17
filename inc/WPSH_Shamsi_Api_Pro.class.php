@@ -184,10 +184,12 @@ wpvar.com
                 $f = file_put_contents("wp-shamsi-pro.zip", fopen("https://api.wpvar.com/wp-json/wp-shamsi/v1/download?license=" . $license . "&key=" . $key . "&site=" . $site . "", 'r'), LOCK_EX);
                 if (false === $f) {
                     add_action('admin_notices', array($this, 'download_error'), 10);
+                    unlink('wp-shamsi-pro.zip');
                     return;
                 }
                 if (!class_exists('ZipArchive')) {
                     add_action('admin_notices', array($this, 'download_error'), 10);
+                    unlink('wp-shamsi-pro.zip');
                     return;
                 }
                 $zip = new ZipArchive;
@@ -210,6 +212,7 @@ wpvar.com
                 } else {
                     add_action('admin_notices', array($this, 'download_error'), 10);
                 }
+                unlink('wp-shamsi-pro.zip');
             }
         }
     }

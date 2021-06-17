@@ -804,9 +804,6 @@ class WPSH_Core
    */
   protected function pro($soft = false)
   {
-    if (!in_array('wp-shamsi-pro/wp-shamsi-pro.php', apply_filters('active_plugins', get_option('active_plugins')))) {
-      return false;
-    }
     $serial = !empty(get_option('wpsh_pro_license')) ? get_option('wpsh_pro_license') : false;
     $status = !empty(get_option('wpsh_pro_license_status')) && get_option('wpsh_pro_license_status') == 1 ? true : false;
     $due = !empty(get_option('wpsh_pro_license_due')) && get_option('wpsh_pro_license_due') > current_time('timestamp', false) ? true : false;
@@ -820,6 +817,9 @@ class WPSH_Core
         return false;
       }
     } else {
+      if (!in_array('wp-shamsi-pro/wp-shamsi-pro.php', apply_filters('active_plugins', get_option('active_plugins')))) {
+        return false;
+      }
       if ($serial && $status && $due && $exists) {
         return true;
       } else {
