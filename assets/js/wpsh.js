@@ -8,7 +8,7 @@
 	 \/  \/   |_|      |_____/|_|  |_/_/    \_\_|  |_|_____/|_____|
 
 
- * @version WP Shamsi aka افزونه شمسی ساز و فارسی ساز وردپرس  V4.0.1
+ * @version WP Shamsi aka افزونه شمسی ساز و فارسی ساز وردپرس  V4.0.2
  * @info https://wordpress.org/plugins/wp-shamsi/
  *
  */

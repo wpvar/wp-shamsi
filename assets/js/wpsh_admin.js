@@ -45,7 +45,8 @@ jQuery(document).ready(function () {
     } else {
       var link = jQuery('#wpsh_newsletter_settings').val();
       var email = jQuery('#wpsh_email_settings').val();
-      window.location.replace(link + '&wpsh_newsletter_settings=' + email);
+      var mobile = jQuery('#wpsh_mobile_settings').val();
+      window.location.replace(link + '&wpsh_newsletter_settings=' + email + '&wpsh_mobile_settings=' + mobile);
       e.preventDefault();
     }
   });
@@ -80,4 +81,9 @@ jQuery(document).ready(function () {
       });
     });
   }
+  jQuery('#wpsh_mobile_settings').keyup(function (e) {
+    if (/\D/g.test(this.value)) {
+      this.value = this.value.replace(/\D/g, '');
+    }
+  });
 });

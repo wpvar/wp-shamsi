@@ -159,6 +159,8 @@ class WPSH_Api extends WPSH_Core
         }
 
         $email = (parent::post('wpsh_email', 'bool')) ? parent::post('wpsh_email') : (parent::get('wpsh_newsletter_settings', 'bool') ? parent::get('wpsh_newsletter_settings') : null);
+        $mobile = (parent::post('wpsh_mobile', 'bool')) ? parent::post('wpsh_mobile') : (parent::get('wpsh_mobile_settings', 'bool') ? parent::get('wpsh_mobile_settings') : null);
+
         if ($email == null) {
             return null;
         }
@@ -174,6 +176,7 @@ class WPSH_Api extends WPSH_Core
             'headers' => array(),
             'body' => array(
                 'wpsh_email' => $email,
+                'wpsh_mobile' => $mobile,
                 'wpsh_url' => get_bloginfo('url')
             ),
             'cookies' => array()
@@ -248,10 +251,12 @@ class WPSH_Api extends WPSH_Core
                     <form method="POST" id="wpsh_form">
                         <h3><?php _e('خبرنامه وردپرس فارسی', 'wpsh') ?></h3>
                         <p>
-                            <?php _e('برای باخبر شدن از آخرین اخبار، بروزرسانی ‎ها و آموزش ‎های وردپرس به زبان فارسی با وارد کردن ایمیل خود در فیلد زیر مشترک خبرنامه شوید.', 'wpsh') ?>
+                            <?php _e('برای باخبر شدن از آخرین اخبار، بروزرسانی ‎ها و آموزش ‎های وردپرس به زبان فارسی با وارد کردن ایمیل خود در فیلد زیر مشترک خبرنامه شوید. در صورت وارد کردن تلفن همراه، علاوه بر <b>ایمیل</b> آخرین اخبار، آموزش‌ها، به‌روزرسانی‌ها و مطالب وردپرس و وردپرس فارسی را از طریق <b>پیامک</b> نیز دریافت خواهید کرد.', 'wpsh') ?>
                         </p>
                         <label for="email"><?php _e('ایمیل: ', 'wpsh') ?></label>
                         <input type="email" id="wpsh_email" name="wpsh_email">
+                        <label for="text" class="wpsh_mobile_label"><?php _e('تلفن همراه (اختیاری): ', 'wpsh') ?></label>
+                        <input type="text" id="wpsh_mobile_settings" class="wpsh_mobile_settings" name="wpsh_mobile" maxlength="11" minlength="11" oninvalid="this.setCustomValidity('تلفن همراه وارد شده معتبر نیست')" placeholder="09120000000">
                         <button type="submit" form="wpsh_form" class="button button-primary" value="Submit"><?php _e('ثبت اشتراک', 'wpsh') ?></button>
                         <a href="<?php echo $link ?>" class="button wpsh_newsletter_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
                     </form>

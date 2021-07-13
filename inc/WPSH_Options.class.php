@@ -179,9 +179,11 @@ class WPSH_Options extends WPSH_Core
             $newsletter = '
           <label for="email">ایمیل: </label>
           <input type="email" id="wpsh_email_settings" class="wpsh_email_settings" name="wpsh_email_settings">
+          <label for="text" class="wpsh_mobile_label">تلفن همراه (اختیاری): </label>
+          <input type="text" id="wpsh_mobile_settings" class="wpsh_mobile_settings" name="wpsh_mobile_settings" maxlength="11" minlength="11" oninvalid="this.setCustomValidity("تلفن همراه وارد شده معتبر نیست")" placeholder="09120000000">
           <a class="button button-primary" id="wpsh_form_settings">ثبت اشتراک</a>
           <p>
-          برای باخبر شدن از آخرین اخبار، به‌روزرسانی ‎ها و آموزش ‎های وردپرس به زبان فارسی با وارد کردن ایمیل خود در فیلد زیر مشترک خبرنامه شوید.
+          برای باخبر شدن از آخرین اخبار، به‌روزرسانی ‎ها و آموزش ‎های وردپرس به زبان فارسی با وارد کردن ایمیل و تلفن همراه خود در فیلد زیر مشترک خبرنامه شوید. در صورت وارد کردن تلفن همراه، علاوه بر <b>ایمیل</b> آخرین اخبار، آموزش‌ها، به‌روزرسانی‌ها و مطالب وردپرس و وردپرس فارسی را از طریق <b>پیامک</b> نیز دریافت خواهید کرد.
           </p>
           <p id="wpsh_email_validation_settings">
           </p>
@@ -257,12 +259,6 @@ class WPSH_Options extends WPSH_Core
                 'type' => 'content',
                 'wrap_class' => 'no-border-bottom',
                 'content' => '
-                <!-- wpvar.net banner -->
-                <a href="https://wpvar.net/?wpsh=1" target="_blank">
-                    <div class="wpvarnet-banner">
-                        <img src="' . WPSH_URL . 'assets/img/wpvarnet.svg" alt="هاست وردپرس فارسی" loading="lazy"/>
-                    </div>
-                </a>
                 <a href="https://wpvar.com/courses/?wpshc=1" target="_blank">
                     <div class="wpvarnet-banner">
                         <img src="' . WPSH_URL . 'assets/img/wpvar-courses-wp.svg" alt="دوره‌های آموزشی وردپرس فارسی" loading="lazy"/>
@@ -805,6 +801,8 @@ class WPSH_Options extends WPSH_Core
                 <p>ما هم از خبرنامه‌هایی که روزانه ده‌ها ایمیل ارسال می‌کنند متنفریم! پس نگران نباشید به طور میانگین هفتگی بیش از ۱ الی ۲ ایمیل ارسال نخواهد شد.</p>
                 <p>هرموقع که بخواهید، از طریق لینک موجود در ایمیل‌های ارسالی می‌توانید اشتراک خود را لغو کنید.</p>
                 <p>با عضویت درخبرنامه آدرس ایمیل و آدرس وبسایت شما به وبسایت ما ارسال خواهد شد وبسایت ما و این افزونه حق دسترسی و استفاده از این داده ها را خواهد داشت.</p>
+                <p>با وارد کردن تلفن همراه خود در خبرنامه، قبول می‌کنید که وب‌سایت ما اجازه ذخیره تلفن همراه شما جهت ارسال پیامک را دارد و وب‌سایت ما می‌تواند علاوه بر محتوای پیامکی و آموزش‌ها، اخبار و اطلاعیه‌های وبسایت‌ ما را ارسال کند.</p>
+                <p>جهت لغو اشتراک در خبرنامه پیامکی می‌توانید برروی لینک ارسالی در پیامک کلیک کنید ویا از طریق فرم تماس با ما در سایت درخواست خود را ثبت کنید.</p>
                 <p>عضویت در خبرنامه به شما این امکان را می دهد تا هرچه سریع تر از به‌روزرسانی‌های وردپرس که گاها برخی به‌روزرسانی‌های امنیتی می باشند باخبر شوید پس برای حفظ امنیت سایت و مطلع شدن از آخرین اخبار وردپرس، توصیه می‌کنیم در خبرنامه مشترک شوید.</p>
                 <p>با اشتراک در خبرنامه نشان می‌دهید که شرایط و ضوابط فوق الذکر را پذیرفته‌اید.</p>
                 <h3>آمار</h3>
@@ -822,49 +820,6 @@ class WPSH_Options extends WPSH_Core
                 <span>کد لایسنس فونت ایران یکان: V75HKF</span>
                 ', 'wpsh'),
                 ),
-            )
-        );
-
-        $fields[] = array(
-            'name' => 'hosts',
-            'title' => __('هاست وردپرس', 'wpsh'),
-            'icon' => 'dashicons-database',
-            'fields' => array(
-                array(
-                    'type' => 'content',
-                    'wrap_class' => 'no-border-bottom wpvarnet',
-                    'content' => __('سرعت و امنیت وردپرس علاوه بر خود برنامه، تاحد زیادی به میزبان و هاست شما هم بستگی دارد. با استفاده از خدمات هاستینگ اختصاصی وردپرس، خیال‌تان بابت سرعت و امنیت وبسایت‌خود راحت خواهد بود. همه سرورهای ما از جدیدیتری سخت‌افزارها و نرم‌افزارها بهره می‌برند و به‌صورت اختصاصی با وردپرس و ووکامرس بهینه‌سازی شده‌اند تا وردپرس با حداکثر سرعت و کیفیت اجزا شود. همچنین با تهیه هاست از وردپرس فارسی، <strong>نسخه VIP این افزونه به صورت رایگان</strong> ارائه خواهد شد. افزایش سرعت و پایداری هاست، تاثیر زیادی در بهبود سئو وب‌سایت شما خواهد داشت. برای دریافت جزئیات <a href="https://wpvar.net/?wpsh=1" target="_blank"><strong>اینجا کلیک کنید</strong></a>. <br /><br /> <strong>برخی امکانات و مشخصات:</strong>
-                    <ul>
-                        <li>دامنه رایگان</li>
-                        <li>SSL رایگان</li>
-                        <li>انتقال رایگان وب‌سایت</li>
-                        <li>هارد NVMe SSD</li>
-                        <li>تکنولوژی LiteSpeed</li>
-                        <li>پنل هاست cPanel</li>
-                        <li>پشتیبان‌گیری روزانه</li>
-                        <li>امنیت و آپ‌تایم بالا</li>
-                        <li>پشتیبانی حرفه‌ای</li>
-                        <li>نصب خودکار وردپرس فارسی</li>
-                        <li>نسخه VIP این افزونه به‌صورت رایگان</li>
-                    </ul>
-                    ', 'wpsh'),
-                    'before' => '<strong>هاست اختصاصی وردپرس و ووکامرس</strong>',
-                ),
-                array(
-                    'type' => 'content',
-                    'wrap_class' => 'no-border-bottom',
-                    'content' => '
-                    <!-- wpvar.net banner -->
-                    <a href="https://wpvar.net/?wpsh=1" target="_blank">
-                    <div id="wpvarNetBannerChild" class="scene">
-                        <div class="rocket-title">وردپرس را با بالاترین سرعت و امنیت تجربه کنید</div>
-                        <div class="rocket">
-                            <img src="' . WPSH_URL . 'assets/img/wpvarnet.svg" alt="موشک وردپرس فارسی" />
-                        </div>
-                    </div>
-                    </a>
-                    ',
-                )
             )
         );
 
