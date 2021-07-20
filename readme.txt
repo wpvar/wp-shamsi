@@ -25,7 +25,6 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calendar and improves local UI to farsi users.
 
 **[برای دریافت نسخه حرفه‌ای کلیک کنید](https://wpvar.com/pro/)**
-[هاست اختصاصی وردپرس و ووکامرس](https://wpvar.net/)
 [دوره‌های آموزشی وردپرس فارسی](https://wpvar.com/courses/)
 [پشتیبانی وردپرس فارسی](https://wpvar.com/forums/)
 
@@ -135,11 +134,6 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 
 
 **[برای دریافت نسخه حرفه‌ای کلیک کنید](https://wpvar.com/pro/)**
-
-## هاست اختصاصی وردپرس و ووکامرس
-با استفاده از خدمات هاستینگ وردپرس فارسی سرعت و امنیت وب‌سایت خود را افزایش دهید. تمامی سرورها به‌طور اختصاصی با وردپرس بهینه شده اند و از جدیدترین سخت افزار و نرم افزار‌ها استفاده شده است [برای اطلاعات بیشتر کلیک کنید](https://wpvar.net/)
-
-[هاست پرسرعت و اختصاصی وردپرس فارسی و ووکامرس](https://wpvar.net/)
 
 ## پشتیبانی وردپرس فارسی
 

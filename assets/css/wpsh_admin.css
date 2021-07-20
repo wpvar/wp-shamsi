@@ -462,29 +462,6 @@
   font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 }
 
-.wpvarnet .exopite-sof-before {
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-.wpvarnet ul {
-  list-style: inside;
-}
-
-.wpvarnet {
-  text-align: justify;
-}
-
-.wp-admin .wpvarnet-intro {
-  background: #dbfdee;
-  border: none;
-  font-size: 14px;
-}
-
-.wpvarnet-intro a {
-  text-decoration: none;
-}
-
 .wp-admin .exopite-sof-field .exopite-sof-notice, .wp-admin .exopite-sof-section>.exopite-sof-field {
   border: none;
 }

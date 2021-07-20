@@ -260,7 +260,7 @@ class WPSH_Options extends WPSH_Core
                 'wrap_class' => 'no-border-bottom',
                 'content' => '
                 <a href="https://wpvar.com/courses/?wpshc=1" target="_blank">
-                    <div class="wpvarnet-banner">
+                    <div class="wpvarcom-banner">
                         <img src="' . WPSH_URL . 'assets/img/wpvar-courses-wp.svg" alt="دوره‌های آموزشی وردپرس فارسی" loading="lazy"/>
                     </div>
                 </a>
@@ -830,11 +830,6 @@ class WPSH_Options extends WPSH_Core
             'title' => __('نسخه حرفه‌ای', 'wpsh'),
             'icon' => 'dashicons-star-filled',
             'fields' => array(
-                array(
-                    'type' => 'notice',
-                    'class' => 'wpvarnet-intro',
-                    'content' => __('با تهیه هاست از <a href="https://wpvar.net/?wpsh=1" target="_blank"><strong>وردپرس فارسی</strong></a> می‌توانید نسخه حرفه‌ای و VIP افزونه را به‌صورت <strong>رایگان</strong> دریافت کنید. برای دریافت جزئیات <a href="https://wpvar.net/?wpsh=1" target="_blank"><strong>اینجا کلیک کنید</strong></a>.', 'wpsh'),
-                ),
                 array(
                     'type'    => 'content',
                     'content'   =>  apply_filters('wpsh_pro_intro', $pro_intro)
