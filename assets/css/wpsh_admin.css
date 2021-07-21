@@ -67,7 +67,6 @@
 
 .wpsh_newsletter_settings input, .wpsh_newsletter_settings a, .wpsh_newsletter_settings label {
   margin: 15px 2px 2px 2px !important;
-  padding-top: 15px;
 }
 
 .wpsh_newsletter input, .wpsh_newsletter a, .wpsh_newsletter label, .wpsh_newsletter button  {
@@ -607,5 +606,16 @@
   .wpsh-feutures__list_left {
     float: inherit;
     margin: 0 auto 45px auto;
+  }
+  .wpsh_newsletter label, .wpsh_newsletter input {
+    display: block;
+  }
+  .exopite-sof-field .button.button-primary, .exopite-sof-field .exopite-sof-btn {
+    line-height: 37px !important;
+  }
+}
+@media only screen and (max-width: 1247px) {
+  .wpsh_newsletter_settings label, .wpsh_newsletter_settings input {
+    display: block;
   }
 }
