@@ -60,11 +60,12 @@ class WPSH_Maintenance_Addon extends WPSH_Addons
 
     public function maintenance()
     {
-        if (!current_user_can('activate_plugins') || !is_user_logged_in()) {
+        $user = wp_get_current_user();
+        if ((!current_user_can('activate_plugins') && !in_array('shop_manager', (array) $user->roles)) || !is_user_logged_in()) {
 
             $font = parent::option('dashboard-font-default', false, 'IRANSansWeb');
 
-            if($font != 'none') {
+            if ($font != 'none') {
                 $css = parent::font($font);
             } else {
                 $css = '';

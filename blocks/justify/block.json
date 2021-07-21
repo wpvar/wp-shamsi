@@ -31,10 +31,12 @@
 			"link": true,
 			"gradient": true
 		},
-		"fontSize": true,
-		"lineHeight": true,
 		"__experimentalSelector": "p",
-		"__unstablePasteTextInline": true
+		"__unstablePasteTextInline": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		}
 	},
 	"textdomain": "wpsh",
 	"editorScript": "file:./build/index.js",

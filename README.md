@@ -11,7 +11,7 @@
 WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calendar and improves local UI to farsi users.
 
 **[برای دریافت نسخه حرفه‌ای کلیک کنید](https://wpvar.com/pro/)**
-[هاست اختصاصی وردپرس و ووکامرس](https://wpvar.net/)
+[دوره‌های آموزشی وردپرس فارسی](https://wpvar.com/courses/)
 [پشتیبانی وردپرس فارسی](https://wpvar.com/forums/)
 
 ## امکانات
@@ -121,11 +121,6 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 
 **[برای دریافت نسخه حرفه‌ای کلیک کنید](https://wpvar.com/pro/)**
 
-## هاست اختصاصی وردپرس و ووکامرس
-با استفاده از خدمات هاستینگ وردپرس فارسی سرعت و امنیت وب‌سایت خود را افزایش دهید. تمامی سرورها به‌طور اختصاصی با وردپرس بهینه شده اند و از جدیدترین سخت افزار و نرم افزار‌ها استفاده شده است [برای دریافت نسخه حرفه‌ای کلیک کنید](https://wpvar.net/)
-
-[هاست وردپرس فارسی](https://wpvar.net/)
-
 ## پشتیبانی وردپرس فارسی
 
 * [https://wpvar.com/](https://wpvar.com/)
@@ -162,6 +157,19 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 
 
 ## تغییرات
+= 4.1.0 =
+در این نسخه 2 باگ رفع شده و 1 سازگاری و 1 بهبود اضافه شده است :
+
+* سازگاری: سازگاری با وردپرس 5.8
+* بهبود: امکان دسترسی مدیران فروشگاه ووکامرس به سایت حین فعال بودن حالت در دست تعمیر
+* رفع باگ: رفع باگ‌های جزئی افزونه
+* رفع باگ: به‌روزرسانی محتوای قدیمی
+
+مشارکت کنندگان این نسخه:
+
+* [Ali Faraji](https://github.com/wpvar)
+* [Erfan Attarzadeh](https://github.com/erfanatp)
+
 = 4.0.1 =
 در این نسخه 2 باگ رفع شده و 2 سازگاری اضافه شده است :
 

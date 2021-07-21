@@ -27,7 +27,12 @@ class WPSH_Blocks
     function __construct()
     {
         add_action('init', array($this, 'wpsh_blocks_aparat'));
-        add_filter('block_categories', array($this, 'wpsh_block_category'));
+
+        if (class_exists('WP_Block_Editor_Context')) {
+            add_filter('block_categories_all', array($this, 'wpsh_block_category'), 10, 2);
+        } else {
+            add_filter('block_categories', array($this, 'wpsh_block_category'), 10, 2);
+        }
     }
 
     /**
@@ -40,7 +45,7 @@ class WPSH_Blocks
      */
     public function wpsh_blocks_aparat()
     {
-        if(function_exists('register_block_type_from_metadata')) {
+        if (function_exists('register_block_type_from_metadata')) {
             register_block_type_from_metadata(WPSH_PATH . 'blocks/aparat', array('render_callback' => array($this, 'wpsh_blocks_aparat_render_callback')));
             register_block_type_from_metadata(WPSH_PATH . 'blocks/justify');
             register_block_type_from_metadata(WPSH_PATH . 'blocks/shamsi', array('render_callback' => array($this, 'wpsh_blocks_shamsi_render_callback')));
@@ -98,7 +103,7 @@ class WPSH_Blocks
     {
         $date = wp_date('امروز: l، j F سال Y', strtotime($block_attributes['date']));
         ob_start();
-            echo '
+        echo '
                 <p class="wpsh-blocks_shamsi wpsh-blocks_shamsi_align_' . $block_attributes['alignment'] . '">' . $date . '<p>
             ';
         return ob_get_clean();

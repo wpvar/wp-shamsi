@@ -109,8 +109,7 @@ class WPSH_Admin extends WPSH_Core
             $rss_title = '<a href="' . $rss->get_permalink() . '" target="_blank">' . strtoupper($rss->get_title()) . '</a>';
         endif;
 
-        $html = '<div><a href="https://wpvar.net/?wpsh=1" class="wpsh-ribbon" target="_blank">هاست پرسرعت وردپرس فارسی <span class="dashicons dashicons-external"></span></a></div>';
-        $html .= '<div><a href="https://wpvar.com/courses/?wpshc=1" class="wpsh-ribbon wpsh-ribbon_courses" target="_blank"><span class="dashicons dashicons-external"></span> دوره‌های آموزشی</a></div>';
+        $html = '<div><a href="https://wpvar.com/courses/?wpsh=1" class="wpsh-ribbon" target="_blank">دوره‌های آموزشی<span class="dashicons dashicons-external"></span></a></div>';
 
         $html .= '<div class="rss-widget">';
         if (parent::pro_due() && current_user_can('manage_options')) {

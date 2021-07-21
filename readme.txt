@@ -1,11 +1,11 @@
 === WP Shamsi - افزونه تاریخ شمسی و فارسی ساز وردپرس ===
 Contributors: wpvar, farajiali
-Tags: farsi, shamsi, jalali, iran, persian, date, parsi, hijri, شمسی, تاریخ, فارسی, پارسی, ایران
+Tags: farsi, shamsi, jalali, iran, persian, date, aparat, parsi, hijri, شمسی, تاریخ, فارسی, پارسی, ایران
 Donate link: https://wpvar.com/pro/
 Requires at least: 4.0
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 5.5
-Stable tag: 4.0.1
+Stable tag: 4.1.0
 License: GNU Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -25,7 +25,6 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calendar and improves local UI to farsi users.
 
 **[برای دریافت نسخه حرفه‌ای کلیک کنید](https://wpvar.com/pro/)**
-[هاست اختصاصی وردپرس و ووکامرس](https://wpvar.net/)
 [دوره‌های آموزشی وردپرس فارسی](https://wpvar.com/courses/)
 [پشتیبانی وردپرس فارسی](https://wpvar.com/forums/)
 
@@ -136,11 +135,6 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 
 **[برای دریافت نسخه حرفه‌ای کلیک کنید](https://wpvar.com/pro/)**
 
-## هاست اختصاصی وردپرس و ووکامرس
-با استفاده از خدمات هاستینگ وردپرس فارسی سرعت و امنیت وب‌سایت خود را افزایش دهید. تمامی سرورها به‌طور اختصاصی با وردپرس بهینه شده اند و از جدیدترین سخت افزار و نرم افزار‌ها استفاده شده است [برای اطلاعات بیشتر کلیک کنید](https://wpvar.net/)
-
-[هاست پرسرعت و اختصاصی وردپرس فارسی و ووکامرس](https://wpvar.net/)
-
 ## پشتیبانی وردپرس فارسی
 
 * [https://wpvar.com/](https://wpvar.com/)
@@ -177,6 +171,19 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 7. ووکامرس
 
 == Changelog ==
+= 4.1.0 =
+در این نسخه 2 باگ رفع شده و 1 سازگاری و 1 بهبود اضافه شده است :
+
+* سازگاری: سازگاری با وردپرس 5.8
+* بهبود: امکان دسترسی مدیران فروشگاه ووکامرس به سایت حین فعال بودن حالت در دست تعمیر
+* رفع باگ: رفع باگ‌های جزئی افزونه
+* رفع باگ: به‌روزرسانی محتوای قدیمی
+
+مشارکت کنندگان این نسخه:
+
+* [Ali Faraji](https://github.com/wpvar)
+* [Erfan Attarzadeh](https://github.com/erfanatp)
+
 = 4.0.1 =
 در این نسخه 2 باگ رفع شده و 2 سازگاری اضافه شده است :
 

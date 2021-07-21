@@ -65,8 +65,12 @@
   padding-bottom: 15px;
 }
 
-.wpsh_newsletter_settings {
-  padding-top: 15px;
+.wpsh_newsletter_settings input, .wpsh_newsletter_settings a, .wpsh_newsletter_settings label {
+  margin: 15px 2px 2px 2px !important;
+}
+
+.wpsh_newsletter input, .wpsh_newsletter a, .wpsh_newsletter label, .wpsh_newsletter button  {
+  margin: 15px 2px 2px 2px !important;
 }
 
 .wpsh_newsletter_settings #wpsh_form_settings {
@@ -105,8 +109,17 @@
   margin-bottom: 0;
 }
 
-.wpsh_newsletter_settings #wpsh_email_settings {
+.wpsh_newsletter_settings #wpsh_email_settings, .wpsh_newsletter_settings #wpsh_mobile_settings {
   max-width: 200px;
+}
+
+.wpsh_mobile_label {
+  padding-left: 5px;
+}
+
+.rtl .wpsh_mobile_label {
+  padding-right: 5px;
+  padding-left: 0 !important;
 }
 
 .rtl .notice .button {
@@ -448,29 +461,6 @@
   font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 }
 
-.wpvarnet .exopite-sof-before {
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-.wpvarnet ul {
-  list-style: inside;
-}
-
-.wpvarnet {
-  text-align: justify;
-}
-
-.wp-admin .wpvarnet-intro {
-  background: #dbfdee;
-  border: none;
-  font-size: 14px;
-}
-
-.wpvarnet-intro a {
-  text-decoration: none;
-}
-
 .wp-admin .exopite-sof-field .exopite-sof-notice, .wp-admin .exopite-sof-section>.exopite-sof-field {
   border: none;
 }
@@ -480,7 +470,7 @@
 }
 
 .wpsh-ribbon {
-  width: 200px;
+  width: 160px;
   height: 28px;
   color: #fff;
   text-decoration: none;
@@ -616,5 +606,16 @@
   .wpsh-feutures__list_left {
     float: inherit;
     margin: 0 auto 45px auto;
+  }
+  .wpsh_newsletter label, .wpsh_newsletter input {
+    display: block;
+  }
+  .exopite-sof-field .button.button-primary, .exopite-sof-field .exopite-sof-btn {
+    line-height: 37px !important;
+  }
+}
+@media only screen and (max-width: 1247px) {
+  .wpsh_newsletter_settings label, .wpsh_newsletter_settings input {
+    display: block;
   }
 }
