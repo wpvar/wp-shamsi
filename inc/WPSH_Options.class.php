@@ -120,6 +120,10 @@ class WPSH_Options extends WPSH_Core
         $plugin = (!empty($_GET['wpsh_deactivate']) ? esc_attr($_GET['wpsh_deactivate']) : false);
 
         if ($plugin != false) {
+            if(!current_user_can('manage_options')) {
+                wp_safe_redirect(get_admin_url());
+                exit;
+            }
             deactivate_plugins($plugin . '.php');
         }
 

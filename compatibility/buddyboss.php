@@ -68,7 +68,7 @@ class WPSH_Buddyboss extends WPSH_Core
     public function style()
     {
         $css = '
-            .activity #buddypress .separator, .activity #buddypress .activity {
+            .activity #buddypress .bb-user-content-wrap .separator, .activity #buddypress .bb-user-content-wrap .activity {
                 display: none;
             }
         ';
