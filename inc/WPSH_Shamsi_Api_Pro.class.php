@@ -8,7 +8,7 @@ defined('ABSPATH') or die();
 
 class WPSH_Shamsi_Api_Pro extends WPSH_Core
 {
-    function __construct()
+    public function __construct()
     {
         add_filter('wpsh_pro_license', array($this, 'settings'), 12);
         add_filter('wpsh_pro_intro', array($this, 'intro'), 12);
@@ -22,6 +22,12 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
 
     public function activate()
     {
+        $nonce = esc_attr($_POST['wpsh_license_nonce']);
+
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'wpsh-api') || !current_user_can('manage_options')) {
+            wp_die(8); // Avoid CSRF Attacks
+        }
+
         $serial = esc_attr($_POST['wpsh_license']);
         $this->init(true, $serial);
     }
@@ -35,7 +41,6 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
 
     public function init($bypass = false, $key = null)
     {
-
         $current = current_time('timestamp', false);
 
         if ($key !== null) {
@@ -54,7 +59,6 @@ class WPSH_Shamsi_Api_Pro extends WPSH_Core
         $check = $this->stamp($success_stamp);
 
         if ($check || $bypass) {
-
             $due = get_option('wpsh_pro_license_due');
             if (!empty($due)) {
                 $datediff = $due - $current;
@@ -72,12 +76,10 @@ https://wpvar.com/pro/?renew=1
 wpvar.com
 ', 'wpsh');
 
-                    wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
+                    // wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
                 }
                 if ($days < 0) {
-
                     if ($this->is_active('wp-shamsi-pro/wp-shamsi-pro.php')) {
-
                         $mail_msg = __('
 با عرض سلام
 
@@ -88,7 +90,7 @@ https://wpvar.com/pro/
 وردپرس فارسی
 wpvar.com
 ', 'wpsh');
-                        wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
+                        // wp_mail(get_option('admin_email'), 'تمدید لایسنس', $mail_msg);
                         update_option('wpsh_pro_license_status', 0);
                         deactivate_plugins('wp-shamsi-pro/wp-shamsi-pro.php');
                     }
@@ -136,26 +138,26 @@ wpvar.com
                     update_option('wpsh_pro_license_failed', 0);
                     update_option('wpsh_pro_license_due', $due);
                     update_option('wpsh_pro_license', $serial);
-
+                    
                     if (empty(get_option('wpsh_pro_license_lastcontact'))) {
                         update_option('wpsh_pro_license_lastcontact', $current);
                     }
-
+                    
                     if ($data->type == 2) {
                         update_option('wpsh_pro_is_vip', 1);
                     } else {
                         update_option('wpsh_pro_is_vip', 0);
                     }
-
+                    
                     $this->tasks();
-
+                    
                     if ($bypass) {
                         wp_die(1);
                     }
                 } else {
                     update_option('wpsh_pro_license_status', 0);
                     if ($bypass) {
-                        wp_die(1);
+                        wp_die(7);
                     }
                 }
             }
@@ -164,7 +166,6 @@ wpvar.com
 
     public function tasks()
     {
-
         $license = !empty(get_option('wpsh_pro_license')) ? get_option('wpsh_pro_license') : '';
         $key = md5($license);
         $site = (string)get_bloginfo('url');
@@ -241,7 +242,10 @@ wpvar.com
         }
 
         if (!parent::pro()) {
-            add_action('admin_notices', array($this, 'pro_notice'));
+            /**
+             * @deprecated 4.2.0
+             */
+            //add_action('admin_notices', array($this, 'pro_notice'));
             return;
         }
 
@@ -258,7 +262,7 @@ wpvar.com
         $html .= '</div>';
         $html .= '<div class="notice-wpsh-pro-wrap">';
         $html .= '<h3>تمدید لایسنس</h3>';
-        $html .= '<p>اعتبار لایسنس نسخه حرفه‌ای تاریخ شمسی و فارسی ساز وردپرس رو به <strong>اتمام</strong> است. برای تمدید لایسنس لطفا <strong><a target="_blank" href="https://wpvar.com/pro/?renew=1">اینجا کلیک کنید</a></strong>.</p>';
+        $html .= '<p>اعتبار لایسنس نسخه حرفه‌ای رو به اتمام است. درحال حاضر امکان تمدید لایسنس وجود ندارد.</p>';
         $html .= '</div>';
         $html .= '</div>';
 
@@ -290,7 +294,6 @@ wpvar.com
 
     private function stamp($stamp = null, $failed = false)
     {
-
         $current = current_time('timestamp', false);
         if ($failed) {
             update_option('wpsh_pro_license_lastcontact', $current + $stamp);
@@ -308,7 +311,6 @@ wpvar.com
 
     public function settings($options)
     {
-
         $serial = !empty(get_option('wpsh_pro_license')) && get_option('wpsh_pro_license_status') == 1 ? get_option('wpsh_pro_license') : false;
         $due = !empty(get_option('wpsh_pro_license_due')) ? get_option('wpsh_pro_license_due') : false;
 
@@ -343,7 +345,12 @@ wpvar.com
                 </p>
           ';
         }
-
+        $fields[] =
+            array(
+                'type'    => 'notice',
+                'class'   => 'success',
+                'content' => 'جهت تمرکز بیشتر برروی توسعه نسخه رایگان، درحال حاضر فروش نسخه‌های جدید تجاری متوقف شده است.',
+            );
 
         $fields[] =
 
@@ -359,22 +366,6 @@ wpvar.com
                 </p>
                 ',
                 'before' => $before,
-            );
-
-        if (parent::pro()) {
-            $fields[] =
-                array(
-                    'type'    => 'content',
-                    'title'   => 'پشتیبانی',
-                    'content' => 'برای انتقال به بخش پشتیبانی لطفا <a target="_blank" href="' . $support . '">اینجا کلیک کنید</a>. ایمیل ورود شما همان ایمیلی است که با آن لایسنس را خریداری کرده‌اید. اگر کلمه عبور خود را فراموش کرده‌اید، در صفحه ورود برروی "رمز عبورتان را گم کرده‌اید؟" کلیک کنید.',
-                );
-        }
-
-        $fields[] =
-            array(
-                'type'    => 'notice',
-                'class'   => 'success',
-                'content' => 'برای استفاده از لایسنس اورجینال و قانونی متشکریم. استفاده از نسخه نال شده، اقدام به نال کردن ویا انتشار آن خلاف قوانین حقوق مؤلف بوده و طبق قانون جرایم رایانه‌ای <strong>جرم محسوب شده و پیگرد قانونی</strong> دارد.',
             );
 
         $options = array_merge($fields, $options);
@@ -435,21 +426,19 @@ wpvar.com
 
     public function script()
     {
+        $nonce = wp_create_nonce('wpsh-api');
         wp_enqueue_script('wpsh-license', WPSH_URL . 'assets/js/wpsh_license.js', array('jquery'), WPSH_VERSION, true);
         wp_localize_script('wpsh-license', 'wpshLicense', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
-            'redirect'  => get_admin_url() . 'admin.php?page=wpsh'
+            'redirect'  => get_admin_url() . 'admin.php?page=wpsh&_wpnonce=' . $nonce,
+            'nonce' =>  $nonce
         ));
     }
 
     public function footer($content)
     {
         if (parent::get('page') == 'wpsh') {
-            if (!parent::pro()) {
-                $content = '<a target="_blank" href="https://wpvar.com/pro/" class="wpsh-color wpsh-bold wpsh-big">ارتقا به نسخه حرفه‌ای</a>';
-            } else {
-                $content = '<a target="_blank" href="https://wpvar.com/" class="wpsh-color wpsh-bold">وردپرس فارسی</a>';
-            }
+            $content = '<a target="_blank" href="https://wpvar.com/" class="wpsh-color wpsh-bold">وردپرس فارسی</a>';
         }
 
         return $content;

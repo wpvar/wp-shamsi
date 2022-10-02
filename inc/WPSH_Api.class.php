@@ -24,12 +24,14 @@ class WPSH_Api extends WPSH_Core
      * @since 2.1.0
      *
      */
-    function __construct()
+    public function __construct()
     {
         if (is_admin()) {
-            add_action('admin_notices', array($this, 'newsletter'), 11);
+            // @deprecated 4.2.0
+            // add_action('admin_notices', array($this, 'newsletter'), 11);
             add_action('admin_notices', array($this, 'stats'), 11);
-            add_action('admin_init', array($this, 'newsletter_core'));
+            // @deprecated 4.2.0
+            // add_action('admin_init', array($this, 'newsletter_core'));
             add_action('admin_init', array($this, 'update_stats'));
         }
 
@@ -46,7 +48,6 @@ class WPSH_Api extends WPSH_Core
      */
     public function update_stats()
     {
-
         $permission = $this->permission('stats');
 
         if ($permission !== true) {
@@ -68,7 +69,6 @@ class WPSH_Api extends WPSH_Core
      */
     public function send_stats()
     {
-
         $interval = 604800; // Every Week
         $failed_interval = 86400; // Every Day
         $is_permission = parent::option('activate-stats', true, false); // Default is False, Do not run function without permission
@@ -99,7 +99,6 @@ class WPSH_Api extends WPSH_Core
      */
     public function permission($mode)
     {
-
         $user = get_current_user_id();
         $dismiss = parent::get('wpsh_' . $mode);
         $do_dismiss = 'wpsh_' . $mode . '_dismiss';
@@ -146,11 +145,13 @@ class WPSH_Api extends WPSH_Core
      * Checks if user has permission to subscribe in new letter and if so will send data to REST API
      *
      * @since 2.1.0
+     * @deprecated 4.2.0
      *
      * @return array Respone of endpoit.
      */
     public function newsletter_core()
     {
+        return; // Deprecated since 4.2.0
 
         $permission = $this->permission('newsletter');
 
@@ -230,7 +231,7 @@ class WPSH_Api extends WPSH_Core
      */
     public function newsletter()
     {
-
+        return; // Deprecated since 4.2.0
         $core = $this->newsletter_core();
 
         $type = isset($core['type']) ? $core['type'] : null;
@@ -239,50 +240,53 @@ class WPSH_Api extends WPSH_Core
 
         if (is_array($core)) : ?>
 
-            <div class="<?php echo $type ?>">
-                <p>
-                    <?php echo $message ?>
-                </p>
-            </div> <?php
+<div class="<?php echo $type ?>">
+    <p>
+        <?php echo $message ?>
+    </p>
+</div> <?php
                 endif;
-                if ($type !== 'notice notice-success' && !parent::get('wpsh_newsletter_settings', 'bool') && parent::get('wpsh_newsletter') != 'dismiss' && $core !== false) : ?>
-            <div class="notice notice-success is-dismissible">
-                <div class="wpsh_newsletter">
-                    <form method="POST" id="wpsh_form">
-                        <h3><?php _e('خبرنامه وردپرس فارسی', 'wpsh') ?></h3>
-                        <p>
-                            <?php _e('برای باخبر شدن از آخرین اخبار، بروزرسانی ‎ها و آموزش ‎های وردپرس به زبان فارسی با وارد کردن ایمیل خود در فیلد زیر مشترک خبرنامه شوید. در صورت وارد کردن تلفن همراه، علاوه بر <b>ایمیل</b> آخرین اخبار، آموزش‌ها، به‌روزرسانی‌ها و مطالب وردپرس و وردپرس فارسی را از طریق <b>پیامک</b> نیز دریافت خواهید کرد.', 'wpsh') ?>
-                        </p>
-                        <label for="email"><?php _e('ایمیل: ', 'wpsh') ?></label>
-                        <input type="email" id="wpsh_email" name="wpsh_email">
-                        <label for="text" class="wpsh_mobile_label"><?php _e('تلفن همراه (اختیاری): ', 'wpsh') ?></label>
-                        <input type="text" id="wpsh_mobile_settings" class="wpsh_mobile_settings" name="wpsh_mobile" maxlength="11" minlength="11" oninvalid="this.setCustomValidity('تلفن همراه وارد شده معتبر نیست')" placeholder="09120000000">
-                        <button type="submit" form="wpsh_form" class="button button-primary" value="Submit"><?php _e('ثبت اشتراک', 'wpsh') ?></button>
-                        <a href="<?php echo $link ?>" class="button wpsh_newsletter_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
-                    </form>
-                    <p id="wpsh_email_validation">
-                    </p>
-                </div>
-            </div>
-        <?php
+        if ($type !== 'notice notice-success' && !parent::get('wpsh_newsletter_settings', 'bool') && parent::get('wpsh_newsletter') != 'dismiss' && $core !== false) : ?>
+<div class="notice notice-success is-dismissible">
+    <div class="wpsh_newsletter">
+        <form method="POST" id="wpsh_form">
+            <h3><?php _e('خبرنامه وردپرس فارسی', 'wpsh') ?>
+            </h3>
+            <p>
+                <?php _e('برای باخبر شدن از آخرین اخبار، بروزرسانی ‎ها و آموزش ‎های وردپرس به زبان فارسی با وارد کردن ایمیل خود در فیلد زیر مشترک خبرنامه شوید. در صورت وارد کردن تلفن همراه، علاوه بر <b>ایمیل</b> آخرین اخبار، آموزش‌ها، به‌روزرسانی‌ها و مطالب وردپرس و وردپرس فارسی را از طریق <b>پیامک</b> نیز دریافت خواهید کرد.', 'wpsh') ?>
+            </p>
+            <label for="email"><?php _e('ایمیل: ', 'wpsh') ?></label>
+            <input type="email" id="wpsh_email" name="wpsh_email">
+            <label for="text" class="wpsh_mobile_label"><?php _e('تلفن همراه (اختیاری): ', 'wpsh') ?></label>
+            <input type="text" id="wpsh_mobile_settings" class="wpsh_mobile_settings" name="wpsh_mobile" maxlength="11"
+                minlength="11" oninvalid="this.setCustomValidity('تلفن همراه وارد شده معتبر نیست')"
+                placeholder="09120000000">
+            <button type="submit" form="wpsh_form" class="button button-primary" value="Submit"><?php _e('ثبت اشتراک', 'wpsh') ?></button>
+            <a href="<?php echo $link ?>"
+                class="button wpsh_newsletter_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
+        </form>
+        <p id="wpsh_email_validation">
+        </p>
+    </div>
+</div>
+<?php
                 endif;
-            }
+    }
 
-            /**
-             * API to send stats
-             *
-             * Function to send stats
-             *
-             * @since 2.1.0
-             *
-             * @return bool True on success.
-             */
-            private function stats_core()
-            {
-
-                $phpversion = phpversion();
-                $url = 'https://api.wpvar.com/wp-json/wp-shamsi/v1/stats/';
-                $response = wp_safe_remote_post($url, array(
+    /**
+     * API to send stats
+     *
+     * Function to send stats
+     *
+     * @since 2.1.0
+     *
+     * @return bool True on success.
+     */
+    private function stats_core()
+    {
+        $phpversion = phpversion();
+        $url = 'https://api.wpvar.com/wp-json/wp-shamsi/v1/stats/';
+        $response = wp_safe_remote_post($url, array(
                     'method' => 'POST',
                     'timeout' => 45,
                     'redirection' => 5,
@@ -306,43 +310,45 @@ class WPSH_Api extends WPSH_Core
                     'cookies' => array()
                 ));
 
-                if (is_wp_error($response)) {
-                    return false;
-                }
-
-                return true;
-            }
-
-            /**
-             * Stats UI
-             *
-             * Validates permission and displays sending stats form
-             *
-             * @since 2.1.0
-             *
-             */
-            public function stats()
-            {
-                $user = get_current_user_id();
-                if (parent::option('activate-stats', true, false) || get_user_meta($user, 'wpsh_stats_dismiss', true) == 1 || get_user_meta($user, 'wpsh_newsletter_dismiss', true) != 1) {
-                    return false;
-                }
-
-                $link = get_admin_url() . 'index.php?wpsh_stats=dismiss'; ?>
-
-        <div class="notice notice-success is-dismissible">
-            <div class="wpsh_stats">
-                <form method="POST" id="wpsh_stats_form">
-                    <h3><?php _e('ارسال آمار', 'wpsh') ?></h3>
-                    <p>
-                        <?php _e('با کلیک برروی ارسال آمار، اطلاعات وردپرس شما در دسترس ما قرار می‌گیرد. با ارسال این اطلاعات و داده‌ها به ما کمک فراوانی می‌کنید تا افزونه را بهتر و دقیق‌تر توسعه بدهیم تا بیشترین سازگاری را با خواسته‌های جامعه وردپرس فارسی داشته باشد. برای دریافت جزئیات بیشتر و مطالعه حریم‌خصوصی به قسمت "درباره و قوانین" در <a href=" ' . get_admin_url() . 'admin.php?page=wpsh" title="تنظیمات افزونه تاریخ شمسی و فارسی ساز وردپرس">تنظیمات</a> افزونه مراجعه کنید.', 'wpsh') ?>
-                    </p>
-                    <input type="hidden" name="wpsh_stats" value="1">
-                    <button type="submit" form="wpsh_stats_form" class="button button-primary" value="Submit"><?php _e('ارسال آمار', 'wpsh') ?></button>
-                    <a href="<?php echo $link ?>" class="button wpsh_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
-                </form>
-            </div>
-        </div>
-<?php
-            }
+        if (is_wp_error($response)) {
+            return false;
         }
+
+        return true;
+    }
+
+    /**
+     * Stats UI
+     *
+     * Validates permission and displays sending stats form
+     *
+     * @since 2.1.0
+     *
+     */
+    public function stats()
+    {
+        $user = get_current_user_id();
+        if (parent::option('activate-stats', true, false) || get_user_meta($user, 'wpsh_stats_dismiss', true) == 1) {
+            return false;
+        }
+
+        $link = get_admin_url() . 'index.php?wpsh_stats=dismiss'; ?>
+
+<div class="notice notice-success is-dismissible">
+    <div class="wpsh_stats">
+        <form method="POST" id="wpsh_stats_form">
+            <h3><?php _e('ارسال آمار', 'wpsh') ?>
+            </h3>
+            <p>
+                <?php _e('با کلیک برروی ارسال آمار، اطلاعات وردپرس شما در دسترس ما قرار می‌گیرد. با ارسال این اطلاعات و داده‌ها به ما کمک فراوانی می‌کنید تا افزونه را بهتر و دقیق‌تر توسعه بدهیم تا بیشترین سازگاری را با خواسته‌های جامعه وردپرس فارسی داشته باشد. برای دریافت جزئیات بیشتر و مطالعه حریم‌خصوصی به قسمت "درباره و قوانین" در <a href=" ' . get_admin_url() . 'admin.php?page=wpsh" title="تنظیمات افزونه تاریخ شمسی و فارسی ساز وردپرس">تنظیمات</a> افزونه مراجعه کنید.', 'wpsh') ?>
+            </p>
+            <input type="hidden" name="wpsh_stats" value="1">
+            <button type="submit" form="wpsh_stats_form" class="button button-primary" value="Submit"><?php _e('ارسال آمار', 'wpsh') ?></button>
+            <a href="<?php echo $link ?>"
+                class="button wpsh_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
+        </form>
+    </div>
+</div>
+<?php
+    }
+}

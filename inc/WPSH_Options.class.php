@@ -214,7 +214,7 @@ class WPSH_Options extends WPSH_Core
             $list_conflicts = array();
         }
 
-        $pro = !parent::pro() ? '<strong class="wpsh-pro-intro"><a target="_blank" href="https://wpvar.com/pro/">ارتقا به نسخه حرفه‌ای</a></strong>' : (!parent::vip() ? '<strong class="wpsh-pro-intro">نسخه حرفه‌ای</strong>' : '<strong class="wpsh-pro-intro">نسخه VIP</strong>');
+        $pro = !parent::pro() ? '' : (!parent::vip() ? '<strong class="wpsh-pro-intro">نسخه حرفه‌ای</strong>' : '<strong class="wpsh-pro-intro">نسخه VIP</strong>');
         $version = WPSH_VERSION . $pro;
         $license_pro = array();
         $license_pro = apply_filters('wpsh_pro_license', $license_pro);
@@ -231,14 +231,16 @@ class WPSH_Options extends WPSH_Core
                 'type' => 'content',
                 'wrap_class' => 'no-border-bottom',
                 'title' => __('وردپرس', 'wpsh'),
-                'content' => __('این افزونه توسط <a href="https://wpvar.com" target="_blank">wpvar.com</a> برنامه‌نویسی شده است. <br />اگر مشکلی در راه اندازی و استفاده از وردپرس ویا این افزونه دارید، برای دریافت پشتیبانی رایگان می‌توانید به <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن پشتیبانی وردپرس فارسی</a></strong> مراجعه کنید.', 'wpsh'),
+                'content' => __('این افزونه توسط <a href="https://wpvar.com" target="_blank">wpvar.com</a> برنامه‌نویسی شده است. <br />اگر مشکلی در راه اندازی و استفاده از وردپرس ویا این افزونه دارید، برای دریافت پشتیبانی رایگان می‌توانید به <strong><a href="https://wpvar.com/support/" target="_blank">انجمن پشتیبانی وردپرس فارسی</a></strong> مراجعه کنید.', 'wpsh'),
                 'before' => '<img class="wpsh-intro_logo" src=' . WPSH_URL . 'assets/img/logo.svg /><strong>وردپرس فارسی</strong>',
             ),
             array(
                 'type' => 'notice',
                 'class' => 'primary',
-                'content' => __('برای <strong>حمایت و کمک به توسعه</strong> این افزونه لطفا گزینه‌های زیر را تکمیل و فعال‌سازی کنید.', 'wpsh'),
+                'content' => __('برای <strong>حمایت و کمک به توسعه</strong> این افزونه لطفا گزینه زیر را تکمیل و فعال‌سازی کنید.', 'wpsh'),
             ),
+            // @deprecated 4.2.0
+            /*
             array(
                 'type' => 'content',
                 'wrap_class' => 'no-border-bottom',
@@ -251,6 +253,7 @@ class WPSH_Options extends WPSH_Core
                 ',
                 'before' => '<span class="dashicons dashicons-email"></span> <strong>خبرنامه وردپرس فارسی</strong>',
             ),
+            */
             array(
                 'id' => 'activate-stats',
                 'type' => 'switcher',
@@ -259,6 +262,8 @@ class WPSH_Options extends WPSH_Core
                 'default' => 'no',
                 'after' => '<p>با فعال کردن این گزینه اطلاعات وردپرس شما در دسترس ما قرار می‌گیرد. با ارسال این اطلاعات و داده‌ها به ما کمک فراوانی می‌کنید تا افزونه را بهتر و دقیق‌تر توسعه بدهیم تا بیشترین سازگاری را با خواسته‌های جامعه وردپرس فارسی داشته باشد. برای دریافت جزئیات و مطالعه حریم‌ خصوصی به قسمت "درباره و قوانین" در تنظیمات افزونه مراجعه کنید. این گزینه به صورت پیشفرض غیرفعال می‌باشد و فقط مدیران این سایت می‌توانند آن را فعال کنند.</p>',
             ),
+            // @deprecated 4.2.0
+            /*
             array(
                 'type' => 'content',
                 'wrap_class' => 'no-border-bottom',
@@ -270,13 +275,14 @@ class WPSH_Options extends WPSH_Core
                 </a>
                 ',
             ),
+            */
         );
 
         $fields[] = array(
             'name' => 'general',
             'title' => __('عمومی', 'wpsh'),
             'icon' => 'dashicons-dashboard',
-            'fields' => array_merge($list_conflicts, $license_pro, $general)
+            'fields' => array_merge($list_conflicts, $general, $license_pro)
         );
 
         $fields[] = array(
@@ -829,6 +835,8 @@ class WPSH_Options extends WPSH_Core
 
         $pro_intro = '';
 
+        // @deprecated 4.2.0
+        /*
         $fields[] = array(
             'name' => 'wpshlicense',
             'title' => __('نسخه حرفه‌ای', 'wpsh'),
@@ -840,6 +848,7 @@ class WPSH_Options extends WPSH_Core
                 )
             )
         );
+        */
 
         if (parent::pro()) {
             $settings_pro = array();

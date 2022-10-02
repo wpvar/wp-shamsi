@@ -29,7 +29,7 @@ function wpsh_license_pro_send() {
     jQuery.ajax({
         url: wpshLicense.ajaxurl,
         type: 'POST',
-        data: { action: 'wpsh_activate_license', wpsh_license: license },
+        data: { action: 'wpsh_activate_license', wpsh_license: license, wpsh_license_nonce: wpshLicense.nonce },
         success: function (response) {
             jQuery('#wpsh_license_pro_send').attr('disabled', false);
             jQuery('#wpsh_license_pro_send').text('فعال‌سازی');
@@ -43,6 +43,14 @@ function wpsh_license_pro_send() {
             }
             if (parseInt(response) == 0) {
                 jQuery('#wpsh_license_pro_result').html('کد لایسنس تایید نشد.');
+                jQuery('#wpsh_license_pro_result').show('fast');
+            }
+            if (parseInt(response) == 7) {
+                jQuery('#wpsh_license_pro_result').html('تاریخ اعتبار لایسنس به اتمام رسیده است');
+                jQuery('#wpsh_license_pro_result').show('fast');
+            }
+            if (parseInt(response) == 8) {
+                jQuery('#wpsh_license_pro_result').html('امنیت و اصالت درخواست ثبت شده تایید نشد');
                 jQuery('#wpsh_license_pro_result').show('fast');
             }
         },

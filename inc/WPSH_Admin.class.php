@@ -109,14 +109,15 @@ class WPSH_Admin extends WPSH_Core
             $rss_title = '<a href="' . $rss->get_permalink() . '" target="_blank">' . strtoupper($rss->get_title()) . '</a>';
         endif;
 
-        $html = '<div><a href="https://wpvar.com/courses/?wpsh=1" class="wpsh-ribbon" target="_blank">دوره‌های آموزشی<span class="dashicons dashicons-external"></span></a></div>';
+        $html = '<div><a href="https://wpvar.com/" class="wpsh-ribbon" target="_blank">وب‌سایت<span class="dashicons dashicons-external"></span></a></div>';
+
 
         $html .= '<div class="rss-widget">';
-        if (parent::pro_due() && current_user_can('manage_options')) {
+        /*if (parent::pro_due() && current_user_can('manage_options')) {
             $html .= '<div class="wpsh-pro-due-widget">';
-            $html .= '<p>اعتبار لایسنس نسخه حرفه‌ای تاریخ شمسی و فارسی ساز وردپرس رو به <strong>اتمام</strong> است. برای تمدید لایسنس لطفا <strong><a target="_blank" href="https://wpvar.com/pro/?renew=1">اینجا کلیک کنید</a></strong>.</p>';
+            $html .= '<p>اعتبار لایسنس رو به اتمام است. درحال حاضر امکان تمدید لایسنس وجود ندارد.</p>';
             $html .= '</div>';
-        }
+        }*/
         $html .= '<ul>';
 
         if ($maxitems == 0) {
@@ -141,15 +142,14 @@ class WPSH_Admin extends WPSH_Core
             <li><a href="https://wpvar.com" target="_blank" title="وردپرس فارسی"><span class="dashicons dashicons-wordpress"></span></a></li>
             <li><a href="https://wpvar.com/downloads/themes/" target="_blank" title="قالب های وردپرس"><span class="dashicons dashicons-admin-appearance"></a></span></li>
             <li><a href="https://wpvar.com/downloads/plugins/" target="_blank" title="افزونه های وردپرس"><span class="dashicons dashicons-admin-plugins"></a></span></li>
-            <li><a href="https://wpvar.com/forums/" target="_blank" title="پشتیبانی وردپرس"><span class="dashicons dashicons-sos"></span></a></li>
-            <li><a href="https://wpvar.com/courses/?wpshc=1" target="_blank" title="دوره‌های آموزشی"><span class="dashicons dashicons-welcome-learn-more"></a></span></li>
+            <li><a href="https://wpvar.com/patterns/" target="_blank" title="الگو‌ها"><span class="dashicons dashicons-admin-customizer"></a></span></li>
+            <li><a href="https://wpvar.com/support/" target="_blank" title="پشتیبانی وردپرس"><span class="dashicons dashicons-sos"></span></a></li>
           </ul>
         </div>';
-        if (!parent::pro() && current_user_can('manage_options')) {
+        /*if (!parent::pro() && current_user_can('manage_options')) {
             $html .= '<a target="_blank" href="https://wpvar.com/pro/" class="wpsh-pro-widget"><div>';
-            $html .= '<p><strong>ارتقا به نسخه حرفه‌ای</strong></p>';
             $html .= '</div></a>';
-        }
+        }*/
 
         echo $html;
         set_transient('wpsh_dashboard_site_feed_' . WPSH_VERSION, $html, 12 * HOUR_IN_SECONDS);
@@ -208,8 +208,8 @@ class WPSH_Admin extends WPSH_Core
             $screen->add_help_tab(array(
                 'id' => 'farsi-support',
                 'title' => 'پشتیبانی فارسی',
-                'content' => '<p>همیشه می توانید از طریق <strong><a href="https://wpvar.com/forums/" target="_blank">این لینک</a></strong> سوالات خود را در <strong><a href="https://wpvar.com/forums/" target="_blank">انجمن فارسی</a></strong> وردپرس بپرسید. همچنین می توانید <strong><a href="https://wpvar.com/courses/?wpshc=1" target="_blank">دوه‌های آموزشی</a></strong> را که حاوی آموزش‌های ویدیوی و تصویری است، مطالعه کنید.</p>
-                              <p><a href="https://wpvar.com" class="button button-primary">وردپرس فارسی</a> <a href="https://wpvar.com/forums/" class="button">انجمن پشتیبانی</a> <a href="https://wpvar.com/courses/?wpshc=1" class="button">دوره‌های آموزشی</a></p>',
+                'content' => '<p>همیشه می توانید از طریق <strong><a href="https://wpvar.com/support/" target="_blank">این لینک</a></strong> سوالات خود را در <strong><a href="https://wpvar.com/support/" target="_blank">انجمن فارسی</a></strong> وردپرس بپرسید.</p>
+                              <p><a href="https://wpvar.com" class="button button-primary">وردپرس فارسی</a> <a href="https://wpvar.com/support/" class="button">انجمن پشتیبانی</a></p>',
                 'priority' => 11,
             ));
         }
@@ -436,13 +436,12 @@ class WPSH_Admin extends WPSH_Core
     public function add_settings_link($links)
     {
 
-        $pro = '<a href="https://wpvar.com/pro/" target="_blank" class="wpsh-color wpsh-bold wpsh-star">' . __('نسخه حرفه‌ای', 'wpsh') . '</a>';
         $settings_link = '<a href="' . get_admin_url() . 'admin.php?page=wpsh">' . __('تنظیمات', 'wpsh') . '</a>';
-        $forum_link = '<a href="https://wpvar.com/forums/" target="_blank">' . __('انجمن پشتیبانی', 'wpsh') . '</a>';
+        $forum_link = '<a href="https://wpvar.com/support/" target="_blank">' . __('انجمن پشتیبانی', 'wpsh') . '</a>';
 
 
         if (!parent::pro()) {
-            array_push($links, $pro, $settings_link, $forum_link);
+            array_push($links, $settings_link, $forum_link);
         } else {
             array_push($links, $settings_link, $forum_link);
         }
@@ -467,7 +466,6 @@ class WPSH_Admin extends WPSH_Core
     {
         if ($plugin_file == WPSH_BASE) {
             $plugin_meta[] = '<a href="https://wpvar.com/" target="_blank">' . __('وردپرس فارسی', 'wpsh') . '</a>';
-            $plugin_meta[] = '<a href="https://wpvar.com/courses/?wpshc=1" class="wpvar-courses" target="_blank">' . __('دوره‌های آموزشی', 'wpsh') . '</a>';
         }
 
         return $plugin_meta;
