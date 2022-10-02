@@ -217,6 +217,7 @@ class WPSH_Core
   public function supported_themes()
   {
     $themes = array(
+      'twentytwentytwo', // Since 4.2.0
       'twentytwentyone', // Since 2.0.0
       'twentytwenty', // Since 1.2.0
       'twentynineteen', // Since 1.2.0
@@ -424,7 +425,7 @@ class WPSH_Core
     if (!empty($args['message'])) {
       $args['message'] = str_replace('http://wp-persian.com/', 'https://wpvar.com/', $args['message']);
       $args['message'] = str_replace('WP-Persian.com', 'wpvar.com', $args['message']);
-      $args['message'] = str_replace('https://wordpress.org/support/forums/', 'https://wpvar.com/forums/', $args['message']);
+      $args['message'] = str_replace('https://wordpress.org/support/forums/', 'https://wpvar.com/support/', $args['message']);
     }
 
     return $args;
