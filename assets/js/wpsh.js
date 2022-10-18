@@ -49,20 +49,22 @@ function wpsh_num(el) {
 	elements = [ // Tags to skip
 		"CODE", "HEAD", "INPUT", "OPTION", "PRE", "SCRIPT", "STYLE", "TEXTAREA", "TITLE"
 	];
+	
+	var parent = jQuery(el.parentElement).prop("tagName");
+	if (jQuery.inArray(parent, elements) !== -1)
+		return
+	
 	if (el.nodeType == 3) {
-		var parent = jQuery(el.parentElement).prop("tagName");
 		var list = el.data.match(/[0-9]/g);
 		var english = /[a-zA-Z]/g;
 		if (list !== null && list.length !== 0 && !english.test(el.data)) {
 			for (var i = 0; i < list.length; i++)
-				if (jQuery.inArray(parent, elements) === -1) {
-					el.data = el.data.replace(list[i], persian[list[i]]);
-				}
+				el.data = el.data.replace(list[i], persian[list[i]]);
 		}
 	}
-	for (var i = 0; i < el.childNodes.length; i++) {
+	
+	for (var i = 0; i < el.childNodes.length; i++)
 		wpsh_num(el.childNodes[i]);
-	}
 }
 function all_query(query) {
 	var els = document.querySelectorAll(query);
