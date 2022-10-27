@@ -1,163 +1,148 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
-	die;
+<?php if (! defined('ABSPATH')) {
+    die;
 } // Cannot access pages directly.
 /**
  *
  * Field: Editor
  *
  */
-if ( ! class_exists( 'Exopite_Simple_Options_Framework_Field_editor' ) ) {
+if (! class_exists('Exopite_Simple_Options_Framework_Field_editor')) {
+    class Exopite_Simple_Options_Framework_Field_editor extends Exopite_Simple_Options_Framework_Fields
+    {
+        public function __construct($field, $value = '', $unique = '', $config = array())
+        {
+            parent::__construct($field, $value, $unique, $config);
+        }
 
-	class Exopite_Simple_Options_Framework_Field_editor extends Exopite_Simple_Options_Framework_Fields {
+        public function output()
+        {
+            $classes = (isset($this->field['class'])) ? explode(' ', $this->field['class']) : array();//$this->element_class()
+            $editor  = (isset($this->field['editor'])) ? $this->field['editor'] : 'tinymce';
 
-		public function __construct( $field, $value = '', $unique = '', $config = array() ) {
-			parent::__construct( $field, $value, $unique, $config );
-		}
+            echo wp_kses_post($this->element_before());
 
-		public function output() {
+            if ($editor == 'tinymce' && isset($this->field['sub']) && $this->field['sub']) {
+                $classes[] = 'tinymce-js';
+                $classes   = implode(' ', $classes);
 
-			$classes = ( isset( $this->field['class'] ) ) ? explode( ' ', $this->field['class'] ) : array();//$this->element_class()
-			$editor  = ( isset( $this->field['editor'] ) ) ? $this->field['editor'] : 'tinymce';
+                echo '<textarea id="' . esc_attr($this->field['id']) . '" name="' . esc_attr($this->element_name()) . '" class="' . esc_attr($classes) . '"' . esc_attr($this->element_attributes()) . '>' . wp_kses_post($this->element_value()) . '</textarea>';
+            } elseif ($editor == 'trumbowyg') {
+                $classes[] = 'trumbowyg-js';
+                $classes   = implode(' ', $classes);
 
-			echo $this->element_before();
+                echo '<textarea id="' . esc_attr($this->field['id']) . '" name="' . esc_attr($this->element_name()) . '" data-icon-path="' . esc_url(plugin_dir_url(__DIR__)) . 'assets/editors/trumbowyg/icons.svg" class="' . esc_attr($classes) . '"' . esc_attr($this->element_attributes()) . '>' . wp_kses_post($this->element_value()) . '</textarea>';
+            } else {
+                $args = array(
+                    'textarea_rows' => 15,
+                    'editor_class'  => implode(' ', $classes),
+                    'textarea_name' => $this->element_name(),
+                    'teeny'         => false,
+                    // output the minimal editor config used in Press This
+                    'dfw'           => false,
+                    // replace the default fullscreen with DFW (supported on the front-end in WordPress 3.4)
+                    'tinymce'       => true,
+                    // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
+                    'quicktags'     => true
+                    // load Quicktags, can be used to pass settings directly to Quicktags using an array()
+                );
 
-			if ( $editor == 'tinymce' && isset( $this->field['sub'] ) && $this->field['sub'] ) {
+                wp_editor($this->element_value(), $this->field['id'], $args);
+            }
 
-				$classes[] = 'tinymce-js';
-				$classes   = implode( ' ', $classes );
+            echo wp_kses_post($this->element_after());
+        }
 
-				echo '<textarea id="' . $this->field['id'] . '" name="' . $this->element_name() . '" class="' . $classes . '"' . $this->element_attributes() . '>' . $this->element_value() . '</textarea>';
+        public static function enqueue($args)
+        {
+            if (isset($args['field']) && isset($args['field']['editor']) && is_array($args['field']['editor'])) {
+                foreach ($args['field']['editor'] as $editor) {
+                    switch ($editor) {
 
-			} elseif ( $editor == 'trumbowyg' ) {
+                        case 'trumbowyg':
 
-				$classes[] = 'trumbowyg-js';
-				$classes   = implode( ' ', $classes );
+                            $resources = array(
+                                array(
+                                    'name'       => 'trumbowyg',
+                                    'fn'         => 'editors/trumbowyg/trumbowyg.min.css',
+                                    'type'       => 'style',
+                                    'dependency' => array(),
+                                    'version'    => '2.10.0',
+                                    'attr'       => 'all',
+                                ),
+                                array(
+                                    'name'       => 'trumbowyg-colors',
+                                    'fn'         => 'editors/trumbowyg/trumbowyg.colors.min.css',
+                                    'type'       => 'style',
+                                    'dependency' => array(),
+                                    'version'    => '2.10.0',
+                                    'attr'       => 'all',
+                                ),
+                                array(
+                                    'name'       => 'trumbowyg-user',
+                                    'fn'         => 'editors/trumbowyg/trumbowyg.user.min.css',
+                                    'type'       => 'style',
+                                    'dependency' => array(),
+                                    'version'    => '2.10.0',
+                                    'attr'       => 'all',
+                                ),
+                                array(
+                                    'name'       => 'trumbowyg',
+                                    'fn'         => 'editors/trumbowyg/trumbowyg.min.js',
+                                    'type'       => 'script',
+                                    'dependency' => array( 'jquery' ),
+                                    'version'    => '1.8.2',
+                                    'attr'       => true,
+                                ),
+                                array(
+                                    'name'       => 'trumbowyg-base64',
+                                    'fn'         => 'editors/trumbowyg/trumbowyg.base64.min.js',
+                                    'type'       => 'script',
+                                    'dependency' => array( 'trumbowyg' ),
+                                    'version'    => '1.8.2',
+                                    'attr'       => true,
+                                ),
+                                array(
+                                    'name'       => 'trumbowyg-colors',
+                                    'fn'         => 'editors/trumbowyg/trumbowyg.colors.min.js',
+                                    'type'       => 'script',
+                                    'dependency' => array( 'trumbowyg' ),
+                                    'version'    => '1.8.2',
+                                    'attr'       => true,
+                                ),
+                                array(
+                                    'name'       => 'trumbowyg-fontfamily',
+                                    'fn'         => 'editors/trumbowyg/trumbowyg.fontfamily.min.js',
+                                    'type'       => 'script',
+                                    'dependency' => array( 'trumbowyg' ),
+                                    'version'    => '1.8.2',
+                                    'attr'       => true,
+                                ),
+                                array(
+                                    'name'       => 'trumbowyg-fontsize',
+                                    'fn'         => 'editors/trumbowyg/trumbowyg.fontsize.min.js',
+                                    'type'       => 'script',
+                                    'dependency' => array( 'trumbowyg' ),
+                                    'version'    => '1.8.2',
+                                    'attr'       => true,
+                                ),
+                                array(
+                                    'name'       => 'exopite-sof-trumbowyg-loader',
+                                    'fn'         => 'loader-jquery-trumbowyg.min.js',
+                                    'type'       => 'script',
+                                    'dependency' => array( 'trumbowyg' ),
+                                    'version'    => '',
+                                    'attr'       => true,
+                                ),
 
-				echo '<textarea id="' . $this->field['id'] . '" name="' . $this->element_name() . '" data-icon-path="' . plugin_dir_url( __DIR__ ) . 'assets/editors/trumbowyg/icons.svg" class="' . $classes . '"' . $this->element_attributes() . '>' . $this->element_value() . '</textarea>';
+                            );
 
-			} else {
+                            parent::do_enqueue($resources, $args);
 
-				$args = array(
-					'textarea_rows' => 15,
-					'editor_class'  => implode( ' ', $classes ),
-					'textarea_name' => $this->element_name(),
-					'teeny'         => false,
-					// output the minimal editor config used in Press This
-					'dfw'           => false,
-					// replace the default fullscreen with DFW (supported on the front-end in WordPress 3.4)
-					'tinymce'       => true,
-					// load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
-					'quicktags'     => true
-					// load Quicktags, can be used to pass settings directly to Quicktags using an array()
-				);
+                            break;
 
-				wp_editor( $this->element_value(), $this->field['id'], $args );
-
-			}
-
-			echo $this->element_after();
-
-		}
-
-		public static function enqueue( $args ) {
-
-			if ( isset( $args['field'] ) && isset( $args['field']['editor'] ) && is_array( $args['field']['editor'] ) ) {
-
-				foreach ( $args['field']['editor'] as $editor ) {
-
-					switch ( $editor ) {
-
-						case 'trumbowyg':
-
-							$resources = array(
-								array(
-									'name'       => 'trumbowyg',
-									'fn'         => 'editors/trumbowyg/trumbowyg.min.css',
-									'type'       => 'style',
-									'dependency' => array(),
-									'version'    => '2.10.0',
-									'attr'       => 'all',
-								),
-								array(
-									'name'       => 'trumbowyg-colors',
-									'fn'         => 'editors/trumbowyg/trumbowyg.colors.min.css',
-									'type'       => 'style',
-									'dependency' => array(),
-									'version'    => '2.10.0',
-									'attr'       => 'all',
-								),
-								array(
-									'name'       => 'trumbowyg-user',
-									'fn'         => 'editors/trumbowyg/trumbowyg.user.min.css',
-									'type'       => 'style',
-									'dependency' => array(),
-									'version'    => '2.10.0',
-									'attr'       => 'all',
-								),
-								array(
-									'name'       => 'trumbowyg',
-									'fn'         => 'editors/trumbowyg/trumbowyg.min.js',
-									'type'       => 'script',
-									'dependency' => array( 'jquery' ),
-									'version'    => '1.8.2',
-									'attr'       => true,
-								),
-								array(
-									'name'       => 'trumbowyg-base64',
-									'fn'         => 'editors/trumbowyg/trumbowyg.base64.min.js',
-									'type'       => 'script',
-									'dependency' => array( 'trumbowyg' ),
-									'version'    => '1.8.2',
-									'attr'       => true,
-								),
-								array(
-									'name'       => 'trumbowyg-colors',
-									'fn'         => 'editors/trumbowyg/trumbowyg.colors.min.js',
-									'type'       => 'script',
-									'dependency' => array( 'trumbowyg' ),
-									'version'    => '1.8.2',
-									'attr'       => true,
-								),
-								array(
-									'name'       => 'trumbowyg-fontfamily',
-									'fn'         => 'editors/trumbowyg/trumbowyg.fontfamily.min.js',
-									'type'       => 'script',
-									'dependency' => array( 'trumbowyg' ),
-									'version'    => '1.8.2',
-									'attr'       => true,
-								),
-								array(
-									'name'       => 'trumbowyg-fontsize',
-									'fn'         => 'editors/trumbowyg/trumbowyg.fontsize.min.js',
-									'type'       => 'script',
-									'dependency' => array( 'trumbowyg' ),
-									'version'    => '1.8.2',
-									'attr'       => true,
-								),
-								array(
-									'name'       => 'exopite-sof-trumbowyg-loader',
-									'fn'         => 'loader-jquery-trumbowyg.min.js',
-									'type'       => 'script',
-									'dependency' => array( 'trumbowyg' ),
-									'version'    => '',
-									'attr'       => true,
-								),
-
-							);
-
-							parent::do_enqueue( $resources, $args );
-
-							break;
-
-					}
-
-				}
-
-			}
-
-
-		}
-
-	}
-
+                    }
+                }
+            }
+        }
+    }
 }

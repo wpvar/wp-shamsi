@@ -1,5 +1,5 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
-	die;
+<?php if (! defined('ABSPATH')) {
+    die;
 } // Cannot access pages directly.
 /**
  *
@@ -10,87 +10,82 @@
  * - title (if more then one) top or bottom of element
  *
  */
-if ( ! class_exists( 'Exopite_Simple_Options_Framework_Field_fieldset' ) ) {
+if (! class_exists('Exopite_Simple_Options_Framework_Field_fieldset')) {
+    class Exopite_Simple_Options_Framework_Field_fieldset extends Exopite_Simple_Options_Framework_Fields
+    {
+        public function __construct($field, $value = '', $unique = '', $config = array(), $multilang)
+        {
+            parent::__construct($field, $value, $unique, $config, $multilang);
+        }
 
-	class Exopite_Simple_Options_Framework_Field_fieldset extends Exopite_Simple_Options_Framework_Fields {
+        public function output()
+        {
+            echo wp_kses_post($this->element_before());
 
-		public function __construct( $field, $value = '', $unique = '', $config = array(), $multilang ) {
-			parent::__construct( $field, $value, $unique, $config, $multilang );
-		}
+            $unallows = array();
+            $unique_id = (! empty($this->unique)) ? $this->unique : $this->field['id'];
 
-		public function output() {
+            $self  = new Exopite_Simple_Options_Framework(array(
+                'id' => $this->element_name(),
+                'multilang' => $this->config['multilang'],
+                'is_options_simple' => $this->config['is_options_simple'],
+            ), null);
 
-			echo $this->element_before();
+            $i = 0;
 
-			$unallows = array();
-			$unique_id = ( ! empty( $this->unique ) ) ? $this->unique : $this->field['id'];
+            $fields = $this->field['fields'];
 
-			$self  = new Exopite_Simple_Options_Framework( array(
-				'id' => $this->element_name(),
-				'multilang' => $this->config['multilang'],
-				'is_options_simple' => $this->config['is_options_simple'],
-			), null );
+            echo '<div class="container">';
+            echo '<div class="row">';
 
-			$i = 0;
+            /**
+             * 1 -> col-12 col-lg-12 (12/index)
+             * 2 -> col-12 col-lg-6
+             * 3 -> col-12 col-lg-4
+             * 4 -> col-12 col-lg-3
+             * 6 -> col-12 col-lg-2
+             */
 
-			$fields = $this->field['fields'];
+            $col_classes = array( 'col', 'col-xs-12' );
+            $allowed_cols = array( 1, 2, 3, 4, 6 );
+            $col_number = (isset($this->field['options']['cols'])) ? intval($this->field['options']['cols']) : 1;
+            if (! in_array($col_number, $allowed_cols)) {
+                $col_number = 1;
+            } else {
+                $col_classes[] = 'col-lg-' . (12 / $col_number);
+                $col_classes[] = 'exopite-sof-col-lg';
+            }
 
-			echo '<div class="container">';
-			echo '<div class="row">';
+            foreach ($fields as $field) {
+                echo '<div class="' . esc_attr(implode(' ', $col_classes)) . '">';
 
-			/**
-			 * 1 -> col-12 col-lg-12 (12/index)
-			 * 2 -> col-12 col-lg-6
-			 * 3 -> col-12 col-lg-4
-			 * 4 -> col-12 col-lg-3
-			 * 6 -> col-12 col-lg-2
-			 */
+                if (in_array($field['type'], $unallows)) {
+                    $field['_notice'] = true;
+                    continue;
+                }
 
-			$col_classes = array( 'col', 'col-xs-12' );
-			$allowed_cols = array( 1, 2, 3, 4, 6 );
-			$col_number = ( isset( $this->field['options']['cols'] ) ) ? intval( $this->field['options']['cols'] ) : 1;
-			if ( ! in_array( $col_number, $allowed_cols ) ) {
-				$col_number = 1;
-			} else {
-				$col_classes[] = 'col-lg-' . ( 12 / $col_number );
-				$col_classes[] = 'exopite-sof-col-lg';
-			}
+                if (is_serialized($this->value)) {
+                    $this->value = unserialize($this->value);
+                }
 
-			foreach ( $fields as $field ) {
+                $field_value = '';
+                if (isset($field['id']) && isset($this->value[ $field['id'] ])) {
+                    $field_value = $this->value[ $field['id'] ];
+                } elseif (isset($field['default'])) {
+                    $field_value = $field['default'];
+                }
 
-				echo '<div class="' . implode( ' ', $col_classes ) . '">';
+                $class = 'Exopite_Simple_Options_Framework_Field_' . $field['type'];
 
-				if ( in_array( $field['type'], $unallows ) ) {
-					$field['_notice'] = true;
-					continue;
-				}
+                echo wp_kses_post($self->add_field($field, $field_value));
 
-				if ( is_serialized( $this->value ) ) {
-					$this->value = unserialize( $this->value );
-				}
+                echo '</div>'; // col
+            }
 
-				$field_value = '';
-				if ( isset( $field['id'] ) && isset( $this->value[ $field['id'] ] ) ) {
-					$field_value = $this->value[ $field['id'] ];
-				} elseif ( isset( $field['default'] ) ) {
-					$field_value = $field['default'];
-				}
+            echo '</div>'; // row
+            echo '</div>'; // container
 
-				$class = 'Exopite_Simple_Options_Framework_Field_' . $field['type'];
-
-				echo $self->add_field( $field, $field_value );
-
-				echo '</div>'; // col
-
-			}
-
-			echo '</div>'; // row
-			echo '</div>'; // container
-
-			echo $this->element_after();
-
-		}
-
-	}
-
+            echo wp_kses_post($this->element_after());
+        }
+    }
 }

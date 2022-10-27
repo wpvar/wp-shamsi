@@ -25,7 +25,7 @@ class WPSH_Options extends WPSH_Core
      *
      * @param string $plugin_name Slug to run library in order to create settings page.
      */
-    function __construct($plugin_name)
+    public function __construct($plugin_name)
     {
         add_action('init', array($this, 'register'));
 
@@ -91,10 +91,10 @@ class WPSH_Options extends WPSH_Core
         foreach ($conflicts as $conflict) {
             if (in_array($conflict, apply_filters('active_plugins', get_option('active_plugins')))) {
                 $conflict = explode('/', $conflict);
-                if($conflict[0] == 'persian-woocommerce') {
+                if ($conflict[0] == 'persian-woocommerce') {
                     $pwoo = get_option('PW_Options');
-                    if(!empty($pwoo)) {
-                        if($pwoo['enable_jalali_datepicker'] == 'yes') {
+                    if (!empty($pwoo)) {
+                        if ($pwoo['enable_jalali_datepicker'] == 'yes') {
                             return('pwoo');
                         } else {
                             continue;
@@ -117,10 +117,10 @@ class WPSH_Options extends WPSH_Core
      */
     public function deactivate()
     {
-        $plugin = (!empty($_GET['wpsh_deactivate']) ? esc_attr($_GET['wpsh_deactivate']) : false);
+        $plugin = (!empty($_GET['wpsh_deactivate']) ? sanitize_key($_GET['wpsh_deactivate']) : false);
 
         if ($plugin != false) {
-            if(!current_user_can('manage_options')) {
+            if (!current_user_can('manage_options')) {
                 wp_safe_redirect(get_admin_url());
                 exit;
             }
@@ -144,7 +144,6 @@ class WPSH_Options extends WPSH_Core
      */
     public function makhzan_download($slug, $title = 'دانلود')
     {
-
         $url = 'https://wpvar.com/downloads/' . $slug . '/';
         $html = '<a href="' . $url . '" class="button button-primary" id="wpsh_downloads" target="_blank">' . $title . '</a>';
 
@@ -160,7 +159,6 @@ class WPSH_Options extends WPSH_Core
      */
     public function register()
     {
-
         $config_submenu = array(
             'type' => 'menu',
             'id' => $this->plugin_name,
@@ -196,7 +194,7 @@ class WPSH_Options extends WPSH_Core
 
         $conflicts = $this->conflicts();
 
-        if($conflicts == 'pwoo') {
+        if ($conflicts == 'pwoo') {
             $conflict_text = __('<b>هشدار مهم:</b> تاریخ شمسی افزونه <b>ووکامرس فارسی</b>  فعال می‌باشد، فعال بودن شمسی‌ساز این افزونه می‌تواند باعث تداخل با وردپرس فارسی و بروز مشکل در وب‌سایت شما شود. برای شمسی‌سازی کامل وردپرس و ووکامرس و جلوگیری از تداخل، گزینه "تاریخ شمسی" افزونه ووکامرس فارسی را غیرفعال کنید ویا برای غیرفعال کردن ووکامرس فارسی <b><a href="' . get_admin_url() . 'admin.php?page=wpsh&wpsh_deactivate=persian-woocommerce/woocommerce-persian">اینجا کلیک کنید</a></b>.', 'wpsh');
         } else {
             $conflict_text = __('<b>هشدار مهم:</b> در حال حاضر افزونه‌ای با نام <b>' . $conflicts . '</b>  فعال می‌باشد، فعال بودن این افزونه می‌تواند باعث تداخل با وردپرس فارسی و بروز مشکل در وب‌سایت شما شود. برای غیرفعال کردن ' . $conflicts . ' <b><a href="' . get_admin_url() . 'admin.php?page=wpsh&wpsh_deactivate=' . $conflicts . '/' . $conflicts . '">اینجا کلیک کنید</a></b>.', 'wpsh');
@@ -214,8 +212,7 @@ class WPSH_Options extends WPSH_Core
             $list_conflicts = array();
         }
 
-        $pro = !parent::pro() ? '' : (!parent::vip() ? '<strong class="wpsh-pro-intro">نسخه حرفه‌ای</strong>' : '<strong class="wpsh-pro-intro">نسخه VIP</strong>');
-        $version = WPSH_VERSION . $pro;
+        $version = WPSH_VERSION;
         $license_pro = array();
         $license_pro = apply_filters('wpsh_pro_license', $license_pro);
 
@@ -434,7 +431,6 @@ class WPSH_Options extends WPSH_Core
         );
 
         foreach ($addons as $addon => $value) {
-
             $extra = ($value['slug'] == 'maintenance') ? true : false;
             $wrap = ($value['slug'] == 'maintenance') ? 'no-border-bottom' : '';
 
@@ -631,7 +627,7 @@ class WPSH_Options extends WPSH_Core
             ),
         );
 
-        if(!parent::pro()) {
+        if (!parent::pro()) {
             $redirect_status = 'disabled';
             $redirect_status_text = array(
                     'id' => 'redirect-status-text',

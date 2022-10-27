@@ -77,10 +77,10 @@ class WPSH_Blocks
 
         ob_start();
         echo '
-            <div class="wpsh-blocks_aparat wpsh-blocks_aparat_align_' . $block_attributes['alignment'] . ' wpsh-blocks_aparat_size_' . $block_attributes['size'] . '">
+            <div class="wpsh-blocks_aparat wpsh-blocks_aparat_align_' . esc_attr($block_attributes['alignment']) . ' wpsh-blocks_aparat_size_' . esc_attr($block_attributes['size']) . '">
         ';
         echo '
-            <div class="h_iframe-aparat_embed_frame"><span style="display: block;padding-top: 56.3%"></span><iframe src="https://www.aparat.com/video/video/embed/videohash/' . $id[4] . '/vt/frame" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" frameBorder="0"></iframe></div>
+            <div class="h_iframe-aparat_embed_frame"><span style="display: block;padding-top: 56.3%"></span><iframe src="https://www.aparat.com/video/video/embed/videohash/' . esc_attr($id[4]) . '/vt/frame" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" frameBorder="0"></iframe></div>
         ';
         echo '
             </div>
@@ -104,7 +104,7 @@ class WPSH_Blocks
         $date = wp_date('امروز: l، j F سال Y', strtotime($block_attributes['date']));
         ob_start();
         echo '
-                <p class="wpsh-blocks_shamsi wpsh-blocks_shamsi_align_' . $block_attributes['alignment'] . '">' . $date . '<p>
+                <p class="wpsh-blocks_shamsi wpsh-blocks_shamsi_align_' . esc_attr($block_attributes['alignment']) . '">' . esc_html($date) . '<p>
             ';
         return ob_get_clean();
     }

@@ -34,16 +34,16 @@ class WPSH_Woo extends WPSH_Core
     public function woocommerce_filter($post, $arg)
     {
         if (!empty($_POST["_sale_price_dates_from"]) && $post['post_type'] == 'product') {
-            $_POST["_sale_price_dates_from"] = esc_attr(parent::gregorian($_POST["_sale_price_dates_from"], 'Y-m-d'));
+            $_POST["_sale_price_dates_from"] = parent::gregorian(sanitize_key($_POST["_sale_price_dates_from"]), 'Y-m-d');
         }
         if (!empty($_POST["_sale_price_dates_to"]) && $post['post_type'] == 'product') {
-            $_POST["_sale_price_dates_to"] = esc_attr(parent::gregorian($_POST["_sale_price_dates_to"], 'Y-m-d'));
+            $_POST["_sale_price_dates_to"] = parent::gregorian(sanitize_key($_POST["_sale_price_dates_to"]), 'Y-m-d');
         }
         if (!empty($_POST["order_date"]) && $post['post_type'] == 'shop_order') {
-            $_POST["order_date"] = esc_attr(parent::gregorian($_POST["order_date"], 'Y-m-d'));
+            $_POST["order_date"] = parent::gregorian(sanitize_key($_POST["order_date"]), 'Y-m-d');
         }
         if (!empty($_POST["expiry_date"]) && $post['post_type'] == 'expiry_date') {
-            $_POST["expiry_date"] = esc_attr(parent::gregorian($_POST["expiry_date"], 'Y-m-d'));
+            $_POST["expiry_date"] = parent::gregorian(sanitize_key($_POST["expiry_date"]), 'Y-m-d');
         }
 
         return $post;
@@ -52,10 +52,10 @@ class WPSH_Woo extends WPSH_Core
     public function woocommerce_action()
     {
         if (isset($_GET["start_date"]) && esc_attr($_GET["page"]) == 'wc-reports') {
-            $_GET["start_date"] = esc_attr(parent::gregorian($_GET["start_date"], 'Y-m-d'));
+            $_GET["start_date"] = parent::gregorian(sanitize_key($_GET["start_date"]), 'Y-m-d');
         }
         if (isset($_GET["end_date"]) && esc_attr($_GET["page"]) == 'wc-reports') {
-            $_GET["end_date"] = esc_attr(parent::gregorian($_GET["end_date"], 'Y-m-d'));
+            $_GET["end_date"] = parent::gregorian(sanitize_key($_GET["end_date"]), 'Y-m-d');
         }
     }
 
@@ -66,7 +66,7 @@ class WPSH_Woo extends WPSH_Core
         $date_on_sale_to   = '';
 
         if (isset($_POST['variable_sale_price_dates_from'][$i])) {
-            $date_on_sale_from = wc_clean(wp_unslash($_POST['variable_sale_price_dates_from'][$i]));
+            $date_on_sale_from = wc_clean(wp_unslash(sanitize_key($_POST['variable_sale_price_dates_from'])[$i]));
 
             if (!empty($date_on_sale_from)) {
                 $date_on_sale_from = parent::gregorian($date_on_sale_from, 'Y-m-d 00:00:00');
@@ -74,7 +74,7 @@ class WPSH_Woo extends WPSH_Core
         }
 
         if (isset($_POST['variable_sale_price_dates_to'][$i])) {
-            $date_on_sale_to = wc_clean(wp_unslash($_POST['variable_sale_price_dates_to'][$i]));
+            $date_on_sale_to = wc_clean(wp_unslash(sanitize_key($_POST['variable_sale_price_dates_to'])[$i]));
 
             if (!empty($date_on_sale_to)) {
                 $date_on_sale_to = parent::gregorian($date_on_sale_to, 'Y-m-d 23:59:59');
@@ -111,7 +111,7 @@ class WPSH_Woo extends WPSH_Core
     {
         $type = isset($_POST['post_type']) && $_POST['post_type'] == 'shop_coupon' ? true : false;
         if (!empty($_POST["expiry_date"]) && $type) {
-            $_POST["expiry_date"] = parent::gregorian(esc_attr($_POST["expiry_date"]), 'Y-m-d');
+            $_POST["expiry_date"] = parent::gregorian(sanitize_key($_POST["expiry_date"]), 'Y-m-d');
         }
     }
 

@@ -1,104 +1,95 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
-	die;
+<?php if (! defined('ABSPATH')) {
+    die;
 } // Cannot access pages directly.
 /**
  *
  * Field: Tab
  *
  */
-if ( ! class_exists( 'Exopite_Simple_Options_Framework_Field_tab' ) ) {
+if (! class_exists('Exopite_Simple_Options_Framework_Field_tab')) {
+    class Exopite_Simple_Options_Framework_Field_tab extends Exopite_Simple_Options_Framework_Fields
+    {
+        public function __construct($field, $value = '', $unique = '', $config = array(), $multilang)
+        {
+            parent::__construct($field, $value, $unique, $config, $multilang);
+        }
 
-	class Exopite_Simple_Options_Framework_Field_tab extends Exopite_Simple_Options_Framework_Fields {
+        public function output()
+        {
+            echo wp_kses_post($this->element_before());
 
-		public function __construct( $field, $value = '', $unique = '', $config = array(), $multilang ) {
-			parent::__construct( $field, $value, $unique, $config, $multilang );
-		}
+            $unallows = array();
+            $tabs    = array_values($this->field['tabs']);
+            $unique_id = (! empty($this->unique)) ? $this->unique : $this->field['id'];
 
-		public function output() {
+            $self  = new Exopite_Simple_Options_Framework(array(
+                'id' => $this->element_name(),
+                'multilang' => $this->config['multilang'],
+                'is_options_simple' => $this->config['is_options_simple'],
+            ), null);
 
-			echo $this->element_before();
+            echo '<div class="exopite-sof-tabs">';
 
-			$unallows = array();
-			$tabs    = array_values( $this->field['tabs'] );
-			$unique_id = ( ! empty( $this->unique ) ) ? $this->unique : $this->field['id'];
+            $i = 0;
 
-			$self  = new Exopite_Simple_Options_Framework( array(
-				'id' => $this->element_name(),
-				'multilang' => $this->config['multilang'],
-				'is_options_simple' => $this->config['is_options_simple'],
-			), null );
+            $equal_width = (isset($this->field['options']['equal_width']) && $this->field['options']['equal_width']) ? ' equal-width' : '';
 
-			echo '<div class="exopite-sof-tabs">';
+            /**
+             * Tab navigation
+             */
+            echo '<ul class="exopite-sof-tab-header' . esc_attr($equal_width) . '">';
 
-			$i = 0;
+            foreach ($tabs as $key => $tab) {
+                reset($tabs);
+                $tab_active = ($key === key($tabs)) ? ' active' : '';
 
-			$equal_width = ( isset( $this->field['options']['equal_width'] ) && $this->field['options']['equal_width'] ) ? ' equal-width' : '';
+                echo '<li class="exopite-sof-tab-link' . esc_attr($tab_active) . '">' . esc_html($tab['title']) . '</li>';
+            }
 
-			/**
-			 * Tab navigation
-			 */
-			echo '<ul class="exopite-sof-tab-header' . $equal_width . '">';
+            echo '</ul>';
 
-			foreach ( $tabs as $key => $tab ) {
+            /**
+             * Tab content
+             */
+            foreach ($tabs as $key => $tab) {
+                reset($tabs);
+                $tab_active = ($key === key($tabs)) ? ' active' : '';
 
-				reset( $tabs );
-				$tab_active = ( $key === key( $tabs ) ) ? ' active' : '';
+                echo '<div class="exopite-sof-tab-content' . esc_attr($tab_active) . '">';
+                echo '<div class="exopite-sof-tab-mobile-header">' . esc_html($tab['title']) . '</div>';
+                echo '<div class="exopite-sof-tab-content-body">';
+                echo '<div class="exopite-sof-tab-content-body-inner">';
 
-				echo '<li class="exopite-sof-tab-link' . $tab_active . '">' . $tab['title'] . '</li>';
+                foreach ($tab['fields'] as $field) {
+                    if (in_array($field['type'], $unallows)) {
+                        $field['_notice'] = true;
+                        continue;
+                    }
 
-			}
+                    if (is_serialized($this->value)) {
+                        $this->value = unserialize($this->value);
+                    }
 
-			echo '</ul>';
+                    $field_value = '';
+                    if (isset($this->value[ $field['id'] ])) {
+                        $field_value = $this->value[ $field['id'] ];
+                    } elseif (isset($field['default'])) {
+                        $field_value = $field['default'];
+                    }
 
-			/**
-			 * Tab content
-			 */
-			foreach ( $tabs as $key => $tab ) {
+                    $class = 'Exopite_Simple_Options_Framework_Field_' . $field['type'];
 
-				reset( $tabs );
-				$tab_active = ( $key === key( $tabs ) ) ? ' active' : '';
+                    echo wp_kses_post($self->add_field($field, $field_value));
+                }
 
-				echo '<div class="exopite-sof-tab-content' . $tab_active . '">';
-				echo '<div class="exopite-sof-tab-mobile-header">' . $tab['title'] . '</div>';
-				echo '<div class="exopite-sof-tab-content-body">';
-				echo '<div class="exopite-sof-tab-content-body-inner">';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+            }
 
-				foreach ( $tab['fields'] as $field ) {
+            echo '</div>';
 
-					if ( in_array( $field['type'], $unallows ) ) {
-						$field['_notice'] = true;
-						continue;
-					}
-
-					if ( is_serialized( $this->value ) ) {
-						$this->value = unserialize( $this->value );
-					}
-
-					$field_value = '';
-					if ( isset( $this->value[ $field['id'] ] ) ) {
-						$field_value = $this->value[ $field['id'] ];
-					} elseif ( isset( $field['default'] ) ) {
-						$field_value = $field['default'];
-					}
-
-					$class = 'Exopite_Simple_Options_Framework_Field_' . $field['type'];
-
-					echo $self->add_field( $field, $field_value );
-
-				}
-
-				echo '</div>';
-				echo '</div>';
-				echo '</div>';
-
-			}
-
-			echo '</div>';
-
-			echo $this->element_after();
-
-		}
-
-	}
-
+            echo wp_kses_post($this->element_after());
+        }
+    }
 }

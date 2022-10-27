@@ -1,49 +1,46 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
-	die;
+<?php if (! defined('ABSPATH')) {
+    die;
 } // Cannot access pages directly.
 /**
  *
  * Field: Number
  *
  */
-if ( ! class_exists( 'Exopite_Simple_Options_Framework_Field_number' ) ) {
+if (! class_exists('Exopite_Simple_Options_Framework_Field_number')) {
+    class Exopite_Simple_Options_Framework_Field_number extends Exopite_Simple_Options_Framework_Fields
+    {
+        public function __construct($field, $value = '', $unique = '', $config = array())
+        {
+            parent::__construct($field, $value, $unique, $config);
+        }
 
-	class Exopite_Simple_Options_Framework_Field_number extends Exopite_Simple_Options_Framework_Fields {
+        public function output()
+        {
+            echo wp_kses_post($this->element_before());
 
-		public function __construct( $field, $value = '', $unique = '', $config = array() ) {
-			parent::__construct( $field, $value, $unique, $config );
-		}
+            $unit = (isset($this->field['unit'])) ? '<em>' . $this->field['unit'] . '</em>' : '';
 
-		public function output() {
+            $attr = array();
+            if (isset($this->field['min'])) {
+                $attr[] = 'min="' . $this->field['min'] . '"';
+            }
+            if (isset($this->field['max'])) {
+                $attr[] = 'max="' . $this->field['max'] . '"';
+            }
+            if (isset($this->field['step'])) {
+                $attr[] = 'step="' . $this->field['step'] . '"';
+            }
+            $attrs = (! empty($attr)) ? ' ' . trim(implode(' ', $attr)) : '';
 
-			echo $this->element_before();
+            echo wp_kses_post($this->element_prepend());
 
-			$unit = ( isset( $this->field['unit'] ) ) ? '<em>' . $this->field['unit'] . '</em>' : '';
+            echo '<input type="number" name="' . esc_attr($this->element_name()) . '" value="' . esc_html($this->element_value()) . '"' . esc_attr($this->element_class()) . esc_attr($this->element_attributes()) . esc_attr($attrs) . '/>';
 
-			$attr = array();
-			if ( isset( $this->field['min'] ) ) {
-				$attr[] = 'min="' . $this->field['min'] . '"';
-			}
-			if ( isset( $this->field['max'] ) ) {
-				$attr[] = 'max="' . $this->field['max'] . '"';
-			}
-			if ( isset( $this->field['step'] ) ) {
-				$attr[] = 'step="' . $this->field['step'] . '"';
-			}
-			$attrs = ( ! empty( $attr ) ) ? ' ' . trim( implode( ' ', $attr ) ) : '';
+            echo wp_kses_post($this->element_append());
 
-			echo $this->element_prepend();
+            echo $unit;
 
-			echo '<input type="number" name="' . $this->element_name() . '" value="' . $this->element_value() . '"' . $this->element_class() . $this->element_attributes() . $attrs . '/>';
-
-			echo $this->element_append();
-
-			echo $unit;
-
-			echo $this->element_after();
-
-		}
-
-	}
-
+            echo wp_kses_post($this->element_after());
+        }
+    }
 }
