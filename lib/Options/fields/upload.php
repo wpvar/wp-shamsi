@@ -1,5 +1,5 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {
-	die;
+<?php if (! defined('ABSPATH')) {
+    die;
 } // Cannot access pages directly.
 /**
  *
@@ -36,41 +36,37 @@
  * jQuery File Upload
  * https://blueimp.github.io/jQuery-File-Upload/jquery-ui.html
  */
-if ( ! class_exists( 'Exopite_Simple_Options_Framework_Field_upload' ) ) {
+if (! class_exists('Exopite_Simple_Options_Framework_Field_upload')) {
+    class Exopite_Simple_Options_Framework_Field_upload extends Exopite_Simple_Options_Framework_Fields
+    {
+        public function __construct($field, $value = '', $unique = '', $config = array())
+        {
+            parent::__construct($field, $value, $unique, $config);
 
-	class Exopite_Simple_Options_Framework_Field_upload extends Exopite_Simple_Options_Framework_Fields {
+            $defaults = array(
+                'attach'                   => false,
+                'filecount'                => 1,
+                'delete-enabled'           => true,
+                'delete-force-confirm'     => true,
+                'retry-enable-auto'        => true,
+                'retry-max-auto-attempts'  => 1,
+                'retry-auto-attempt-delay' => 2,
+                'auto-upload'              => false,
+            );
 
-		public function __construct( $field, $value = '', $unique = '', $config = array() ) {
+            $options = (! empty($this->field['options'])) ? $this->field['options'] : array();
 
-			parent::__construct( $field, $value, $unique, $config );
+            $this->field['options'] = wp_parse_args($options, $defaults);
+        }
 
-			$defaults = array(
-				'attach'                   => false,
-				'filecount'                => 1,
-				'delete-enabled'           => true,
-				'delete-force-confirm'     => true,
-				'retry-enable-auto'        => true,
-				'retry-max-auto-attempts'  => 1,
-				'retry-auto-attempt-delay' => 2,
-				'auto-upload'              => false,
-			);
-
-			$options = ( ! empty( $this->field['options'] ) ) ? $this->field['options'] : array();
-
-			$this->field['options'] = wp_parse_args( $options, $defaults );
-
-		}
-
-		public function output() {
-
-			echo $this->element_before();
-
-			?>
-            <!-- Fine Uploader Thumbnails template w/ customization
+        public function output()
+        {
+            echo wp_kses_post($this->element_before()); ?>
+<!-- Fine Uploader Thumbnails template w/ customization
             ====================================================================== -->
-            <script type="text/template" id="qq-template-manual-trigger">
-                <div class="qq-uploader-selector qq-uploader"
-                     qq-drop-area-text="<?php esc_html_e( 'Drop files here', 'exopite-sof' ); ?>">
+<script type="text/template" id="qq-template-manual-trigger">
+    <div class="qq-uploader-selector qq-uploader"
+                     qq-drop-area-text="<?php esc_html_e('Drop files here', 'exopite-sof'); ?>">
                     <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
                         <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
                              class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
@@ -80,14 +76,14 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework_Field_upload' ) ) {
                     </div>
                     <div class="buttons">
                         <div class="qq-upload-button-selector exopite-sof-btn">
-                            <div><?php esc_html_e( 'Select files', 'exopite-sof' ); ?></div>
+                            <div><?php esc_html_e('Select files', 'exopite-sof'); ?></div>
                         </div>
                         <div class="exopite-sof-btn trigger-upload">
-                            <i class="icon-upload icon-white"></i> <?php esc_html_e( 'Upload', 'exopite-sof' ); ?>
+                            <i class="icon-upload icon-white"></i> <?php esc_html_e('Upload', 'exopite-sof'); ?>
                         </div>
                     </div>
                     <span class="qq-drop-processing-selector qq-drop-processing">
-                        <span><?php esc_html_e( 'Processing dropped files...', 'exopite-sof' ); ?></span>
+                        <span><?php esc_html_e('Processing dropped files...', 'exopite-sof'); ?></span>
                         <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
                     </span>
                     <ul class="qq-upload-list-selector qq-upload-list" aria-live="polite"
@@ -105,11 +101,11 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework_Field_upload' ) ) {
                             <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
                             <span class="qq-upload-size-selector qq-upload-size"></span>
                             <button type="button"
-                                    class="qq-btn qq-upload-cancel-selector qq-upload-cancel"><?php esc_html_e( 'Cancel', 'exopite-sof' ); ?></button>
+                                    class="qq-btn qq-upload-cancel-selector qq-upload-cancel"><?php esc_html_e('Cancel', 'exopite-sof'); ?></button>
                             <button type="button"
-                                    class="qq-btn qq-upload-retry-selector qq-upload-retry"><?php esc_html_e( 'Retry', 'exopite-sof' ); ?></button>
+                                    class="qq-btn qq-upload-retry-selector qq-upload-retry"><?php esc_html_e('Retry', 'exopite-sof'); ?></button>
                             <button type="button"
-                                    class="qq-btn qq-upload-delete-selector qq-upload-delete"><?php esc_html_e( 'Delete', 'exopite-sof' ); ?></button>
+                                    class="qq-btn qq-upload-delete-selector qq-upload-delete"><?php esc_html_e('Delete', 'exopite-sof'); ?></button>
                             <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
                         </li>
                     </ul>
@@ -118,7 +114,7 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework_Field_upload' ) ) {
                         <div class="qq-dialog-message-selector"></div>
                         <div class="qq-dialog-buttons">
                             <button type="button"
-                                    class="qq-cancel-button-selector"><?php esc_html_e( 'Close', 'exopite-sof' ); ?></button>
+                                    class="qq-cancel-button-selector"><?php esc_html_e('Close', 'exopite-sof'); ?></button>
                         </div>
                     </dialog>
 
@@ -126,9 +122,9 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework_Field_upload' ) ) {
                         <div class="qq-dialog-message-selector"></div>
                         <div class="qq-dialog-buttons">
                             <button type="button"
-                                    class="qq-cancel-button-selector"><?php esc_html_e( 'No', 'exopite-sof' ); ?></button>
+                                    class="qq-cancel-button-selector"><?php esc_html_e('No', 'exopite-sof'); ?></button>
                             <button type="button"
-                                    class="qq-ok-button-selector"><?php esc_html_e( 'Yes', 'exopite-sof' ); ?></button>
+                                    class="qq-ok-button-selector"><?php esc_html_e('Yes', 'exopite-sof'); ?></button>
                         </div>
                     </dialog>
 
@@ -137,63 +133,53 @@ if ( ! class_exists( 'Exopite_Simple_Options_Framework_Field_upload' ) ) {
                         <input type="text">
                         <div class="qq-dialog-buttons">
                             <button type="button"
-                                    class="qq-cancel-button-selector"><?php esc_html_e( 'Cancel', 'exopite-sof' ); ?></button>
+                                    class="qq-cancel-button-selector"><?php esc_html_e('Cancel', 'exopite-sof'); ?></button>
                             <button type="button"
-                                    class="qq-ok-button-selector"><?php esc_html_e( 'Ok', 'exopite-sof' ); ?></button>
+                                    class="qq-ok-button-selector"><?php esc_html_e('Ok', 'exopite-sof'); ?></button>
                         </div>
                     </dialog>
                 </div>
             </script>
-			<?php
+<?php
 
-			$maxsize = Exopite_Simple_Options_Framework_Upload::file_upload_max_size();
-			if ( isset( $this->field['options']['maxsize'] ) && Exopite_Simple_Options_Framework_Upload::file_upload_max_size() >= $this->field['options']['maxsize'] ) {
-				$maxsize = $this->field['options']['maxsize'];
-			}
+            $maxsize = Exopite_Simple_Options_Framework_Upload::file_upload_max_size();
+            if (isset($this->field['options']['maxsize']) && Exopite_Simple_Options_Framework_Upload::file_upload_max_size() >= $this->field['options']['maxsize']) {
+                $maxsize = $this->field['options']['maxsize'];
+            }
 
-			$allowed_mime_types = ( gettype( Exopite_Simple_Options_Framework_Upload::allowed_mime_types() ) == 'array' ) ? implode( ',', Exopite_Simple_Options_Framework_Upload::allowed_mime_types() ) : Exopite_Simple_Options_Framework_Upload::allowed_mime_types();
+            $allowed_mime_types = (gettype(Exopite_Simple_Options_Framework_Upload::allowed_mime_types()) == 'array') ? implode(',', Exopite_Simple_Options_Framework_Upload::allowed_mime_types()) : Exopite_Simple_Options_Framework_Upload::allowed_mime_types();
 
-			if ( isset( $this->field['options']['allowed'] ) && is_array( $this->field['options']['allowed'] ) ) {
-				$allowed_mime_types_array = explode( ',', $allowed_mime_types );
-				$allowed_mime_types_array = array_intersect( $allowed_mime_types_array, $this->field['options']['allowed'] );
-				$allowed_mime_types       = implode( ',', $allowed_mime_types_array );
-			}
+            if (isset($this->field['options']['allowed']) && is_array($this->field['options']['allowed'])) {
+                $allowed_mime_types_array = explode(',', $allowed_mime_types);
+                $allowed_mime_types_array = array_intersect($allowed_mime_types_array, $this->field['options']['allowed']);
+                $allowed_mime_types       = implode(',', $allowed_mime_types_array);
+            } ?>
+<div class="qq-template" <?php
+            echo 'data-filecount="' . esc_attr($this->field['options']['filecount']) . '" ';
+            echo 'data-mimetypes="' . esc_attr($allowed_mime_types) . '" ';
+            echo 'data-maxsize="' . esc_attr($maxsize) . '" ';
+            echo ($this->field['options']['attach'] && $this->config['type'] == 'metabox') ? 'data-postid="' . esc_attr(get_the_ID()) . '" ' : '';
+            echo 'data-ajaxurl="' . esc_url(site_url('wp-admin/admin-ajax.php')) . '" ';
+            echo 'data-delete-enabled="' . esc_attr($this->field['options']['delete-enabled']) . '" ';
+            echo 'data-delete-force-confirm="' . esc_attr($this->field['options']['delete-force-confirm']) . '" ';
+            echo 'data-retry-enable-auto="' . esc_attr($this->field['options']['retry-enable-auto']) . '" ';
+            echo 'data-retry-max-auto-attempts="' . esc_attr($this->field['options']['retry-max-auto-attempts']) . '" ';
+            echo 'data-retry-auto-attempt-delay="' . esc_attr($this->field['options']['retry-auto-attempt-delay']) . '" ';
+            echo 'data-auto-upload="' . esc_attr($this->field['options']['auto-upload']) . '" '; ?>>
+</div>
+<div class="qq-template-info">
+    <?php
 
+                echo esc_attr__('Max amount of files: ', 'exopite-sof') . esc_attr($this->field['options']['filecount']) . '<br>';
+            echo esc_attr__('Max file upload size: ', 'exopite-sof') . esc_attr(number_format((float) (Exopite_Simple_Options_Framework_Upload::file_upload_max_size() / 1048576), 2, '.', '')) . 'Mb<br><br>'; ?>
+</div>
+<?php
 
-			?>
-            <div class="qq-template" <?php
-			echo 'data-filecount="' . $this->field['options']['filecount'] . '" ';
-			echo 'data-mimetypes="' . $allowed_mime_types . '" ';
-			echo 'data-maxsize="' . $maxsize . '" ';
-			echo ( $this->field['options']['attach'] && $this->config['type'] == 'metabox' ) ? 'data-postid="' . get_the_ID() . '" ' : '';
-			echo 'data-ajaxurl="' . site_url( 'wp-admin/admin-ajax.php' ) . '" ';
-			echo 'data-delete-enabled="' . $this->field['options']['delete-enabled'] . '" ';
-			echo 'data-delete-force-confirm="' . $this->field['options']['delete-force-confirm'] . '" ';
-			echo 'data-retry-enable-auto="' . $this->field['options']['retry-enable-auto'] . '" ';
-			echo 'data-retry-max-auto-attempts="' . $this->field['options']['retry-max-auto-attempts'] . '" ';
-			echo 'data-retry-auto-attempt-delay="' . $this->field['options']['retry-auto-attempt-delay'] . '" ';
-			echo 'data-auto-upload="' . $this->field['options']['auto-upload'] . '" ';
-			?>>
-            </div>
-            <div class="qq-template-info">
-				<?php
+            echo wp_kses_post($this->element_after());
+        }
 
-				echo esc_attr__( 'Max amount of files: ', 'exopite-sof' ) . $this->field['options']['filecount'] . '<br>';
-				echo esc_attr__( 'Max file upload size: ', 'exopite-sof' ) . number_format( (float) ( Exopite_Simple_Options_Framework_Upload::file_upload_max_size() / 1048576 ), 2, '.', '' ) . 'Mb<br><br>';
-				// echo '<i style="font-size:.9em;">' . esc_attr__( 'To increase file upload limit in the standard built-in WordPress media uploader up as large as available disk space allows, you could use', 'exopite-sof' ) . ' <a target="_blank" href="' . admin_url() . 'plugin-install.php?tab=plugin-information&plugin=tuxedo-big-file-uploads">Tuxedo Big File Uploads</a> ' . esc_attr__( 'Plugin', 'exopite-sof' ) . '</i>';
-
-				?>
-            </div>
-			<?php
-
-			echo $this->element_after();
-
-		}
-
-		public static function enqueue( $args ) {
-
-		}
-
-	}
-
+        public static function enqueue($args)
+        {
+        }
+    }
 }

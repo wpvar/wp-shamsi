@@ -99,7 +99,7 @@ class WPSH_Calendar extends WPSH_Core
         if ($cache && is_array($cache) && isset($cache[$key])) {
             $output = apply_filters('get_jcalendar', $cache[$key]);
             if ($echo) {
-                echo $output;
+                echo wp_kses_post($output);
                 return;
             }
 
@@ -120,7 +120,7 @@ class WPSH_Calendar extends WPSH_Core
         }
 
         if (isset($_GET['w'])) {
-            $w = (int)$_GET['w'];
+            $w = sanitize_key($_GET['w']);
         }
 
         $week_begins = (int)get_option('start_of_week');
@@ -284,7 +284,7 @@ class WPSH_Calendar extends WPSH_Core
              *
              * @param string $calendar_output HTML output of the calendar.
              */
-            echo apply_filters('get_jcalendar', $calendar_output);
+            echo wp_kses_post(apply_filters('get_jcalendar', $calendar_output));
             return;
         }
         return apply_filters('get_jcalendar', $calendar_output);

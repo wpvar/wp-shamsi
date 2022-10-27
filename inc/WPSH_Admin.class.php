@@ -94,7 +94,7 @@ class WPSH_Admin extends WPSH_Core
         $transient = get_transient('wpsh_dashboard_site_feed_' . WPSH_VERSION);
 
         if (!WP_DEBUG && $transient) {
-            echo $transient;
+            echo wp_kses_post($transient);
             return;
         }
 
@@ -151,7 +151,7 @@ class WPSH_Admin extends WPSH_Core
             $html .= '</div></a>';
         }*/
 
-        echo $html;
+        echo wp_kses_post($html);
         set_transient('wpsh_dashboard_site_feed_' . WPSH_VERSION, $html, 12 * HOUR_IN_SECONDS);
     }
 
@@ -375,7 +375,7 @@ class WPSH_Admin extends WPSH_Core
             <p>
                 <?php _e('<strong>هشدار:</strong> بسته زبانی فارسی وردپرس فعال نیست. برای فعال سازی آن <a href="' . get_admin_url() . 'options-general.php#default_role">از این صفحه</a> زبان سایت را به <strong>فارسی</strong> تغییر دهید', 'wpsh'); ?>
             </p>
-            <a href="<?php echo $link ?>" class="button wpsh_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
+            <a href="<?php echo esc_url($link) ?>" class="button wpsh_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
         </div>
     <?php
     }
@@ -418,7 +418,7 @@ class WPSH_Admin extends WPSH_Core
             <p>
                 <?php _e('<strong>توجه:</strong> برای عملکرد دقیق تر شمسی ساز، زمان محلی را <a href="' . get_admin_url() . 'options-general.php#WPLANG">از این صفحه</a> به <strong>' . $city . '</strong> تغییر دهید', 'wpsh'); ?>
             </p>
-            <a href="<?php echo $link ?>" class="button wpsh_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
+            <a href="<?php echo esc_url($link) ?>" class="button wpsh_dismiss"><?php _e('دیگر نشان نده', 'wpsh') ?></a>
         </div>
 <?php
     }
