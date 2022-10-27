@@ -92,7 +92,7 @@ class WPSH_Woo extends WPSH_Core
 
     public function datepicker_script()
     {
-        $page = (isset($_GET["page"])) ? esc_attr($_GET["page"]) : null;
+        $page = (isset($_GET["page"])) ? sanitize_key($_GET["page"]) : null;
         if (wp_script_is('jquery-ui-datepicker', 'enqueued') && ($this->screen() == 'product' || $this->screen() == 'shop_order' || $this->screen() == 'shop_coupon' || $page == 'wc-reports')) {
             wp_deregister_script('jquery-ui-datepicker');
             wp_enqueue_script('jquery-ui-datepicker', WPSH_URL . 'assets/js/wpsh_datepicker.js', array(), WPSH_VERSION, true);
@@ -122,7 +122,7 @@ class WPSH_Woo extends WPSH_Core
         if ($meta_key == 'date_expires' && !empty($meta_key) && $action && $post) {
 
             global $wpdb;
-            $value = $wpdb->get_var($wpdb->prepare("SELECT meta_value FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = 'date_expires'", esc_attr($_GET['post'])));
+            $value = $wpdb->get_var($wpdb->prepare("SELECT meta_value FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = 'date_expires'", sanitize_key($_GET['post'])));
 
             if (!empty($value)) {
                 $shamsi = parent::wp_shamsi(null, 'Y-m-d', $value);

@@ -61,7 +61,7 @@ class WPSH_Admin extends WPSH_Core
      */
     public function remove_notices()
     {
-        $page = isset($_GET['page']) ? esc_attr($_GET['page']) : false;
+        $page = isset($_GET['page']) ? sanitize_key($_GET['page']) : false;
 
         if ($page !== false && $page === 'wpsh') {
             remove_all_actions('admin_notices');

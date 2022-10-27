@@ -31,7 +31,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_video')) {
         {
             echo wp_kses_post($this->element_before());
 
-            echo '<div class="exopite-sof-media exopite-sof-video exopite-sof-video-container"' . $this->element_class() . '><div class="video-wrap">';
+            echo '<div class="exopite-sof-media exopite-sof-video exopite-sof-video-container"' . esc_attr($this->element_class()) . '><div class="video-wrap">';
 
             /**
              * If user want only to display a video (without input field), will be never saved,
