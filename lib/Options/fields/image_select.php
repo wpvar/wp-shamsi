@@ -22,7 +22,6 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_image_select')) {
 
             echo wp_kses_post($this->element_before());
             echo '<div class="exopite-sof-field-image-selector ' . esc_attr($layout) . '">';
-            // echo ( empty( $input_attr ) ) ? '<div class="exopite-sof-field-image-selector">' : '';
 
             if (isset($this->field['options'])) {
                 $options = $this->field['options'];
@@ -34,7 +33,6 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_image_select')) {
             }
 
             echo '</div>';
-            // echo ( empty( $input_attr ) ) ? '</div>' : '';
             echo wp_kses_post($this->element_after());
         }
     }

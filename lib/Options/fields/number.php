@@ -38,7 +38,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_number')) {
 
             echo wp_kses_post($this->element_append());
 
-            echo $unit;
+            echo esc_html($unit);
 
             echo wp_kses_post($this->element_after());
         }

@@ -5,7 +5,7 @@ Donate link: https://wpvar.com/pro/
 Requires at least: 4.0
 Tested up to: 6.0
 Requires PHP: 5.5
-Stable tag: 4.3.0
+Stable tag: 4.3.1
 License: GNU Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 

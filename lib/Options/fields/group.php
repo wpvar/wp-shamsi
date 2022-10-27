@@ -311,7 +311,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_group')) {
 
                 echo '<div class="exopite-sof-cloneable-data" data-unique-id="' . esc_attr($unique_id) . '" data-limit="' . esc_attr($this->field['options']['limit']) . '">' . esc_attr__('Max items:', 'exopite-sof') . ' ' . esc_attr($this->field['options']['limit']) . '</div>';
 
-                echo '<a href="#" class="button button-primary exopite-sof-cloneable--add">' . $this->field['options']['button_title'] . '</a>';
+                echo '<a href="#" class="button button-primary exopite-sof-cloneable--add">' . esc_html($this->field['options']['button_title']) . '</a>';
             }
 
             echo '</div>'; // exopite-sof-group
