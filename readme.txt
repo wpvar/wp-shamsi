@@ -3,9 +3,9 @@ Contributors: wpvar, farajiali
 Tags: farsi, shamsi, jalali, iran, persian, date, aparat, parsi, hijri, شمسی, تاریخ, فارسی, پارسی, ایران
 Donate link: https://wpvar.com/pro/
 Requires at least: 4.0
-Tested up to: 6.0
+Tested up to: 6.1
 Requires PHP: 5.5
-Stable tag: 4.3.1
+Stable tag: 4.3.2
 License: GNU Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -118,6 +118,9 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 * بهبود کارآیی و عملکر افزونه
 * بهبود سیستم‌های امنیتی افزونه
 * توقف ارائه پشتیبانی از نسخه‌های تجاری
+* پشتیبانی از وردپرس 6.1
+* پشتیبانی از قالب پیش‌فرض دو هزار و بیست و سه
+
 
 = 4.2.0 =
 
