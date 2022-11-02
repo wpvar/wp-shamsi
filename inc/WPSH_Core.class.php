@@ -215,6 +215,7 @@ class WPSH_Core
     public function supported_themes()
     {
         $themes = array(
+      'twentytwentythree', // Since 4.2.3
       'twentytwentytwo', // Since 4.2.0
       'twentytwentyone', // Since 2.0.0
       'twentytwenty', // Since 1.2.0
