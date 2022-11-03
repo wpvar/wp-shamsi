@@ -40,7 +40,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_button')) {
             }
             echo ' target="' . esc_html($this->field['options']['target']) . '"';
             echo ' class="' . esc_attr($this->field['options']['btn-class']) . ' ' . esc_attr($classes) . '"';
-            echo esc_html($this->element_attributes()) . '/>' . esc_html($this->field['options']['value']) . '</a>';
+            echo wp_kses_post($this->element_attributes()) . '/>' . esc_html($this->field['options']['value']) . '</a>';
             echo wp_kses_post($this->element_after());
         }
     }

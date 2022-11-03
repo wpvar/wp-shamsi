@@ -31,9 +31,9 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_date')) {
             }
             echo 'name="' . esc_attr($this->element_name()) . '" ';
             if (isset($this->field['picker']) && $this->field['picker'] == 'html5') {
-                echo 'value="' . esc_html($this->element_value()) . '"' . esc_attr($this->element_class()) . esc_attr($this->element_attributes()) . ' ';
+                echo 'value="' . esc_html($this->element_value()) . '"' . esc_attr($this->element_class()) . wp_kses_post($this->element_attributes()) . ' ';
             } else {
-                echo 'value="' . esc_html($this->element_value()) . '"' . esc_attr($this->element_attributes()) . ' ';
+                echo 'value="' . esc_html($this->element_value()) . '"' . wp_kses_post($this->element_attributes()) . ' ';
                 echo 'data-format="' . esc_html($date_format) . '"';
             }
             echo '>';

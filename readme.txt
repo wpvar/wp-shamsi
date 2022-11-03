@@ -5,7 +5,7 @@ Donate link: https://wpvar.com/pro/
 Requires at least: 4.0
 Tested up to: 6.1
 Requires PHP: 5.5
-Stable tag: 4.3.2
+Stable tag: 4.3.3
 License: GNU Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -113,6 +113,10 @@ WP Shamsi converts wordpress date formats to Shamsi, aka Jalali or Iranian calen
 7. ووکامرس
 
 == Changelog ==
+= 4.3.3 =
+
+* رفع باگ‌های جزئی افزونه
+
 = 4.3.0 =
 
 * بهبود کارآیی و عملکر افزونه

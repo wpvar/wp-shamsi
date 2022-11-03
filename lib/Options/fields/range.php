@@ -38,7 +38,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_range')) {
 
             echo wp_kses_post($this->element_before());
 
-            echo '<input type="range" name="' . esc_attr($this->element_name()) . '" oninput="updateRangeInput(this)" class="range ' . esc_attr($classes) . '"' . esc_attr($attrs) . ' value="' . esc_html($this->element_value()) . '"' . esc_attr($this->element_attributes()) . '>' . esc_html($unit);
+            echo '<input type="range" name="' . esc_attr($this->element_name()) . '" oninput="updateRangeInput(this)" class="range ' . esc_attr($classes) . '"' . esc_attr($attrs) . ' value="' . esc_html($this->element_value()) . '"' . wp_kses_post($this->element_attributes()) . '>' . esc_html($unit);
             echo '<input type="number" value="' . esc_html($this->element_value()) . '" oninput="updateInputRange(this)"' . esc_attr($attrs) . '>';
 
             echo wp_kses_post($this->element_after());
