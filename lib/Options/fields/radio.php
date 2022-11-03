@@ -32,7 +32,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_radio')) {
                             case 'fancy':
                                 echo '<li>';
                                 echo '<label class="radio-button ' . esc_attr($classes) . '">';
-                                echo '<input type="radio" class="radio-button__input" name="' . esc_attr($this->element_name()) . '" value="' . esc_html($key) . '"' . esc_attr($this->element_attributes($key)) . esc_attr($this->checked($this->element_value(), $key)) . '>';
+                                echo '<input type="radio" class="radio-button__input" name="' . esc_attr($this->element_name()) . '" value="' . esc_html($key) . '"' . wp_kses_post($this->element_attributes($key)) . esc_attr($this->checked($this->element_value(), $key)) . '>';
                                 echo '<div class="radio-button__checkmark"></div>';
                                 echo wp_kses_post($value);
                                 echo '</label>';
@@ -40,7 +40,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_radio')) {
                                 break;
 
                             default:
-                                echo '<li><label><input type="radio" name="' . esc_attr($this->element_name()) . '" value="' . esc_html($key) . '"' . esc_attr($this->element_attributes($key)) . esc_attr($this->checked($this->element_value(), $key)) . '/> ' . wp_kses_post($value) . '</label></li>';
+                                echo '<li><label><input type="radio" name="' . esc_attr($this->element_name()) . '" value="' . esc_html($key) . '"' . wp_kses_post($this->element_attributes($key)) . esc_attr($this->checked($this->element_value(), $key)) . '/> ' . wp_kses_post($value) . '</label></li>';
                                 break;
                         }
                     }
@@ -52,14 +52,14 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_radio')) {
                 switch ($this->field['style']) {
                     case 'fancy':
                         echo '<label class="radio-button ' . esc_attr($classes) . '">';
-                        echo '<input type="radio" class="radio-button__input" name="' . esc_attr($this->element_name()) . '"' . esc_attr($this->element_attributes()) . esc_attr(checked($this->element_value(), 1, false)) . '>';
+                        echo '<input type="radio" class="radio-button__input" name="' . esc_attr($this->element_name()) . '"' . wp_kses_post($this->element_attributes()) . esc_attr(checked($this->element_value(), 1, false)) . '>';
                         echo '<div class="radio-button__checkmark"></div>';
                         echo wp_kses_post($label);
                         echo '</label>';
                         break;
 
                     default:
-                        echo '<label><input type="radio" name="' . esc_attr($this->element_name()) . '" value="1"' . esc_attr($this->element_class()) . esc_attr($this->element_attributes()) . esc_attr(checked($this->element_value(), 1, false)) . '/> ' . wp_kses_post($label) . '</label>';
+                        echo '<label><input type="radio" name="' . esc_attr($this->element_name()) . '" value="1"' . esc_attr($this->element_class()) . wp_kses_post($this->element_attributes()) . esc_attr(checked($this->element_value(), 1, false)) . '/> ' . wp_kses_post($label) . '</label>';
                         break;
                 }
             }

@@ -26,9 +26,9 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_content')) {
                 }
             }
 
-            echo wp_kses_post($this->element_before());
+            echo wp_kses($this->element_before(), array_merge(wp_kses_allowed_html('post'), wpsh_custom_html_tags()));
             echo '<div' . esc_attr($this->element_class()) . esc_attr($this->element_attributes()) . '>' . wp_kses_post($content) . '</div>';
-            echo wp_kses_post($this->element_after());
+            echo wp_kses($this->element_after(), array_merge(wp_kses_allowed_html('post'), wpsh_custom_html_tags()));
         }
     }
 }

@@ -25,12 +25,12 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_editor')) {
                 $classes[] = 'tinymce-js';
                 $classes   = implode(' ', $classes);
 
-                echo '<textarea id="' . esc_attr($this->field['id']) . '" name="' . esc_attr($this->element_name()) . '" class="' . esc_attr($classes) . '"' . esc_attr($this->element_attributes()) . '>' . wp_kses_post($this->element_value()) . '</textarea>';
+                echo '<textarea id="' . esc_attr($this->field['id']) . '" name="' . esc_attr($this->element_name()) . '" class="' . esc_attr($classes) . '"' . wp_kses_post($this->element_attributes()) . '>' . wp_kses_post($this->element_value()) . '</textarea>';
             } elseif ($editor == 'trumbowyg') {
                 $classes[] = 'trumbowyg-js';
                 $classes   = implode(' ', $classes);
 
-                echo '<textarea id="' . esc_attr($this->field['id']) . '" name="' . esc_attr($this->element_name()) . '" data-icon-path="' . esc_url(plugin_dir_url(__DIR__)) . 'assets/editors/trumbowyg/icons.svg" class="' . esc_attr($classes) . '"' . esc_attr($this->element_attributes()) . '>' . wp_kses_post($this->element_value()) . '</textarea>';
+                echo '<textarea id="' . esc_attr($this->field['id']) . '" name="' . esc_attr($this->element_name()) . '" data-icon-path="' . esc_url(plugin_dir_url(__DIR__)) . 'assets/editors/trumbowyg/icons.svg" class="' . esc_attr($classes) . '"' . wp_kses_post($this->element_attributes()) . '>' . wp_kses_post($this->element_value()) . '</textarea>';
             } else {
                 $args = array(
                     'textarea_rows' => 15,

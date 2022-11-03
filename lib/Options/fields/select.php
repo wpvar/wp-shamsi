@@ -88,7 +88,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_select')) {
                 $class      = $this->element_class();
                 $extra_name = (isset($this->field['attributes']['multiple'])) ? '[]' : '';
 
-                echo '<select name="' . esc_attr($this->element_name($extra_name)) . '"' . esc_attr($this->element_class()) . esc_attr($this->element_attributes()) . '>';
+                echo '<select name="' . esc_attr($this->element_name($extra_name)) . '"' . esc_attr($this->element_class()) . wp_kses_post($this->element_attributes()) . '>';
 
                 echo (isset($this->field['default_option'])) ? '<option value="">' . esc_html($this->field['default_option']) . '</option>' : '';
 

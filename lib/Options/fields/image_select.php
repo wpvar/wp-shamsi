@@ -26,7 +26,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_image_select')) {
             if (isset($this->field['options'])) {
                 $options = $this->field['options'];
                 foreach ($options as $key => $value) {
-                    echo '<label><input type="' . esc_attr($input_type) . '" name="' . esc_attr($this->element_name($input_attr)) . '" value="' . esc_html($key) . '"' . esc_attr($this->element_class()) . esc_attr($this->element_attributes($key)) . esc_attr($this->checked($this->element_value(), $key)) . '/>';
+                    echo '<label><input type="' . esc_attr($input_type) . '" name="' . esc_attr($this->element_name($input_attr)) . '" value="' . esc_html($key) . '"' . esc_attr($this->element_class()) . wp_kses_post($this->element_attributes($key)) . esc_attr($this->checked($this->element_value(), $key)) . '/>';
                     echo (! empty($this->field['text_select'])) ? '<span class="exopite-sof-' . esc_attr(sanitize_title($value)) . '">' . esc_html($value) . '</span>' : '<img src="' . esc_url($value) . '"   alt="' . esc_html($key) . '" />';
                     echo '</label>';
                 }

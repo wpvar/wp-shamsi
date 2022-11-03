@@ -26,7 +26,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_button_bar')) {
                     echo '<div class="button-bar">';
                     foreach ($options as $key => $value) {
                         echo '<div class="button-bar__item">';
-                        echo '<input type="radio" name="' . esc_attr($this->element_name()) . '" value="' . esc_html($key) . '"' . esc_attr($this->element_attributes($key)) . esc_html($this->checked($this->element_value(), $key)) . '>';
+                        echo '<input type="radio" name="' . esc_attr($this->element_name()) . '" value="' . esc_html($key) . '"' . wp_kses_post($this->element_attributes($key)) . esc_html($this->checked($this->element_value(), $key)) . '>';
                         echo '<button class="button-bar__button">' . esc_html($value) . '</button>';
                         echo '</div>';
                     }

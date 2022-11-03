@@ -36,14 +36,14 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_tap_list')) {
                     switch ($input_type) {
                         case 'radio':
                             echo '<label class="radio-button">';
-                            echo '<input type="' . esc_attr($input_type) . '" name="' . esc_attr($this->element_name($input_attr)) . '" class="radio-button__input" id="' . esc_attr($this->field['id']) . '-' . esc_html(sanitize_title($value)) . '" value="' . esc_attr($key) . '"' . esc_attr($this->element_attributes($key)) . esc_attr($this->checked($this->element_value(), $key)) . '/>';
+                            echo '<input type="' . esc_attr($input_type) . '" name="' . esc_attr($this->element_name($input_attr)) . '" class="radio-button__input" id="' . esc_attr($this->field['id']) . '-' . esc_html(sanitize_title($value)) . '" value="' . esc_attr($key) . '"' . wp_kses_post($this->element_attributes($key)) . esc_attr($this->checked($this->element_value(), $key)) . '/>';
                             echo '<div class="radio-button__checkmark"></div>';
                             echo '</label>';
                             break;
 
                         case 'checkbox':
                             echo '<label class="checkbox checkbox--noborder">';
-                            echo '<input type="' . esc_attr($input_type) . '" name="' . esc_attr($this->element_name($input_attr)) . '" class="checkbox__input checkbox--noborder__input" id="' . esc_attr($this->field['id']) . '-' . esc_html(sanitize_title($value)) . '" value="' . esc_attr($key) . '"' . esc_attr($this->element_attributes($key)) . esc_attr($this->checked($this->element_value(), $key)) . '>';
+                            echo '<input type="' . esc_attr($input_type) . '" name="' . esc_attr($this->element_name($input_attr)) . '" class="checkbox__input checkbox--noborder__input" id="' . esc_attr($this->field['id']) . '-' . esc_html(sanitize_title($value)) . '" value="' . esc_attr($key) . '"' . wp_kses_post($this->element_attributes($key)) . esc_attr($this->checked($this->element_value(), $key)) . '>';
                             echo '<div class="checkbox__checkmark checkbox--noborder checkbox--noborder__checkmark"></div>';
                             echo '</label>';
                             break;

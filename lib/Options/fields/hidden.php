@@ -17,7 +17,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_hidden')) {
         public function output()
         {
             echo wp_kses_post($this->element_before());
-            echo '<input type="' . esc_attr($this->element_type()) . '" name="' . esc_attr($this->element_name()) . '" value="' . wp_kses_post($this->element_value()) . '"' . esc_attr($this->element_class()) . esc_attr($this->element_attributes()) . '/>';
+            echo '<input type="' . esc_attr($this->element_type()) . '" name="' . esc_attr($this->element_name()) . '" value="' . wp_kses_post($this->element_value()) . '"' . esc_attr($this->element_class()) . wp_kses_post($this->element_attributes()) . '/>';
             echo wp_kses_post($this->element_after());
         }
     }

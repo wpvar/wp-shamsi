@@ -33,7 +33,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_gallery')) {
             $value = $this->element_value();
 
             echo '<div class="exopite-sof-gallery-field" data-media-frame-title="' . esc_html(esc_attr($options['media_frame_title'])) . '" data-media-frame-button="' . esc_attr($options['media_frame_button']) . '" data-media-frame-type="' . esc_attr($options['media_type']) . '">';
-            echo '<input type="hidden" name="' . esc_attr($this->element_name()) . '" data-control="gallery-ids" value="' . esc_html($this->element_value()) . '"' . esc_attr($this->element_class()) . esc_attr($this->element_attributes()) . '/>';
+            echo '<input type="hidden" name="' . esc_attr($this->element_name()) . '" data-control="gallery-ids" value="' . esc_html($this->element_value()) . '"' . esc_attr($this->element_class()) . wp_kses_post($this->element_attributes()) . '/>';
             echo '<div class="exopite-sof-gallery">';
 
             if ($value) :

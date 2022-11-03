@@ -72,7 +72,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_typography')) {
                 $is_google = (array_key_exists($family_value, $googlefonts)) ? true : false;
 
                 echo '<label class="exopite-sof-typography-family">';
-                echo '<select name="'. esc_attr($this->element_name('[family]')) .'" class="'. esc_attr($is_chosen) . esc_attr($chosen_rtl) .'exopite-sof-typo-family" data-atts="family"'. esc_attr($this->element_attributes()) .'>';
+                echo '<select name="'. esc_attr($this->element_name('[family]')) .'" class="'. esc_attr($is_chosen) . esc_attr($chosen_rtl) .'exopite-sof-typo-family" data-atts="family"'. wp_kses_post($this->element_attributes()) .'>';
 
                 do_action('exopite_sof_typography_family', $family_value, $this);
 

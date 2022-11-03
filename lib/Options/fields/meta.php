@@ -23,7 +23,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_meta')) {
                     $value = get_post_meta(get_the_ID(), $this->field['meta-key'], true);
 
                     echo wp_kses_post($this->element_before());
-                    echo '<textarea readonly' . esc_attr($this->element_class()) . esc_attr($this->element_attributes()) . '>' . esc_html(var_export($value, true)) . '</textarea>';
+                    echo '<textarea readonly' . esc_attr($this->element_class()) . wp_kses_post($this->element_attributes()) . '>' . esc_html(var_export($value, true)) . '</textarea>';
                     echo wp_kses_post($this->element_after());
                 }
             }

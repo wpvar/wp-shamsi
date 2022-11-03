@@ -61,7 +61,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Field_video')) {
 
             if ($this->field['options']['input']) {
                 echo '<div class="exopite-sof-video-input">';
-                echo '<input type="text" name="' . esc_attr($this->element_name()) . '" value="' . esc_html($this->element_value()) . '"' . esc_attr($this->element_attributes()) . '/>';
+                echo '<input type="text" name="' . esc_attr($this->element_name()) . '" value="' . esc_html($this->element_value()) . '"' . wp_kses_post($this->element_attributes()) . '/>';
 
                 if (! $this->field['options']['oembed']) {
                     echo '<a href="#" class="button button-primary exopite-sof-button">' . esc_attr__('Add Video', 'exopite-sof') . '</a>';
