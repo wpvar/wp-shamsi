@@ -75,6 +75,10 @@ if (! class_exists('Exopite_Simple_Options_Framework_Upload')) {
         public static function file_batch_delete_callback()
         {
             $deleted = array();
+            
+            if (!current_user_can('delete_posts')){
+                die('no permission');
+            }
 
             if (isset($_POST['media-ids']) && is_array($_POST['media-ids'])) {
 
@@ -83,6 +87,7 @@ if (! class_exists('Exopite_Simple_Options_Framework_Upload')) {
 
 
                 foreach ($attachment_id_array as $attachmentid) {
+                    self::check_current_user_access($attachmentid);
                     $deleted_item = wp_delete_attachment($attachmentid, true);
                     $deleted[]    = $deleted_item->ID;
                 }
@@ -93,6 +98,10 @@ if (! class_exists('Exopite_Simple_Options_Framework_Upload')) {
 
         public static function file_delete()
         {
+            if (!current_user_can('delete_posts')){
+                die('no permission to delete posts');
+            }
+            self::check_current_user_access($_POST['qquuid']);
 
             /**
              * Query attachments
@@ -339,6 +348,16 @@ if (! class_exists('Exopite_Simple_Options_Framework_Upload')) {
                 return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
             } else {
                 return round($size);
+            }
+        }
+        
+        private static function check_current_user_access($attachmentid)
+        {
+            $post_object = get_post((int)$attachmentid);
+            empty($post_object) && die('no access');
+
+            if ( get_current_user_id()!==(int)$post_object->post_author && !current_user_can('delete_others_posts')){
+                die('no permission to delete other posts');
             }
         }
     }
